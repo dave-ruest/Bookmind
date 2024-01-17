@@ -17,6 +17,7 @@ struct ScanView: UIViewControllerRepresentable {
 	func makeUIViewController(context: Context) -> DataScannerViewController {
 		let controller = DataScannerViewController(recognizedDataTypes: [
 			.barcode(symbologies: [.ean8, .ean13]),
+			.text()
 		], isHighlightingEnabled: true)
 		
 		self.scanModel.start(controller)

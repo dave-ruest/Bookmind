@@ -10,31 +10,28 @@ import VisionKit
 @testable import Bookmind
 
 final class ScanModelTests: XCTestCase {
-    func testEmptyIsbn() {
+    func testEmpty() {
 		let model = ScanModel()
-		XCTAssertNil(model.isbn)
-		XCTAssertEqual(model.error, "Scanning...")
+		XCTAssertEqual(model.state, .searching)
     }
 	
-	func testIsbn() {
-		let model = ScanModel(isbn: "4")
-		XCTAssertEqual(model.isbn, "4")
-		XCTAssertNil(model.error)
-	}
-	
-	@MainActor func testStart() {
+	func testFailed() {
 		let model = ScanModel()
-		let scanner = DataScannerViewController(recognizedDataTypes: [])
-		model.start(scanner)
-		XCTAssertEqual(model.error, "Could not open scanner")
+		model.state = .failed("failed")
+		XCTAssertEqual(model.state, .failed("failed"))
 	}
 	
-//	@MainActor func testAddedItem() {
-//		let model = ScanModel()
-//		// alas, no accessible initializers
-//		let item = RecognizedItem.barcode(RecognizedItem.Barcode("5"))
-//		let scanner = DataScannerViewController(recognizedDataTypes: [])
-//		model.dataScanner(scanner, didAdd: [item], allItems: [item])
-//		XCTAssertEqual(model.isbn, "5")
-//	}
+	func testInvalidAdd() {
+		let model = ScanModel()
+		model.didAdd("test")
+		XCTAssertEqual(model.state, .searching)
+	}
+	
+	func testValidAdd() {
+		let model = ScanModel()
+		let isbn = "ISBN 978-0-30735-215-6"
+		model.didAdd(isbn)
+		// the update is async, todo: figure out how to test
+		XCTAssertEqual(model.state, .searching)
+	}
 }

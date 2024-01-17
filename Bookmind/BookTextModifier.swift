@@ -13,6 +13,7 @@ import SwiftUI
 struct BookTextModifier: ViewModifier {
 	func body(content: Content) -> some View {
 		content
+			.multilineTextAlignment(.center)
 			.padding()
 			.frame(maxWidth: 330)
 			.background(.regularMaterial)
@@ -29,6 +30,6 @@ extension View {
 }
 
 #Preview {
-	Label("Browse", systemImage: "book.fill")
+	Text("Stormbringer\nISBN 978-3-16-148410-0")
 		.bookText()
 }

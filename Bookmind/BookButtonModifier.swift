@@ -17,7 +17,7 @@ struct BookButtonModifier: ViewModifier {
 			.bookText()
 			.overlay {
 				Capsule()
-					.stroke(Color(.label))
+					.stroke(Color(.label), lineWidth: 2.0)
 			}
 	}
 }
@@ -30,6 +30,6 @@ extension View {
 }
 
 #Preview {
-	Label("Browse", systemImage: "book.fill")
+	Label("Add Book", systemImage: "book.fill")
 		.bookButton()
 }

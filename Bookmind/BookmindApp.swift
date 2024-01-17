@@ -12,13 +12,9 @@ import SwiftUI
 /// tablet and headset, those will be conditionally set here.
 @main
 struct BookmindApp: App {
-	/// The scan model contains the last scanned ISBN number.
-	@StateObject var scanModel = ScanModel()
-	
     var body: some Scene {
         WindowGroup {
             WelcomeScreen()
-				.environmentObject(scanModel)
         }
     }
 }
