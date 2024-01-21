@@ -9,8 +9,8 @@
 /// data to store books to disk or iCloud. 
 struct Book {
 	let title: String
-	let authors: String
-	let isbn: String	
+	var authors: String
+	let isbn: String
 }
 
 extension Book: CustomStringConvertible {

@@ -10,7 +10,7 @@ import Combine
 /// BookSearch is the base class for ISBN book searches. This hides
 /// the details of the search site, simplifying those details for the
 /// search model, but also allowing easier replacement with other sites,
-/// or allowing multiple use of multiple sites.
+/// or allowing searches on multiple sites.
 class BookSearch {
 	let isbn: String
 	@Published var result: BookSearch.Result

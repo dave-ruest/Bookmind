@@ -12,7 +12,7 @@ import SwiftUI
 /// In stage one (prove we can scan an ISBN), it identified and displayed
 /// a scanned ISBN number. In stage two (fetch book details), on finding a
 /// suspected ISBN, we send a book details request to openlibrary and display
-/// basic results. Next we'll fetch authors and cover preview.
+/// basic results. Stage 2b fetches authors. Stage 2c will fetch covers.
 ///
 /// When we add persistence in stage ?, the "add" button will save the book,
 /// close the screen, and update some kind of book list ui. But for stage two

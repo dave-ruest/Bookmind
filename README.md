@@ -4,7 +4,7 @@ Bookmind will remember your book collection and reading history. No signup. As l
 
 ## Fetch Book Detail Prototype
 
-The second version adds book detail lookup. As the user scans possible ISBNs the app will request details in the background. If details for the scanned ISBN are available on openlibrary, the app will display the book title. Next version will fetch authors and cover art, then on to persistence.
+The second version adds book detail lookup. As the user scans possible ISBNs the app will request details in the background. If details for the scanned ISBN are available on openlibrary, the app will display the book title. Stage 2b fetches authors. Stage 2c will fetch cover art, then on to persistence.
 
 ## ISBN Bar Code Scan Prototype
 
