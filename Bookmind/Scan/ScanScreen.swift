@@ -12,7 +12,7 @@ import SwiftUI
 /// In stage one (prove we can scan an ISBN), it identified and displayed
 /// a scanned ISBN number. In stage two (fetch book details), on finding a
 /// suspected ISBN, we send a book details request to openlibrary and display
-/// basic results. Stage 2b fetches authors. Stage 2c will fetch covers.
+/// basic results. Stage 2b fetches authors. Stage 2c fetches covers.
 ///
 /// When we add persistence in stage ?, the "add" button will save the book,
 /// close the screen, and update some kind of book list ui. But for stage two
@@ -31,18 +31,36 @@ struct ScanScreen: View {
 			ScanView()
 				.ignoresSafeArea(.all)
 			#endif
-			VStack {
+			VStack(spacing: 16.0) {
 				Spacer()
-				Text(self.progressMessage)
-					.bookText()
-				Button(action: {
-					self.dismiss()
-				}, label: {
-					Text(self.buttonTitle)
-						.bookButton()
-				})
+				if self.book != nil {
+					BookResultView(book: self.book!)
+				} else {
+					Text(self.progressMessage)
+						.bookResult()
+				}
+				VStack(spacing: 16.0) {
+					if self.book != nil {
+						Button(action: {
+							self.dismiss()
+						}, label: {
+							Label("Add", systemImage: "plus.circle.fill")
+								.bookButton()
+						})
+					}
+					Button(action: {
+						self.dismiss()
+					}, label: {
+						Label("Cancel", systemImage: "delete.left.fill")
+							.bookButton()
+					})
+				}
 			}
 		}
+		.navigationBarTitleDisplayMode(.inline)
+		.navigationTitle("Add Book")
+		.toolbarBackground(.visible, for: .navigationBar)
+		.toolbarBackground(.thinMaterial, for: .navigationBar)
 		.environmentObject(self.scanModel)
 		.onChange(of: self.scanModel.state) { state in
 			if case .found(let isbn) = state {
@@ -51,24 +69,59 @@ struct ScanScreen: View {
 		}
 	}
 	
-	private var buttonTitle: String {
-		if case .found(_) = self.searchModel.result {
-			return "Add"
+	private var book: Book? {
+		if case .found(let book) = self.searchModel.result {
+			return book
 		}
-		return "Cancel"
+		return nil
+	}
+	
+	private var previewImage: UIImage? {
+		switch self.searchModel.result {
+			case .found(let book): return book.cover
+			default: return nil
+		}
 	}
 	
 	private var progressMessage: String {
 		let result = searchModel.result
 		switch result {
-			case .searching(let isbn): return "Searching for \(isbn)..."
-			case .found(let book): return book.description
-			case .failed(let isbn): return "Could not find book with ISBN \(isbn)"
-			case .none: return "Scanning..."
+			case .searching(let isbn): 
+				return "Searching for \(isbn)..."
+			case .found(let book): 
+				return book.description
+			case .failed(let isbn): 
+				return "Could not find book with ISBN \(isbn)"
+			case .none: 
+				return self.scanModel.description
 		}
 	}
 }
 
 #Preview {
-	ScanScreen()
+	VStack {
+		ScanScreen()
+		ScanScreen(scanModel: ScanModel.Preview.failed)
+		ScanScreen(scanModel: ScanModel.Preview.found)
+	}
+}
+
+#Preview {
+	VStack {
+		ScanScreen(searchModel: SearchModel.Preview.searching)
+		ScanScreen(searchModel: SearchModel.Preview.quiet)
+	}
+}
+
+#Preview {
+	VStack {
+		ScanScreen(searchModel: SearchModel.Preview.failed)
+		ScanScreen(searchModel: SearchModel.Preview.legend)
+	}
+}
+
+#Preview {
+	NavigationStack {
+		ScanScreen(searchModel: SearchModel.Preview.dorsai)
+	}
 }

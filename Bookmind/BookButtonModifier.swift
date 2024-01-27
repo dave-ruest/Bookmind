@@ -14,7 +14,10 @@ import SwiftUI
 struct BookButtonModifier: ViewModifier {
 	func body(content: Content) -> some View {
 		content
-			.bookText()
+			.padding()
+			.frame(maxWidth: 330)
+			.background(.regularMaterial)
+			.clipShape(Capsule())
 			.overlay {
 				Capsule()
 					.stroke(Color(.label), lineWidth: 2.0)

@@ -26,7 +26,11 @@ enum ScanState: Equatable {
 /// model-view, we just added the search in another model (SearchModel).
 final class ScanModel: ObservableObject {
 	/// The state of the scanner.
-	@Published var state: ScanState? = .searching
+	@Published var state: ScanState
+
+	init(state: ScanState = .searching) {
+		self.state = state
+	}
 	
 	/// Start the scanner. If there is an error starting the scan, set the model
 	/// error property to an appropriate error message. If scan start is successful,
@@ -47,6 +51,25 @@ final class ScanModel: ObservableObject {
 	private func scanFailed(_ message: String) {
 		DispatchQueue.main.async {
 			self.state = .failed(message)
+		}
+	}
+	
+	struct Preview {
+		static let searching = ScanModel()
+		static var failed = ScanModel(state: .failed("Could not open scanner"))
+		static var found = ScanModel(state: .found(ISBN("9781841498584")!))
+	}
+}
+
+extension ScanModel: CustomStringConvertible {
+	var description: String {
+		switch self.state {
+			case .searching:
+				return "Center the camera on an ISBN number or bar code"
+			case .failed(let error):
+				return error
+			case .found(let isbn):
+				return "Searching for ISBN \(isbn.displayString)"
 		}
 	}
 }

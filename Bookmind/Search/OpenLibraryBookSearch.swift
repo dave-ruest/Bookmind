@@ -12,24 +12,27 @@ import Foundation
 ///
 /// First is finding the book by its ISBN. This gets us the title, subtitle
 /// etc. Trickier is the authors, we need to send 1-2 additional requests to
-/// get author names. 
+/// get author names. Finally, covers, which are fetched in parallel with
+/// author names.
 final class OpenLibraryBookSearch: BookSearch {
 	private var cancellables: [AnyCancellable] = []
 	private var book: Book!
 	private var authors = [OpenLibraryAuthor]()
 	
-	// MARK: - Book Search by ISBN
+	// MARK: - Book Fetch by ISBN
 	func start() {
 		guard let url = OpenLibraryBook.url(isbn: self.isbn) else {
 			self.result = .failed(self.isbn)
 			return
 		}
 		cancellables.append(
-			self.fetch<OpenLibraryBook>(url: url, found: { [weak self] in
-				self?.received(book: $0)
-			}, completed: { [weak self] error in
-				self?.completed(with: error)
-			})
+			FetchTask(url: url)
+				.start<OpenLibraryBook>(found: { [weak self] in
+					self?.received(book: $0)
+				},
+				completed: { [weak self] error in
+					self?.completed(with: error)
+				})
 		)
 	}
 	
@@ -41,7 +44,7 @@ final class OpenLibraryBookSearch: BookSearch {
 		} else {
 			self.fetch(works: book.works)
 		}
-		// TODO: cover search
+		self.fetchCover(book)
 		
 		self.result = .found(self.book)
 	}
@@ -53,7 +56,7 @@ final class OpenLibraryBookSearch: BookSearch {
 		}
 	}
 	
-	// MARK: - Author Search
+	// MARK: - Author Fetch
 	
 	private func fetch(authors: [[String: String]]) {
 		for entry in authors {
@@ -66,9 +69,10 @@ final class OpenLibraryBookSearch: BookSearch {
 	private func fetch(authorKey: String) {
 		guard let url = OpenLibraryAuthor.url(authorKey: authorKey) else { return }
 		cancellables.append(
-			self.fetch<OpenLibraryAuthor>(url: url, found: { [weak self] in
-				self?.received(author: $0)
-			})
+			FetchTask(url: url)
+				.start<OpenLibraryAuthor>(found: { [weak self] in
+					self?.received(author: $0)
+				})
 		)
 	}
 	
@@ -79,7 +83,7 @@ final class OpenLibraryBookSearch: BookSearch {
 		self.result = .found(self.book)
 	}
 
-	// MARK: - Work Search
+	// MARK: - Work Fetch
 	
 	private func fetch(works: [[String: String]]?) {
 		// recent entries seem to include the author only in the work
@@ -98,7 +102,10 @@ final class OpenLibraryBookSearch: BookSearch {
 	private func fetch(workKey: String) {
 		guard let url = OpenLibraryWork.url(workKey: workKey) else { return }
 		cancellables.append(
-			self.fetch<OpenLibraryWork>(url: url, found: { self.received(work: $0) })
+			FetchTask(url: url)
+				.start(found: { [weak self] in
+					self?.received(work: $0)
+				})
 		)
 	}
 	
@@ -107,25 +114,27 @@ final class OpenLibraryBookSearch: BookSearch {
 		// this information themselves
 		guard let authors = work.authors else { return }
 		for author in authors {
-			if let key = author["author"]?["key"] {
-				self.fetch(authorKey: key)
+			if let authorKey = author["author"]?["key"] {
+				self.fetch(authorKey: authorKey)
 			}
 		}
 	}
-
-	// MARK: - Helpers
 	
-	private func fetch<Item: Decodable>(url: URL, found: @escaping ((Item) -> Void)) -> AnyCancellable {
-		self.fetch<Item>(url: url, found: found, completed: {_ in })
-	}
-
-	private func fetch<Item: Decodable>(url: URL, found: @escaping ((Item) -> Void),
-		completed: @escaping ((Subscribers.Completion<any Error>) -> Void)) -> AnyCancellable
-	{
-		URLSession.shared.dataTaskPublisher(for: url)
-			.map() { $0.data }
-			.decode(type: Item.self, decoder: JSONDecoder())
-			.receive(on: DispatchQueue.main)
-			.sink(receiveCompletion: completed, receiveValue: found)
+	// MARK: - Cover Fetch
+	
+	private func fetchCover(_ book: OpenLibraryBook) {
+		// recent entries seem to include the author only in the work
+		// if the work is missing as well, we'll have to leave authors blank
+		// and allow the user to enter their own value
+		guard let url = book.coverURL else { return }
+		cancellables.append(
+			FetchTask(url: url)
+				.start(found: { [weak self] image in
+					self?.book.cover = image
+					if let book = self?.book {
+						self?.result = .found(book)
+					}
+				})
+		)
 	}
 }
