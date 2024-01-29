@@ -14,11 +14,14 @@
 		742C63E12B582B0D0047FED7 /* BookSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742C63E02B582B0D0047FED7 /* BookSearch.swift */; };
 		74471AE52B63331D00400686 /* BookResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74471AE42B63331D00400686 /* BookResultView.swift */; };
 		74471AEB2B654F0800400686 /* ScanScreen.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 74471AEA2B654F0800400686 /* ScanScreen.jpeg */; };
+		74471AED2B659EBC00400686 /* BookScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74471AEC2B659EBC00400686 /* BookScreen.swift */; };
+		74471AEF2B65A4DD00400686 /* BookRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74471AEE2B65A4DD00400686 /* BookRow.swift */; };
+		74471AF22B669A7B00400686 /* BookModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74471AF12B669A7B00400686 /* BookModel.swift */; };
 		745D92072B4ADBAA00A62F89 /* ScanScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745D92062B4ADBAA00A62F89 /* ScanScreen.swift */; };
 		745D92092B4ADC4500A62F89 /* BookButtonModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745D92082B4ADC4500A62F89 /* BookButtonModifier.swift */; };
 		745D920B2B4B055500A62F89 /* BookResultModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745D920A2B4B055500A62F89 /* BookResultModifier.swift */; };
 		74B502DA2B430FAE0092B0E4 /* BookmindApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B502D92B430FAE0092B0E4 /* BookmindApp.swift */; };
-		74B502DC2B430FAE0092B0E4 /* WelcomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B502DB2B430FAE0092B0E4 /* WelcomeScreen.swift */; };
+		74B502DC2B430FAE0092B0E4 /* HomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B502DB2B430FAE0092B0E4 /* HomeScreen.swift */; };
 		74B502DE2B430FB00092B0E4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 74B502DD2B430FB00092B0E4 /* Assets.xcassets */; };
 		74B502EB2B430FB00092B0E4 /* ScanModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B502EA2B430FB00092B0E4 /* ScanModelTests.swift */; };
 		74B502F52B430FB00092B0E4 /* BookmindUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B502F42B430FB00092B0E4 /* BookmindUITests.swift */; };
@@ -61,12 +64,16 @@
 		742C63E02B582B0D0047FED7 /* BookSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookSearch.swift; sourceTree = "<group>"; };
 		74471AE42B63331D00400686 /* BookResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookResultView.swift; sourceTree = "<group>"; };
 		74471AEA2B654F0800400686 /* ScanScreen.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = ScanScreen.jpeg; sourceTree = "<group>"; };
+		74471AEC2B659EBC00400686 /* BookScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookScreen.swift; sourceTree = "<group>"; };
+		74471AEE2B65A4DD00400686 /* BookRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookRow.swift; sourceTree = "<group>"; };
+		74471AF12B669A7B00400686 /* BookModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookModel.swift; sourceTree = "<group>"; };
+		74471AF32B67DDDD00400686 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		745D92062B4ADBAA00A62F89 /* ScanScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanScreen.swift; sourceTree = "<group>"; };
 		745D92082B4ADC4500A62F89 /* BookButtonModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookButtonModifier.swift; sourceTree = "<group>"; };
 		745D920A2B4B055500A62F89 /* BookResultModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookResultModifier.swift; sourceTree = "<group>"; };
 		74B502D62B430FAE0092B0E4 /* Bookmind.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bookmind.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		74B502D92B430FAE0092B0E4 /* BookmindApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmindApp.swift; sourceTree = "<group>"; };
-		74B502DB2B430FAE0092B0E4 /* WelcomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeScreen.swift; sourceTree = "<group>"; };
+		74B502DB2B430FAE0092B0E4 /* HomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreen.swift; sourceTree = "<group>"; };
 		74B502DD2B430FB00092B0E4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		74B502E62B430FB00092B0E4 /* BookmindTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BookmindTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		74B502EA2B430FB00092B0E4 /* ScanModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanModelTests.swift; sourceTree = "<group>"; };
@@ -124,6 +131,16 @@
 			path = Search;
 			sourceTree = "<group>";
 		};
+		74471AF02B669A2C00400686 /* Browse */ = {
+			isa = PBXGroup;
+			children = (
+				74471AF12B669A7B00400686 /* BookModel.swift */,
+				74471AEE2B65A4DD00400686 /* BookRow.swift */,
+				74471AEC2B659EBC00400686 /* BookScreen.swift */,
+			);
+			path = Browse;
+			sourceTree = "<group>";
+		};
 		74B502CD2B430FAE0092B0E4 = {
 			isa = PBXGroup;
 			children = (
@@ -149,9 +166,11 @@
 		74B502D82B430FAE0092B0E4 /* Bookmind */ = {
 			isa = PBXGroup;
 			children = (
+				74471AF32B67DDDD00400686 /* Info.plist */,
 				74B502DD2B430FB00092B0E4 /* Assets.xcassets */,
 				74B502D92B430FAE0092B0E4 /* BookmindApp.swift */,
-				74B502DB2B430FAE0092B0E4 /* WelcomeScreen.swift */,
+				74B502DB2B430FAE0092B0E4 /* HomeScreen.swift */,
+				74471AF02B669A2C00400686 /* Browse */,
 				74FE52132B55EFDC00D1B9DD /* Entity */,
 				742C63DB2B58261A0047FED7 /* Search */,
 				74FE52142B55F00700D1B9DD /* Scan */,
@@ -336,19 +355,22 @@
 			files = (
 				742C63DA2B58157A0047FED7 /* OpenLibraryBookSearch.swift in Sources */,
 				745D920B2B4B055500A62F89 /* BookResultModifier.swift in Sources */,
+				74471AED2B659EBC00400686 /* BookScreen.swift in Sources */,
 				74B503062B445AF90092B0E4 /* ScanModel.swift in Sources */,
 				742C63E12B582B0D0047FED7 /* BookSearch.swift in Sources */,
-				74B502DC2B430FAE0092B0E4 /* WelcomeScreen.swift in Sources */,
+				74B502DC2B430FAE0092B0E4 /* HomeScreen.swift in Sources */,
 				74B8DF8D2B5DDE3900D2F818 /* FetchTask.swift in Sources */,
 				74FE520F2B54285800D1B9DD /* SearchModel.swift in Sources */,
 				74B502DA2B430FAE0092B0E4 /* BookmindApp.swift in Sources */,
 				74FE52112B557B3600D1B9DD /* Book.swift in Sources */,
+				74471AF22B669A7B00400686 /* BookModel.swift in Sources */,
 				74B8DF852B5C752400D2F818 /* OpenLibraryWork.swift in Sources */,
 				745D92092B4ADC4500A62F89 /* BookButtonModifier.swift in Sources */,
 				74FE52162B55F03800D1B9DD /* ISBN.swift in Sources */,
 				745D92072B4ADBAA00A62F89 /* ScanScreen.swift in Sources */,
 				74471AE52B63331D00400686 /* BookResultView.swift in Sources */,
 				742C63DD2B5826450047FED7 /* OpenLibraryBook.swift in Sources */,
+				74471AEF2B65A4DD00400686 /* BookRow.swift in Sources */,
 				74B8DF832B5C295200D2F818 /* OpenLibraryAuthor.swift in Sources */,
 				74B503042B44554B0092B0E4 /* ScanView.swift in Sources */,
 			);
@@ -520,12 +542,12 @@
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Bookmind/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Bookmind;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.books";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Bookmind needs camera access to scan bar codes and ISBN numbers.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -555,12 +577,12 @@
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Bookmind/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Bookmind;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.books";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Bookmind needs camera access to scan bar codes and ISBN numbers.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;

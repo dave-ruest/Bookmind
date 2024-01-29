@@ -5,7 +5,6 @@
 //  Created by Dave Ruest on 1/2/24.
 //
 
-import os
 import VisionKit
 
 /// The current state of the scanner.

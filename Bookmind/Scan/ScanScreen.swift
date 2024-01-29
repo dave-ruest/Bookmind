@@ -19,6 +19,7 @@ import SwiftUI
 /// we'll still just close the screen.
 struct ScanScreen: View {
 	@Environment(\.dismiss) var dismiss
+	@EnvironmentObject var bookModel: BookModel
 	@StateObject var scanModel = ScanModel()
 	@StateObject var searchModel = SearchModel()
 
@@ -42,7 +43,7 @@ struct ScanScreen: View {
 				VStack(spacing: 16.0) {
 					if self.book != nil {
 						Button(action: {
-							self.dismiss()
+							self.add()
 						}, label: {
 							Label("Add", systemImage: "plus.circle.fill")
 								.bookButton()
@@ -66,6 +67,13 @@ struct ScanScreen: View {
 			if case .found(let isbn) = state {
 				self.searchModel.search(isbn: isbn.digitString)
 			}
+		}
+	}
+	
+	private func add() {
+		if let book = self.book {
+			self.bookModel.books.append(book)
+			self.dismiss()
 		}
 	}
 	

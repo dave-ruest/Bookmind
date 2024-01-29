@@ -16,6 +16,7 @@ struct Book {
 	var cover: UIImage?
 	
 	struct Preview {
+		static var allBooks = [Self.quiet, Self.legend, Self.dorsai]
 		static var quiet: Book {
 			Book(title: "Quiet", authors: "", isbn: "9780307352156")
 		}
@@ -26,6 +27,12 @@ struct Book {
 			Book(title: "Dorsai!", authors: "Gordon R. Dickson",
 				 isbn: "0879973420", cover: UIImage(resource: ._6638671_M))
 		}
+	}
+}
+
+extension Book: Identifiable {
+	var id: String {
+		self.isbn
 	}
 }
 

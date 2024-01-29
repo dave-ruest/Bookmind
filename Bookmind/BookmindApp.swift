@@ -12,9 +12,14 @@ import SwiftUI
 /// tablet and headset, those will be conditionally set here.
 @main
 struct BookmindApp: App {
+	@StateObject var bookModel = BookModel()
+	
     var body: some Scene {
         WindowGroup {
-            WelcomeScreen()
+			NavigationStack {
+				HomeScreen()
+			}
+			.environmentObject(self.bookModel)
         }
     }
 }

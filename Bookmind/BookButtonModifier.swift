@@ -15,6 +15,7 @@ struct BookButtonModifier: ViewModifier {
 	func body(content: Content) -> some View {
 		content
 			.padding()
+			.fontWeight(.bold)
 			.frame(maxWidth: 330)
 			.background(.regularMaterial)
 			.clipShape(Capsule())

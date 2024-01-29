@@ -13,7 +13,7 @@ import SwiftUI
 /// fetched.
 struct BookResultView: View {
 	let book: Book
-	@ScaledMetric(relativeTo: .title) private var title = 32
+	@ScaledMetric(relativeTo: .body) private var imageHeight = 40.0
 
 	var body: some View {
 		HStack(spacing: 16.0) {
@@ -22,14 +22,13 @@ struct BookResultView: View {
 					.resizable()
 					.scaledToFit()
 					.cornerRadius(8.0)
-					.frame(maxHeight: self.title * 2)
+					.frame(height: self.imageHeight)
 			}
 			VStack(alignment: self.hasCover ? .leading : .center) {
 				Text(book.title)
-					.font(.title)
+					.fontWeight(.bold)
 				if !book.authors.isEmpty {
 					Text(book.authors)
-						.font(.title2)
 				} else {
 					Text(book.isbn)
 				}
