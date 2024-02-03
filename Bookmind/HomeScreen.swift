@@ -5,26 +5,28 @@
 //  Created by Dave Ruest on 1/1/24.
 //
 
+import SwiftData
 import SwiftUI
 
-/// The welcome screen provides a friendly start page. We may keep this
-/// as an introduction, when the user has not yet added books. Or we may
-/// move to a list of categories. We'll see when we add book persistence.
+/// HomeScreen is Bookmind's first screen. It shows a friendly welcome
+/// message on first launch. Once the user has scanned a book, the home
+/// screen shows a list of authors. With basic persistence implemented
+/// that list will remain populated on next launch. 
 struct HomeScreen: View {
-	@EnvironmentObject var bookModel: BookModel
+	@Query var authors: [Author]
 	
     var body: some View {
 		ZStack {
 			Color(.background)
 				.ignoresSafeArea()
 			VStack {
-				if bookModel.books.isEmpty {
+				if self.authors.isEmpty {
 					ScrollView {
 						Text("\nBookmind remembers your books.\n\nThe books you own, the books you want, the books you didn't like...\n\nBookmind remembers them all.\n\n")
 							.padding()
 					}
 				} else {
-					BookScreen()
+					LibraryScreen()
 				}
 				NavigationLink {
 					ScanScreen()
@@ -41,11 +43,10 @@ struct HomeScreen: View {
 
 #Preview {
     HomeScreen()
-		.environmentObject(BookModel())
+		.modelContainer(StorageModel().container)
 }
-
 
 #Preview {
 	HomeScreen()
-		.environmentObject(BookModel.preview)
+		.modelContainer(StorageModel.preview.container)
 }

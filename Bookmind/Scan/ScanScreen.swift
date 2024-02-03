@@ -14,12 +14,12 @@ import SwiftUI
 /// suspected ISBN, we send a book details request to openlibrary and display
 /// basic results. Stage 2b fetches authors. Stage 2c fetches covers.
 ///
-/// When we add persistence in stage ?, the "add" button will save the book,
-/// close the screen, and update some kind of book list ui. But for stage two
-/// we'll still just close the screen.
+/// In stage 3 we've added basic persistence. The "add" button actually
+/// saves the book and its authors. The home screen hides its welcome
+/// message and instead shows a list of authors.
 struct ScanScreen: View {
 	@Environment(\.dismiss) var dismiss
-	@EnvironmentObject var bookModel: BookModel
+	@EnvironmentObject var storage: StorageModel
 	@StateObject var scanModel = ScanModel()
 	@StateObject var searchModel = SearchModel()
 
@@ -34,8 +34,8 @@ struct ScanScreen: View {
 			#endif
 			VStack(spacing: 16.0) {
 				Spacer()
-				if self.book != nil {
-					BookResultView(book: self.book!)
+				if case .found(let book, let authors) = self.searchModel.result {
+					SearchResultView(book: book, authors: authors)
 				} else {
 					Text(self.progressMessage)
 						.bookResult()
@@ -63,22 +63,22 @@ struct ScanScreen: View {
 		.toolbarBackground(.visible, for: .navigationBar)
 		.toolbarBackground(.thinMaterial, for: .navigationBar)
 		.environmentObject(self.scanModel)
-		.onChange(of: self.scanModel.state) { state in
-			if case .found(let isbn) = state {
+		.onChange(of: self.scanModel.state, initial: false) {
+			if case .found(let isbn) = self.scanModel.state {
 				self.searchModel.search(isbn: isbn.digitString)
 			}
 		}
 	}
 	
 	private func add() {
-		if let book = self.book {
-			self.bookModel.books.append(book)
-			self.dismiss()
+		if case .found(let book, let authors) = self.searchModel.result {
+			self.storage.add(book: book, authors: authors)
 		}
+		self.dismiss()
 	}
 	
 	private var book: Book? {
-		if case .found(let book) = self.searchModel.result {
+		if case .found(let book, _) = self.searchModel.result {
 			return book
 		}
 		return nil
@@ -86,7 +86,7 @@ struct ScanScreen: View {
 	
 	private var previewImage: UIImage? {
 		switch self.searchModel.result {
-			case .found(let book): return book.cover
+			case .found(let book, _): return book.cover
 			default: return nil
 		}
 	}
@@ -96,7 +96,7 @@ struct ScanScreen: View {
 		switch result {
 			case .searching(let isbn): 
 				return "Searching for \(isbn)..."
-			case .found(let book): 
+			case .found(let book, _):
 				return book.description
 			case .failed(let isbn): 
 				return "Could not find book with ISBN \(isbn)"
@@ -119,6 +119,7 @@ struct ScanScreen: View {
 		ScanScreen(searchModel: SearchModel.Preview.searching)
 		ScanScreen(searchModel: SearchModel.Preview.quiet)
 	}
+	.modelContainer(StorageModel.preview.container)
 }
 
 #Preview {
@@ -126,10 +127,12 @@ struct ScanScreen: View {
 		ScanScreen(searchModel: SearchModel.Preview.failed)
 		ScanScreen(searchModel: SearchModel.Preview.legend)
 	}
+	.modelContainer(StorageModel.preview.container)
 }
 
 #Preview {
 	NavigationStack {
 		ScanScreen(searchModel: SearchModel.Preview.dorsai)
 	}
+	.modelContainer(StorageModel.preview.container)
 }

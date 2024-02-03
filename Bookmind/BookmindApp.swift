@@ -5,6 +5,7 @@
 //  Created by Dave Ruest on 1/1/24.
 //
 
+import SwiftData
 import SwiftUI
 
 /// BookmindApp specifies initial views, and stores and injects models
@@ -12,14 +13,15 @@ import SwiftUI
 /// tablet and headset, those will be conditionally set here.
 @main
 struct BookmindApp: App {
-	@StateObject var bookModel = BookModel()
+	private let storage = StorageModel()
 	
     var body: some Scene {
         WindowGroup {
 			NavigationStack {
 				HomeScreen()
 			}
-			.environmentObject(self.bookModel)
+			.modelContainer(self.storage.container)
+			.environmentObject(self.storage)
         }
     }
 }

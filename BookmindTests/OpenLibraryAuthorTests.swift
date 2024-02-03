@@ -40,4 +40,15 @@ final class OpenLibraryAuthorTests: XCTestCase {
 		let author = try self.decoder.decode(OpenLibraryAuthor.self, from: data)
 		XCTAssertEqual(author.name, "Gemmell, David")
 	}
+	
+	// https://openlibrary.org/authors/OL1239270A.json
+	// hmm this ain't right, should be Elly Griffiths
+	func testChalkPit() throws {
+		let data = """
+			{"name": "Lawrence Galton", "personal_name": "Lawrence Galton", "created": {"type": "/type/datetime", "value": "2008-04-01T03:28:50.625462"}, "alternate_names": ["Lawrence galton", "Galton Lawrence"], "last_modified": {"type": "/type/datetime", "value": "2018-12-01T21:44:20.089651"}, "latest_revision": 3, "key": "/authors/OL1239270A", "type": {"key": "/type/author"}, "revision": 3}
+			"""
+			.data(using: .utf8)!
+		let author = try self.decoder.decode(OpenLibraryAuthor.self, from: data)
+		XCTAssertEqual(author.name, "Lawrence Galton")
+	}
 }

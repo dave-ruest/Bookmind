@@ -28,9 +28,9 @@ class BookSearch {
 		/// Waiting on the response for a book detail request for a scanned ISBN.
 		case searching(String)
 		/// Found details for a book matching the scanned ISBN.
-		case found(Book)
+		case found(Book, [Author])
 		/// No book was found matching the scanned ISBN.
 		/// Should distinguish general network errors here...
-		case failed(String)
+		case failed(String)		
 	}
 }

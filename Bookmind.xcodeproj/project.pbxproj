@@ -12,14 +12,15 @@
 		742C63DA2B58157A0047FED7 /* OpenLibraryBookSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742C63D92B58157A0047FED7 /* OpenLibraryBookSearch.swift */; };
 		742C63DD2B5826450047FED7 /* OpenLibraryBook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742C63DC2B5826450047FED7 /* OpenLibraryBook.swift */; };
 		742C63E12B582B0D0047FED7 /* BookSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742C63E02B582B0D0047FED7 /* BookSearch.swift */; };
-		74471AE52B63331D00400686 /* BookResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74471AE42B63331D00400686 /* BookResultView.swift */; };
+		74471AE52B63331D00400686 /* SearchResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74471AE42B63331D00400686 /* SearchResultView.swift */; };
 		74471AEB2B654F0800400686 /* ScanScreen.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 74471AEA2B654F0800400686 /* ScanScreen.jpeg */; };
-		74471AED2B659EBC00400686 /* BookScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74471AEC2B659EBC00400686 /* BookScreen.swift */; };
-		74471AEF2B65A4DD00400686 /* BookRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74471AEE2B65A4DD00400686 /* BookRow.swift */; };
-		74471AF22B669A7B00400686 /* BookModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74471AF12B669A7B00400686 /* BookModel.swift */; };
+		74471AED2B659EBC00400686 /* LibraryScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74471AEC2B659EBC00400686 /* LibraryScreen.swift */; };
+		74471AF22B669A7B00400686 /* StorageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74471AF12B669A7B00400686 /* StorageModel.swift */; };
 		745D92072B4ADBAA00A62F89 /* ScanScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745D92062B4ADBAA00A62F89 /* ScanScreen.swift */; };
 		745D92092B4ADC4500A62F89 /* BookButtonModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745D92082B4ADC4500A62F89 /* BookButtonModifier.swift */; };
 		745D920B2B4B055500A62F89 /* BookResultModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745D920A2B4B055500A62F89 /* BookResultModifier.swift */; };
+		748D42FE2B6859BC00D34AED /* Author.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748D42FD2B6859BC00D34AED /* Author.swift */; };
+		748D43002B6958E900D34AED /* AuthorScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748D42FF2B6958E900D34AED /* AuthorScreen.swift */; };
 		74B502DA2B430FAE0092B0E4 /* BookmindApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B502D92B430FAE0092B0E4 /* BookmindApp.swift */; };
 		74B502DC2B430FAE0092B0E4 /* HomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B502DB2B430FAE0092B0E4 /* HomeScreen.swift */; };
 		74B502DE2B430FB00092B0E4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 74B502DD2B430FB00092B0E4 /* Assets.xcassets */; };
@@ -62,15 +63,16 @@
 		742C63D92B58157A0047FED7 /* OpenLibraryBookSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenLibraryBookSearch.swift; sourceTree = "<group>"; };
 		742C63DC2B5826450047FED7 /* OpenLibraryBook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenLibraryBook.swift; sourceTree = "<group>"; };
 		742C63E02B582B0D0047FED7 /* BookSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookSearch.swift; sourceTree = "<group>"; };
-		74471AE42B63331D00400686 /* BookResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookResultView.swift; sourceTree = "<group>"; };
+		74471AE42B63331D00400686 /* SearchResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultView.swift; sourceTree = "<group>"; };
 		74471AEA2B654F0800400686 /* ScanScreen.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = ScanScreen.jpeg; sourceTree = "<group>"; };
-		74471AEC2B659EBC00400686 /* BookScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookScreen.swift; sourceTree = "<group>"; };
-		74471AEE2B65A4DD00400686 /* BookRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookRow.swift; sourceTree = "<group>"; };
-		74471AF12B669A7B00400686 /* BookModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookModel.swift; sourceTree = "<group>"; };
+		74471AEC2B659EBC00400686 /* LibraryScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryScreen.swift; sourceTree = "<group>"; };
+		74471AF12B669A7B00400686 /* StorageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageModel.swift; sourceTree = "<group>"; };
 		74471AF32B67DDDD00400686 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		745D92062B4ADBAA00A62F89 /* ScanScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanScreen.swift; sourceTree = "<group>"; };
 		745D92082B4ADC4500A62F89 /* BookButtonModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookButtonModifier.swift; sourceTree = "<group>"; };
 		745D920A2B4B055500A62F89 /* BookResultModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookResultModifier.swift; sourceTree = "<group>"; };
+		748D42FD2B6859BC00D34AED /* Author.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Author.swift; sourceTree = "<group>"; };
+		748D42FF2B6958E900D34AED /* AuthorScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorScreen.swift; sourceTree = "<group>"; };
 		74B502D62B430FAE0092B0E4 /* Bookmind.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bookmind.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		74B502D92B430FAE0092B0E4 /* BookmindApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmindApp.swift; sourceTree = "<group>"; };
 		74B502DB2B430FAE0092B0E4 /* HomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreen.swift; sourceTree = "<group>"; };
@@ -134,9 +136,8 @@
 		74471AF02B669A2C00400686 /* Browse */ = {
 			isa = PBXGroup;
 			children = (
-				74471AF12B669A7B00400686 /* BookModel.swift */,
-				74471AEE2B65A4DD00400686 /* BookRow.swift */,
-				74471AEC2B659EBC00400686 /* BookScreen.swift */,
+				748D42FF2B6958E900D34AED /* AuthorScreen.swift */,
+				74471AEC2B659EBC00400686 /* LibraryScreen.swift */,
 			);
 			path = Browse;
 			sourceTree = "<group>";
@@ -170,6 +171,7 @@
 				74B502DD2B430FB00092B0E4 /* Assets.xcassets */,
 				74B502D92B430FAE0092B0E4 /* BookmindApp.swift */,
 				74B502DB2B430FAE0092B0E4 /* HomeScreen.swift */,
+				74471AF12B669A7B00400686 /* StorageModel.swift */,
 				74471AF02B669A2C00400686 /* Browse */,
 				74FE52132B55EFDC00D1B9DD /* Entity */,
 				742C63DB2B58261A0047FED7 /* Search */,
@@ -204,6 +206,7 @@
 		74FE52132B55EFDC00D1B9DD /* Entity */ = {
 			isa = PBXGroup;
 			children = (
+				748D42FD2B6859BC00D34AED /* Author.swift */,
 				74FE52102B557B3600D1B9DD /* Book.swift */,
 			);
 			path = Entity;
@@ -212,12 +215,12 @@
 		74FE52142B55F00700D1B9DD /* Scan */ = {
 			isa = PBXGroup;
 			children = (
-				74471AE42B63331D00400686 /* BookResultView.swift */,
 				74FE52152B55F03800D1B9DD /* ISBN.swift */,
 				74B503052B445AF90092B0E4 /* ScanModel.swift */,
 				745D92062B4ADBAA00A62F89 /* ScanScreen.swift */,
 				74B503032B44554B0092B0E4 /* ScanView.swift */,
 				74FE520E2B54285800D1B9DD /* SearchModel.swift */,
+				74471AE42B63331D00400686 /* SearchResultView.swift */,
 			);
 			path = Scan;
 			sourceTree = "<group>";
@@ -355,7 +358,7 @@
 			files = (
 				742C63DA2B58157A0047FED7 /* OpenLibraryBookSearch.swift in Sources */,
 				745D920B2B4B055500A62F89 /* BookResultModifier.swift in Sources */,
-				74471AED2B659EBC00400686 /* BookScreen.swift in Sources */,
+				74471AED2B659EBC00400686 /* LibraryScreen.swift in Sources */,
 				74B503062B445AF90092B0E4 /* ScanModel.swift in Sources */,
 				742C63E12B582B0D0047FED7 /* BookSearch.swift in Sources */,
 				74B502DC2B430FAE0092B0E4 /* HomeScreen.swift in Sources */,
@@ -363,14 +366,15 @@
 				74FE520F2B54285800D1B9DD /* SearchModel.swift in Sources */,
 				74B502DA2B430FAE0092B0E4 /* BookmindApp.swift in Sources */,
 				74FE52112B557B3600D1B9DD /* Book.swift in Sources */,
-				74471AF22B669A7B00400686 /* BookModel.swift in Sources */,
+				74471AF22B669A7B00400686 /* StorageModel.swift in Sources */,
 				74B8DF852B5C752400D2F818 /* OpenLibraryWork.swift in Sources */,
+				748D43002B6958E900D34AED /* AuthorScreen.swift in Sources */,
+				748D42FE2B6859BC00D34AED /* Author.swift in Sources */,
 				745D92092B4ADC4500A62F89 /* BookButtonModifier.swift in Sources */,
 				74FE52162B55F03800D1B9DD /* ISBN.swift in Sources */,
 				745D92072B4ADBAA00A62F89 /* ScanScreen.swift in Sources */,
-				74471AE52B63331D00400686 /* BookResultView.swift in Sources */,
+				74471AE52B63331D00400686 /* SearchResultView.swift in Sources */,
 				742C63DD2B5826450047FED7 /* OpenLibraryBook.swift in Sources */,
-				74471AEF2B65A4DD00400686 /* BookRow.swift in Sources */,
 				74B8DF832B5C295200D2F818 /* OpenLibraryAuthor.swift in Sources */,
 				74B503042B44554B0092B0E4 /* ScanView.swift in Sources */,
 			);
@@ -550,13 +554,13 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = uncled.Bookmind;
+				PRODUCT_BUNDLE_IDENTIFIER = kooky.Bookmind;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -585,13 +589,13 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = uncled.Bookmind;
+				PRODUCT_BUNDLE_IDENTIFIER = kooky.Bookmind;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -611,9 +615,9 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = uncled.BookmindTests;
+				PRODUCT_BUNDLE_IDENTIFIER = kooky.BookmindTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -631,9 +635,9 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = uncled.BookmindTests;
+				PRODUCT_BUNDLE_IDENTIFIER = kooky.BookmindTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -650,9 +654,9 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = uncled.BookmindUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = kooky.BookmindUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -669,9 +673,9 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = uncled.BookmindUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = kooky.BookmindUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;

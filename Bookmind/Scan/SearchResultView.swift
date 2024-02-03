@@ -1,5 +1,5 @@
 //
-//  BookResultView.swift
+//  SearchResultView.swift
 //  Bookmind
 //
 //  Created by Dave Ruest on 1/25/24.
@@ -7,12 +7,13 @@
 
 import SwiftUI
 
-/// BookResultView displays the title, author and cover of a book.
+/// SearchResultView displays the title, author and cover of a book.
 /// It hides the cover and authors if they are nil, so may be used
 /// to display a book while that books information is still being
 /// fetched.
-struct BookResultView: View {
+struct SearchResultView: View {
 	let book: Book
+	let authors: [Author]
 	@ScaledMetric(relativeTo: .body) private var imageHeight = 40.0
 
 	var body: some View {
@@ -27,10 +28,8 @@ struct BookResultView: View {
 			VStack(alignment: self.hasCover ? .leading : .center) {
 				Text(book.title)
 					.fontWeight(.bold)
-				if !book.authors.isEmpty {
-					Text(book.authors)
-				} else {
-					Text(book.isbn)
+				if !self.authors.isEmpty {
+					Text(self.authorNames)
 				}
 			}
 		}
@@ -43,12 +42,16 @@ struct BookResultView: View {
 	private var hasCover: Bool {
 		self.book.cover != nil
 	}
+	
+	private var authorNames: String {
+		self.authors.map { $0.name }.joined(separator: ", ")
+	}
 }
 
 #Preview {
 	VStack {
-		BookResultView(book: Book.Preview.quiet)
-		BookResultView(book: Book.Preview.legend)
-		BookResultView(book: Book.Preview.dorsai)
+		SearchResultView(book: Book.Preview.quiet, authors: [Author.Preview.cain])
+		SearchResultView(book: Book.Preview.legend, authors: [Author.Preview.gemmell])
+		SearchResultView(book: Book.Preview.dorsai, authors: [Author.Preview.dickson])
 	}
 }

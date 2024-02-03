@@ -7,6 +7,7 @@
 
 import Combine
 import Foundation
+import UIKit
 
 /// Searches for book details on a specific ISBN on the openlibrary site.
 ///
@@ -37,7 +38,7 @@ final class OpenLibraryBookSearch: BookSearch {
 	}
 	
 	private func received(book: OpenLibraryBook) {
-		self.book = book.book
+		self.book = book.entity
 		
 		if let authors = book.authors {
 			self.fetch(authors: authors)
@@ -46,7 +47,7 @@ final class OpenLibraryBookSearch: BookSearch {
 		}
 		self.fetchCover(book)
 		
-		self.result = .found(self.book)
+		self.result = .found(self.book, [Author]())
 	}
 	
 	private func completed(with error: Subscribers.Completion<Error>) {
@@ -78,9 +79,8 @@ final class OpenLibraryBookSearch: BookSearch {
 	
 	private func received(author: OpenLibraryAuthor) {
 		self.authors.append(author)
-		let authors = self.authors.map { $0.name }
-		self.book.authors = authors.joined(separator: ", ")
-		self.result = .found(self.book)
+		let entities = self.authors.map { $0.entity }
+		self.result = .found(self.book, entities)
 	}
 
 	// MARK: - Work Fetch
@@ -130,11 +130,14 @@ final class OpenLibraryBookSearch: BookSearch {
 		cancellables.append(
 			FetchTask(url: url)
 				.start(found: { [weak self] image in
-					self?.book.cover = image
-					if let book = self?.book {
-						self?.result = .found(book)
-					}
+					self?.received(cover: image)
 				})
 		)
+	}
+	
+	private func received(cover: UIImage) {
+		self.book.cover = cover
+		let entities = self.authors.map { $0.entity }
+		self.result = .found(book, entities)
 	}
 }

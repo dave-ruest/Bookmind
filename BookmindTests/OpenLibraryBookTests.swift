@@ -76,4 +76,17 @@ final class OpenLibraryBookTests: XCTestCase {
 		XCTAssertEqual(book.authors, [["key": "/authors/OL7444080A"]])
 		XCTAssertEqual(book.works, [["key": "/works/OL21417594W"]])
 	}
+	
+	// https://openlibrary.org/isbn/9781787470361.json
+	func testChalkPit() throws {
+		let data = """
+			{"title": "Quercus The Chalk Pit", "type": {"key": "/type/edition"}, "isbn_10": ["1787470369"], "isbn_13": ["9781787470361"], "local_id": ["urn:bwbsku:T2-DDQ-528"], "source_records": ["promise:bwb_daily_pallets_2022-05-16:T2-DDQ-528"], "key": "/books/OL42973867M", "works": [{"key": "/works/OL31324143W"}], "latest_revision": 4, "revision": 4, "created": {"type": "/type/datetime", "value": "2022-12-05T09:17:29.450666"}, "last_modified": {"type": "/type/datetime", "value": "2023-10-09T23:35:01.410679"}}
+			"""
+			.data(using: .utf8)!
+		let book = try self.decoder.decode(OpenLibraryBook.self, from: data)
+		XCTAssertEqual(book.title, "Quercus The Chalk Pit")
+		XCTAssertNil(book.covers)
+		XCTAssertNil(book.authors)
+		XCTAssertEqual(book.works, [["key": "/works/OL31324143W"]])
+	}
 }

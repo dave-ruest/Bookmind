@@ -19,6 +19,7 @@ struct ScanView: UIViewControllerRepresentable {
 			.barcode(symbologies: [.ean8, .ean13]),
 			.text()
 		], isHighlightingEnabled: true)
+		controller.view.backgroundColor = .background
 		
 		self.scanModel.start(controller)
 		return controller

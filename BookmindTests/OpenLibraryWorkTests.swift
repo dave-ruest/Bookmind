@@ -60,4 +60,14 @@ final class OpenLibraryWorkTests: XCTestCase {
 		let work = try self.decoder.decode(OpenLibraryWork.self, from: data)
 		XCTAssertEqual(work.authors, [["author": ["key": "/authors/OL7444080A"], "type": ["key": "/type/author_role"]]])
 	}
+	
+	// https://openlibrary.org/works/OL31324143W.json
+	func testChalkPit() throws {
+		let data = """
+			{"type": {"key": "/type/work"}, "title": "Quercus The Chalk Pit", "key": "/works/OL31324143W", "authors": [{"type": {"key": "/type/author_role"}, "author": {"key": "/authors/OL1239270A"}}], "latest_revision": 2, "revision": 2, "created": {"type": "/type/datetime", "value": "2022-12-05T09:17:29.450666"}, "last_modified": {"type": "/type/datetime", "value": "2022-12-05T09:17:29.759949"}}
+			"""
+			.data(using: .utf8)!
+		let work = try self.decoder.decode(OpenLibraryWork.self, from: data)
+		XCTAssertEqual(work.authors, [["type": ["key": "/type/author_role"], "author": ["key": "/authors/OL1239270A"]]])
+	}
 }
