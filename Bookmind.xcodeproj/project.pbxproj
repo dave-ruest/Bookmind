@@ -13,7 +13,6 @@
 		742C63DD2B5826450047FED7 /* OpenLibraryBook.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742C63DC2B5826450047FED7 /* OpenLibraryBook.swift */; };
 		742C63E12B582B0D0047FED7 /* BookSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742C63E02B582B0D0047FED7 /* BookSearch.swift */; };
 		74471AE52B63331D00400686 /* SearchResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74471AE42B63331D00400686 /* SearchResultView.swift */; };
-		74471AEB2B654F0800400686 /* ScanScreen.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 74471AEA2B654F0800400686 /* ScanScreen.jpeg */; };
 		74471AED2B659EBC00400686 /* LibraryScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74471AEC2B659EBC00400686 /* LibraryScreen.swift */; };
 		74471AF22B669A7B00400686 /* StorageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74471AF12B669A7B00400686 /* StorageModel.swift */; };
 		745D92072B4ADBAA00A62F89 /* ScanScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745D92062B4ADBAA00A62F89 /* ScanScreen.swift */; };
@@ -68,6 +67,7 @@
 		74471AEC2B659EBC00400686 /* LibraryScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryScreen.swift; sourceTree = "<group>"; };
 		74471AF12B669A7B00400686 /* StorageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageModel.swift; sourceTree = "<group>"; };
 		74471AF32B67DDDD00400686 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		745496672B6E9DBC00F2A3D2 /* AuthorScreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AuthorScreen.png; sourceTree = "<group>"; };
 		745D92062B4ADBAA00A62F89 /* ScanScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanScreen.swift; sourceTree = "<group>"; };
 		745D92082B4ADC4500A62F89 /* BookButtonModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookButtonModifier.swift; sourceTree = "<group>"; };
 		745D920A2B4B055500A62F89 /* BookResultModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookResultModifier.swift; sourceTree = "<group>"; };
@@ -146,6 +146,7 @@
 			isa = PBXGroup;
 			children = (
 				741913072B4DF95400F8CADB /* README.md */,
+				745496672B6E9DBC00F2A3D2 /* AuthorScreen.png */,
 				74471AEA2B654F0800400686 /* ScanScreen.jpeg */,
 				74B502D82B430FAE0092B0E4 /* Bookmind */,
 				74B502E92B430FB00092B0E4 /* BookmindTests */,
@@ -329,7 +330,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				74471AEB2B654F0800400686 /* ScanScreen.jpeg in Resources */,
 				741913082B4DF95400F8CADB /* README.md in Resources */,
 				74B502DE2B430FB00092B0E4 /* Assets.xcassets in Resources */,
 			);
@@ -560,7 +560,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = kooky.Bookmind;
+				PRODUCT_BUNDLE_IDENTIFIER = uncled.Bookmind;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -595,7 +595,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = kooky.Bookmind;
+				PRODUCT_BUNDLE_IDENTIFIER = uncled.Bookmind;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -617,7 +617,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = kooky.BookmindTests;
+				PRODUCT_BUNDLE_IDENTIFIER = uncled.BookmindTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -637,7 +637,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = kooky.BookmindTests;
+				PRODUCT_BUNDLE_IDENTIFIER = uncled.BookmindTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -656,7 +656,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = kooky.BookmindUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = uncled.BookmindUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -675,7 +675,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = kooky.BookmindUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = uncled.BookmindUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
