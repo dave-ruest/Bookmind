@@ -13,7 +13,7 @@ import UIKit
 /// and also to store books to phone storage so they persist across
 /// restarts. The next big step for book will be cloud storage where
 /// the book will persist across devices.
-@Model final class Book {
+@Model final class Book: ObservableObject {
 	/// The unique identifier for the book.
 	let isbn: String
 	let title: String
@@ -28,6 +28,10 @@ import UIKit
 	/// probably want to support some kind of storage so the user
 	/// can save their own cover image if it is missing on ol.
 	@Transient var cover: UIImage?
+	
+	var ownState: OwnState = OwnState.none
+	var readState = ReadState.none
+	var rating: Int = 0
 	
 	init(isbn: String, title: String, subtitle: String = "", authors: [Author] = [], cover: UIImage? = nil) {
 		self.isbn = isbn

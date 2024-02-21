@@ -42,11 +42,15 @@ struct HomeScreen: View {
 }
 
 #Preview {
-    HomeScreen()
-		.modelContainer(StorageModel().container)
+	NavigationStack {
+		HomeScreen()
+			.modelContainer(StorageModel().container)
+	}
 }
 
 #Preview {
-	HomeScreen()
-		.modelContainer(StorageModel.preview.container)
+	NavigationStack {
+		HomeScreen()
+			.modelContainer(StorageModel.preview.container)
+	}
 }

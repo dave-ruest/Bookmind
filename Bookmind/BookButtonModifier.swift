@@ -16,9 +16,9 @@ struct BookButtonModifier: ViewModifier {
 		content
 			.padding()
 			.fontWeight(.bold)
-			.frame(maxWidth: 330)
+			.frame(maxWidth: 330, minHeight: 60.0)
 			.background(.regularMaterial)
-			.clipShape(Capsule())
+			.clipShape(.capsule)
 			.overlay {
 				Capsule()
 					.stroke(Color(.label), lineWidth: 2.0)

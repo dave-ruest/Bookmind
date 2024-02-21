@@ -56,7 +56,24 @@ final class StorageModel: ObservableObject {
 				addedBook.authors.append(addedAuthor)
 			}
 		}
-		
+		self.save()
+	}
+	
+	@MainActor func delete(_ authors: [Author]) {
+		for author in authors {
+			self.interactor.delete(author)
+		}
+		self.save()
+	}
+	
+	@MainActor func delete(_ books: [Book]) {
+		for book in books {
+			self.interactor.delete(book)
+		}
+		self.save()
+	}
+	
+	@MainActor private func save() {
 		do {
 			try self.interactor.save()
 		} catch {

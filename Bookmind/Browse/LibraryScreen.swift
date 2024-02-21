@@ -14,27 +14,43 @@ import SwiftUI
 /// last name, some kind of search where you can find just the
 /// book by title, if you forget the author name...
 struct LibraryScreen: View {
-	@Query(sort: \Author.name) var authors: [Author]
-
+	@EnvironmentObject var storage: StorageModel
+	@Query(sort: \Author.lastName, order: .forward) var authors: [Author]
+	
 	var body: some View {
 		List {
 			ForEach(self.authors) { author in
 				NavigationLink {
-					AuthorScreen(author: author)
+//					if author.books.count == 1 {
+//						BookScreen(book: author.books.first!)
+//					} else {
+						AuthorScreen(author: author)
+//					}
 				} label: {
-					Text(author.name)
-						.fontWeight(.medium)
+					Text("\(author.firstName) **\(author.lastName)**")
 				}
 				.listRowBackground(Color(.clear))
-			}
+			}.onDelete(perform: delete)
 		}
 		.listStyle(.plain)
 		.listRowSeparatorTint(.accent)
 		.background(Color(.background))
+		.toolbar {
+			EditButton()
+		}
+		.navigationBarTitleDisplayMode(.large)
+		.navigationTitle("Bookmind")
+	}
+	
+	private func delete(at offsets: IndexSet) {
+		let delete = offsets.map { self.authors[$0] }
+		self.storage.delete(delete)
 	}
 }
 
 #Preview {
-	LibraryScreen()
-		.modelContainer(StorageModel.preview.container)
+	NavigationStack {
+		LibraryScreen()
+			.modelContainer(StorageModel.preview.container)
+	}
 }

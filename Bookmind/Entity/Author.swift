@@ -18,6 +18,8 @@ import SwiftData
 	/// closely to openlibrary, but we may align the whole app that way.
 	let olid: String
 	let name: String
+	let firstName: String
+	let lastName: String
 	/// A many to many relationship with book entities.
 	/// We'll need to add a delete rule when the ui supports delete.
 	@Relationship(inverse: \Book.authors) var books: [Book]
@@ -26,6 +28,10 @@ import SwiftData
 		self.olid = olid
 		self.name = name
 		self.books = books
+		
+		var splits = name.split(separator: " ")
+		self.lastName = String(splits.removeLast())
+		self.firstName = splits.joined(separator: " ")
 	}
 	
 	struct Preview {
