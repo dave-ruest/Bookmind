@@ -46,10 +46,10 @@ final class SearchModel: ObservableObject {
 	
 	struct Preview {
 		static let none = SearchModel()
-		static let searching = SearchModel(result: .searching("9781841498584"))
-		static let failed = SearchModel(result: .failed("9781841498584"))
-		static let quiet = SearchModel(result: .found(Book.Preview.quiet, [Author.Preview.cain]))
-		static let legend = SearchModel(result: .found(Book.Preview.legend, [Author.Preview.gemmell]))
-		static let dorsai = SearchModel(result: .found(Book.Preview.dorsai, [Author.Preview.dickson]))
+		static let failed = SearchModel(result: BookSearch.Preview.failed)
+		static let searching = SearchModel(result: BookSearch.Preview.searching)
+		static let quiet = SearchModel(result: BookSearch.Preview.quiet)
+		static let legend = SearchModel(result: BookSearch.Preview.legend)
+		static let dorsai = SearchModel(result: BookSearch.Preview.dorsai)
 	}
 }

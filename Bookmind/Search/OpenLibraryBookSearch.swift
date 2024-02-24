@@ -16,20 +16,21 @@ import UIKit
 /// get author names. Finally, covers, which are fetched in parallel with
 /// author names.
 final class OpenLibraryBookSearch: BookSearch {
-	private var cancellables: [AnyCancellable] = []
+	private var cancelables: [AnyCancellable] = []
+	private var edition: Edition!
 	private var book: Book!
 	private var authors = [OpenLibraryAuthor]()
 	
 	// MARK: - Book Fetch by ISBN
 	func start() {
-		guard let url = OpenLibraryBook.url(isbn: self.isbn) else {
+		guard let url = OpenLibraryEdition.url(isbn: self.isbn) else {
 			self.result = .failed(self.isbn)
 			return
 		}
-		cancellables.append(
+		cancelables.append(
 			FetchTask(url: url)
-				.start<OpenLibraryBook>(found: { [weak self] in
-					self?.received(book: $0)
+				.start<OpenLibraryEdition>(found: { [weak self] in
+					self?.received(edition: $0)
 				},
 				completed: { [weak self] error in
 					self?.completed(with: error)
@@ -37,17 +38,20 @@ final class OpenLibraryBookSearch: BookSearch {
 		)
 	}
 	
-	private func received(book: OpenLibraryBook) {
-		self.book = book.entity
-		
-		if let authors = book.authors {
+	private func received(edition: OpenLibraryEdition) {
+		self.edition = edition.entity
+		guard let book = edition.book else {
+			self.result = .failed("Could not find work for ISBN \(self.edition.isbn)")
+			return
+		}
+		self.book = book
+		self.result = .found(self.edition, book, [Author]())
+
+		if let authors = edition.authors {
 			self.fetch(authors: authors)
 		} else {
-			self.fetch(works: book.works)
+			self.fetch(works: edition.works)
 		}
-		self.fetchCover(book)
-		
-		self.result = .found(self.book, [Author]())
 	}
 	
 	private func completed(with error: Subscribers.Completion<Error>) {
@@ -69,7 +73,7 @@ final class OpenLibraryBookSearch: BookSearch {
 	
 	private func fetch(authorKey: String) {
 		guard let url = OpenLibraryAuthor.url(authorKey: authorKey) else { return }
-		cancellables.append(
+		self.cancelables.append(
 			FetchTask(url: url)
 				.start<OpenLibraryAuthor>(found: { [weak self] in
 					self?.received(author: $0)
@@ -80,7 +84,7 @@ final class OpenLibraryBookSearch: BookSearch {
 	private func received(author: OpenLibraryAuthor) {
 		self.authors.append(author)
 		let entities = self.authors.map { $0.entity }
-		self.result = .found(self.book, entities)
+		self.result = .found(self.edition, self.book, entities)
 	}
 
 	// MARK: - Work Fetch
@@ -101,7 +105,7 @@ final class OpenLibraryBookSearch: BookSearch {
 	
 	private func fetch(workKey: String) {
 		guard let url = OpenLibraryWork.url(workKey: workKey) else { return }
-		cancellables.append(
+		self.cancelables.append(
 			FetchTask(url: url)
 				.start(found: { [weak self] in
 					self?.received(work: $0)
@@ -118,26 +122,5 @@ final class OpenLibraryBookSearch: BookSearch {
 				self.fetch(authorKey: authorKey)
 			}
 		}
-	}
-	
-	// MARK: - Cover Fetch
-	
-	private func fetchCover(_ book: OpenLibraryBook) {
-		// recent entries seem to include the author only in the work
-		// if the work is missing as well, we'll have to leave authors blank
-		// and allow the user to enter their own value
-		guard let url = book.coverURL else { return }
-		cancellables.append(
-			FetchTask(url: url)
-				.start(found: { [weak self] image in
-					self?.received(cover: image)
-				})
-		)
-	}
-	
-	private func received(cover: UIImage) {
-		self.book.cover = cover
-		let entities = self.authors.map { $0.entity }
-		self.result = .found(book, entities)
 	}
 }

@@ -14,6 +14,7 @@ import SwiftUI
 @main
 struct BookmindApp: App {
 	private let storage = StorageModel()
+	private let covers = CoverModel()
 	
     var body: some Scene {
         WindowGroup {
@@ -22,6 +23,7 @@ struct BookmindApp: App {
 			}
 			.modelContainer(self.storage.container)
 			.environmentObject(self.storage)
+			.environmentObject(self.covers)
         }
     }
 }

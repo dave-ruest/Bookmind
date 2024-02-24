@@ -26,6 +26,7 @@ struct OpenLibraryAuthor: Decodable {
 		Author(olid: self.key, name: self.name)
 	}
 
+	/// Return the open library url for author data on the specified key.
 	static func url(authorKey: String) -> URL? {
 		// key includes "/authors/" prefix
 		URL(string: "https://openlibrary.org\(authorKey).json")

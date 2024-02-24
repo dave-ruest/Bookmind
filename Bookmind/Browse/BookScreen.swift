@@ -16,13 +16,7 @@ struct BookScreen: View {
 			Color(.background)
 				.ignoresSafeArea()
 			VStack(spacing: 16.0) {
-				SearchResultView(book: self.book, authors: self.book.authors)
-				Picker(book.ownState.description, selection: self.$book.ownState) {
-					ForEach(OwnState.allCases) { owned in
-						Text(owned.description)
-					}
-				}
-				.bookButton()
+				Text(self.book.title)
 				Picker(book.readState.description, selection: self.$book.readState) {
 					ForEach(ReadState.allCases) { read in
 						Text(read.description)
@@ -30,25 +24,36 @@ struct BookScreen: View {
 				}
 				.bookButton()
 				RatingView(rating: $book.rating)
+				List {
+					ForEach(self.book.editions) { edition in
+						EditionView(edition: edition)
+					}
+					.onDelete(perform: delete)
+					.listRowSeparator(.visible, edges: .top)
+				}.bookList()
 				Spacer()
 			}
 			.navigationBarTitleDisplayMode(.inline)
-			.pickerStyle(.menu)
 			.dynamicTypeSize(.small ... .accessibility2)
+			.toolbar {
+				EditButton()
+			}
 		}
 	}
 	
-	private func toggleImage(_ isOn: Bool) -> String {
-		isOn ? "checkmark.circle" : "circle"
+	private func delete(at offsets: IndexSet) {
+		
 	}
 }
 
 #Preview {
 	let storage = StorageModel(preview: true)
+	let edition = Edition.Preview.quiet
 	let book = Book.Preview.quiet
-	storage.add(book: book, authors: [Author.Preview.cain])
+	_ = storage.add(edition: edition, book: book,authors: [Author.Preview.cain])
 	return NavigationStack {
 		BookScreen(book: book)
-			.modelContainer(storage.container)
 	}
+	.modelContainer(storage.container)
+	.environmentObject(CoverModel())
 }

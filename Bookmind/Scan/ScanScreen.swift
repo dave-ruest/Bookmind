@@ -34,14 +34,14 @@ struct ScanScreen: View {
 			#endif
 			VStack(spacing: 16.0) {
 				Spacer()
-				if case .found(let book, let authors) = self.searchModel.result {
-					SearchResultView(book: book, authors: authors)
+				if self.searchModel.result != nil {
+					SearchResultView(result: self.searchModel.result!)
 				} else {
-					Text(self.progressMessage)
+					Text(self.scanModel.description)
 						.bookResult()
 				}
 				VStack(spacing: 16.0) {
-					if self.book != nil {
+					if self.edition != nil {
 						Button(action: {
 							self.add()
 						}, label: {
@@ -71,38 +71,17 @@ struct ScanScreen: View {
 	}
 	
 	private func add() {
-		if case .found(let book, let authors) = self.searchModel.result {
-			self.storage.add(book: book, authors: authors)
+		if case .found(let edition, let book, let authors) = self.searchModel.result {
+			self.storage.add(edition: edition, book: book, authors: authors)
 		}
 		self.dismiss()
 	}
 	
-	private var book: Book? {
-		if case .found(let book, _) = self.searchModel.result {
-			return book
+	private var edition: Edition? {
+		if case .found(let edition, _, _) = self.searchModel.result {
+			return edition
 		}
 		return nil
-	}
-	
-	private var previewImage: UIImage? {
-		switch self.searchModel.result {
-			case .found(let book, _): return book.cover
-			default: return nil
-		}
-	}
-	
-	private var progressMessage: String {
-		let result = searchModel.result
-		switch result {
-			case .searching(let isbn): 
-				return "Searching for \(isbn)..."
-			case .found(let book, _):
-				return book.description
-			case .failed(let isbn): 
-				return "Could not find book with ISBN \(isbn)"
-			case .none: 
-				return self.scanModel.description
-		}
 	}
 }
 
@@ -120,6 +99,7 @@ struct ScanScreen: View {
 		ScanScreen(searchModel: SearchModel.Preview.quiet)
 	}
 	.modelContainer(StorageModel.preview.container)
+	.environmentObject(CoverModel())
 }
 
 #Preview {
@@ -135,4 +115,5 @@ struct ScanScreen: View {
 		ScanScreen(searchModel: SearchModel.Preview.dorsai)
 	}
 	.modelContainer(StorageModel.preview.container)
+	.environmentObject(CoverModel())
 }

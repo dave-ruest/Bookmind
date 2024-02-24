@@ -44,31 +44,28 @@ final class StorageModel: ObservableObject {
 		}
 	}
 	
-	/// Save the specified book and authors. Do *not* insert the book or authors
+	/// Save the specified edition, book and authors. Do *not* insert any entities
 	/// if one is already stored with the same unique identifier. Carefully set
 	/// the many to many relationships between books and authors, again avoiding
 	/// duplicates.
-	@MainActor func add(book: Book, authors: [Author]) {
-		let addedBook = self.add(book)
+	@MainActor func add(edition: Edition, book: Book, authors: [Author]) {
+		let deDupedBook = self.add(book)
 		for author in authors {
-			let addedAuthor = self.add(author)
-			if !addedBook.authors.contains(addedAuthor) {
-				addedBook.authors.append(addedAuthor)
+			let deDupedAuthor = self.add(author)
+			if !deDupedBook.authors.contains(deDupedAuthor) {
+				deDupedBook.authors.append(deDupedAuthor)
 			}
 		}
-		self.save()
-	}
-	
-	@MainActor func delete(_ authors: [Author]) {
-		for author in authors {
-			self.interactor.delete(author)
+		let deDupedEdition = self.add(edition)
+		if !deDupedBook.editions.contains(deDupedEdition) {
+			deDupedEdition.book = deDupedBook
 		}
-		self.save()
+		self.save()		
 	}
 	
-	@MainActor func delete(_ books: [Book]) {
-		for book in books {
-			self.interactor.delete(book)
+	@MainActor func delete<Entity>(_ entities: [Entity]) where Entity: PersistentModel {
+		for entity in entities {
+			self.interactor.delete(entity)
 		}
 		self.save()
 	}
@@ -91,20 +88,30 @@ final class StorageModel: ObservableObject {
 		let filter = FetchDescriptor<Author>(predicate: #Predicate { author in
 			author.olid == olid
 		})
-		
-		var conflicts = [Author]()
-		do {
-			conflicts = try self.interactor.fetch(filter)
-		} catch {
-			print(error)
+		if let original = self.fetch(filter: filter) {
+			return original
 		}
-		
-		if let original = conflicts.first {
+
+		self.interactor.insert(author)
+		return author
+	}
+	
+	/// Ensure the specified edition is inserted without duplicates.
+	/// - Parameter edition: the edition to be inserted.
+	/// - Returns: the specified edition, if no editions with the same
+	/// identifer were saved previously. Otherwise return the previously
+	/// saved edition.
+	@MainActor private func add(_ edition: Edition) -> Edition {
+		let isbn = edition.isbn
+		let filter = FetchDescriptor<Edition>(predicate: #Predicate { edition in
+			edition.isbn == isbn
+		})
+		if let original = self.fetch(filter: filter) {
 			return original
 		}
 		
-		self.interactor.insert(author)
-		return author
+		self.interactor.insert(edition)
+		return edition
 	}
 
 	/// Ensure the specified book is inserted without duplicates.
@@ -113,31 +120,39 @@ final class StorageModel: ObservableObject {
 	/// identifer were saved previously. Otherwise return the previously
 	/// saved book.
 	@MainActor private func add(_ book: Book) -> Book {
-		let isbn = book.isbn
+		let olid = book.olid
 		let filter = FetchDescriptor<Book>(predicate: #Predicate { book in
-			book.isbn == isbn
+			book.olid == olid
 		})
-		
-		var duplicates = [Book]()
-		do {
-			duplicates = try self.interactor.fetch(filter)
-		} catch {
-			print(error)
-		}
-		
-		if let duplicate = duplicates.first {
-			return duplicate
+		if let original = self.fetch(filter: filter) {
+			return original
 		}
 		
 		self.interactor.insert(book)
 		return book
 	}
 	
+	/// Return the first saved entity which matches the specified filter.
+	/// Move this up to a generic add() method once we figure out how to
+	/// make the filter generic, they are a bit fussy.
+	@MainActor private func fetch<Entity>(filter: FetchDescriptor<Entity>) -> Entity? where Entity: PersistentModel {
+		var duplicates = [Entity]()
+		do {
+			duplicates = try self.interactor.fetch(filter)
+		} catch {
+			print(error)
+		}
+		if let duplicate = duplicates.first {
+			return duplicate
+		}
+		return nil
+	}
+	
 	@MainActor static var preview: StorageModel {
 		let model = StorageModel(preview: true)
-		model.add(book: Book.Preview.dorsai, authors: [Author.Preview.dickson])
-		model.add(book: Book.Preview.legend, authors: [Author.Preview.gemmell])
-		model.add(book: Book.Preview.quiet, authors: [Author.Preview.cain])
+		model.add(edition: Edition.Preview.dorsai, book: Book.Preview.dorsai, authors: [Author.Preview.dickson])
+		model.add(edition: Edition.Preview.legend, book: Book.Preview.legend, authors: [Author.Preview.gemmell])
+		model.add(edition: Edition.Preview.quiet, book: Book.Preview.quiet, authors: [Author.Preview.cain])
 		return model
 	}
 }

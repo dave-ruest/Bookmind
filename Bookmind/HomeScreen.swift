@@ -51,6 +51,7 @@ struct HomeScreen: View {
 #Preview {
 	NavigationStack {
 		HomeScreen()
-			.modelContainer(StorageModel.preview.container)
 	}
+	.modelContainer(StorageModel.preview.container)
+	.environmentObject(CoverModel())
 }

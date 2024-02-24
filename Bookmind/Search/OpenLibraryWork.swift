@@ -22,6 +22,7 @@ import Foundation
 struct OpenLibraryWork: Decodable {
 	let authors: [[String: [String: String]]]?
 	
+	/// Return the open library url for work data on the specified key.
 	static func url(workKey: String) -> URL? {
 		// key includes "/works/" prefix
 		URL(string: "https://openlibrary.org\(workKey).json")

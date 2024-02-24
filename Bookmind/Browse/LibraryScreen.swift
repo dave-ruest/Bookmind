@@ -21,11 +21,7 @@ struct LibraryScreen: View {
 		List {
 			ForEach(self.authors) { author in
 				NavigationLink {
-//					if author.books.count == 1 {
-//						BookScreen(book: author.books.first!)
-//					} else {
-						AuthorScreen(author: author)
-//					}
+					AuthorScreen(author: author)
 				} label: {
 					Text("\(author.firstName) **\(author.lastName)**")
 				}
@@ -51,6 +47,7 @@ struct LibraryScreen: View {
 #Preview {
 	NavigationStack {
 		LibraryScreen()
-			.modelContainer(StorageModel.preview.container)
 	}
+	.modelContainer(StorageModel.preview.container)
+	.environmentObject(CoverModel())
 }

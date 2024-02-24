@@ -49,9 +49,10 @@ struct AuthorScreen: View {
 #Preview {
 	let storage = StorageModel(preview: true)
 	let author = Author.Preview.cain
-	storage.add(book: Book.Preview.quiet, authors: [author])
+	_ = storage.add(edition: Edition.Preview.quiet, book: Book.Preview.quiet, authors: [author])
 	return NavigationStack {
 		AuthorScreen(author: author)
-			.modelContainer(storage.container)
 	}
+	.modelContainer(storage.container)
+	.environmentObject(CoverModel())
 }
