@@ -15,8 +15,8 @@ import UIKit
 /// restarts. The next big step for book will be cloud storage where
 /// the edition will persist across devices.
 @Model final class Edition: ObservableObject {
-	/// A many to one relationship with the book/"work".
-	@Relationship(inverse: \Book.editions) var book: Book?
+	/// A many to one relationship with the book or "work".
+	var book: Book?
 	/// The unique identifier for the book edition.
 	let isbn: String
 	/// Ownership of the edition: does the user have a physical
@@ -44,6 +44,12 @@ import UIKit
 		static var dorsai: Edition {
 			Edition(isbn: "0879973420", coverIds: [6638671], ownState: .none)
 		}
+	}
+}
+
+extension Edition: Equatable {
+	static func == (lhs: Edition, rhs: Edition) -> Bool {
+		return lhs.isbn == rhs.isbn
 	}
 }
 

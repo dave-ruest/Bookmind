@@ -21,7 +21,7 @@ import SwiftData
 	/// closely to openlibrary, but we may align the whole app that way.
 	let olid: String
 	/// A many to many relationship with book entities.
-	/// We'll need to add a delete rule when the ui supports delete.
+	/// Use the default delete rule (.nullify).
 	@Relationship(inverse: \Book.authors) var books: [Book]
 
 	init(olid: String, name: String, books: [Book] = []) {

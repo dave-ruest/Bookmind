@@ -10,17 +10,20 @@ import SwiftUI
 
 /// AuthorScreen displays the list of books for a specific author.
 struct AuthorScreen: View {
-	@EnvironmentObject var storage: StorageModel
-	/// The author whose name and books we'll show.
-	/// That "self.author.books" below is so breathtakingly simple
-	/// it was a little difficult to grasp. This truly "just works"
-	/// after we set up the many to many relationship. Well, we
-	/// also have to be careful to avoid crashes on insertion.
-	/// But boy does it look good here.
+	/// The author whose name and books willl be shown.
+	/// Constant as we don't define any editable author properties - yet.
+	/// Books may be deleted but that is a core data storage operation.
 	let author: Author
+	/// Core data storage, used to delete editions.
+	/// Set by the app or preview.
+	@EnvironmentObject var storage: StorageModel
 
 	var body: some View {
 		List {
+			// The "self.author.books" here lazy loads books
+			// from the many to many core data relationship.
+			// Adding and deleting are trickier but wow does
+			// this ever "just work".
 			ForEach(self.author.books) { book in
 				NavigationLink {
 					BookScreen(book: book)
@@ -41,8 +44,9 @@ struct AuthorScreen: View {
 	}
 	
 	private func delete(at offsets: IndexSet) {
-		let delete = offsets.map { self.author.books[$0] }
-		self.storage.delete(delete)
+		let books = offsets.map { self.author.books[$0] }
+		self.storage.delete(books)
+		self.author.books.remove(atOffsets: offsets)
 	}
 }
 

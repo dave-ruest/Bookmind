@@ -23,7 +23,7 @@ import UIKit
 	/// A many to many relationship with author entities.
 	var authors: [Author]
 	/// A one to many relationship with edition entities.
-	var editions: [Edition]
+	@Relationship(deleteRule: .cascade, inverse: \Edition.book) var editions: [Edition]
 	/// Read state of the book/work: has the user read this book?
 	/// Required for the "have I read this book" use case.
 	var readState = ReadState.none

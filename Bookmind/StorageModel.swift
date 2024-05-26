@@ -67,7 +67,10 @@ final class StorageModel: ObservableObject {
 		for entity in entities {
 			self.interactor.delete(entity)
 		}
-		self.save()
+		// saving immediately after the delete breaks cascade rules
+		DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.0, qos: .background) {
+			self.save()
+		}
 	}
 	
 	@MainActor private func save() {
