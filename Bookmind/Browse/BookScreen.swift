@@ -67,7 +67,7 @@ struct BookScreen: View {
 	let storage = StorageModel(preview: true)
 	let edition = Edition.Preview.quiet
 	let book = Book.Preview.quiet
-	_ = storage.add(edition: edition, book: book,authors: [Author.Preview.cain])
+	_ = storage.insert(edition: edition, book: book,authors: [Author.Preview.cain])
 	return NavigationStack {
 		BookScreen(book: book)
 	}

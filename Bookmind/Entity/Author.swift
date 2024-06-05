@@ -5,6 +5,7 @@
 //  Created by Dave Ruest on 1/29/24.
 //
 
+import Foundation
 import SwiftData
 
 /// Author is an "entity", an object encapsulating persisted data.
@@ -45,6 +46,13 @@ import SwiftData
 		static var dickson: Author {
 			Author(olid: "/authors/OL25176A", name: "Gordon Dickson")
 		}
+	}
+}
+
+extension Author: Fetchable {
+	func identityQuery() -> FetchDescriptor<Author> {
+		let identifier = self.olid
+		return FetchDescriptor<Author>(predicate: #Predicate { $0.olid == identifier })
 	}
 }
 

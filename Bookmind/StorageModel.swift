@@ -38,7 +38,7 @@ final class StorageModel: ObservableObject {
 	init(preview: Bool = false) {
 		let config = ModelConfiguration(isStoredInMemoryOnly: preview)
 		do {
-			try self.container = ModelContainer(for: Author.self, Book.self, configurations: config)
+			try self.container = ModelContainer(for: Author.self, Book.self, Edition.self, configurations: config)
 		} catch {
 			fatalError("Could not create swift data storage")
 		}
@@ -48,15 +48,15 @@ final class StorageModel: ObservableObject {
 	/// if one is already stored with the same unique identifier. Carefully set
 	/// the many to many relationships between books and authors, again avoiding
 	/// duplicates.
-	@MainActor func add(edition: Edition, book: Book, authors: [Author]) {
-		let deDupedBook = self.add(book)
+	@MainActor func insert(edition: Edition, book: Book, authors: [Author]) {
+		let deDupedBook = self.insert(entity: book)
 		for author in authors {
-			let deDupedAuthor = self.add(author)
+			let deDupedAuthor = self.insert(entity: author)
 			if !deDupedBook.authors.contains(deDupedAuthor) {
 				deDupedBook.authors.append(deDupedAuthor)
 			}
 		}
-		let deDupedEdition = self.add(edition)
+		let deDupedEdition = self.insert(entity: edition)
 		if !deDupedBook.editions.contains(deDupedEdition) {
 			deDupedEdition.book = deDupedBook
 		}
@@ -81,81 +81,48 @@ final class StorageModel: ObservableObject {
 		}
 	}
 	
-	/// Ensure the specified author is inserted without duplicates.
-	/// - Parameter author: the author to be inserted.
-	/// - Returns: the specified author, if no authors with the same
-	/// identifer were saved previously. Otherwise return the previously
-	/// saved author.
-	@MainActor private func add(_ author: Author) -> Author {
-		let olid = author.olid
-		let filter = FetchDescriptor<Author>(predicate: #Predicate { author in
-			author.olid == olid
-		})
-		if let original = self.fetch(filter: filter) {
-			return original
-		}
-
-		self.interactor.insert(author)
-		return author
-	}
-	
-	/// Ensure the specified edition is inserted without duplicates.
-	/// - Parameter edition: the edition to be inserted.
-	/// - Returns: the specified edition, if no editions with the same
-	/// identifer were saved previously. Otherwise return the previously
-	/// saved edition.
-	@MainActor private func add(_ edition: Edition) -> Edition {
-		let isbn = edition.isbn
-		let filter = FetchDescriptor<Edition>(predicate: #Predicate { edition in
-			edition.isbn == isbn
-		})
-		if let original = self.fetch(filter: filter) {
-			return original
-		}
-		
-		self.interactor.insert(edition)
-		return edition
-	}
-
-	/// Ensure the specified book is inserted without duplicates.
-	/// - Parameter book: the book to be inserted.
-	/// - Returns: the specified book, if no books with the same
-	/// identifer were saved previously. Otherwise return the previously
-	/// saved book.
-	@MainActor private func add(_ book: Book) -> Book {
-		let olid = book.olid
-		let filter = FetchDescriptor<Book>(predicate: #Predicate { book in
-			book.olid == olid
-		})
-		if let original = self.fetch(filter: filter) {
-			return original
-		}
-		
-		self.interactor.insert(book)
-		return book
-	}
-	
-	/// Return the first saved entity which matches the specified filter.
-	/// Move this up to a generic add() method once we figure out how to
-	/// make the filter generic, they are a bit fussy.
-	@MainActor private func fetch<Entity>(filter: FetchDescriptor<Entity>) -> Entity? where Entity: PersistentModel {
-		var duplicates = [Entity]()
+	/// Return true if there are saved entities matching the specified query.
+	/// Use this if you do not need the actual stored instances, the fetch count is supposed
+	/// to be faster. Return false if there are no saved entities matching the query.
+	@MainActor func isStored<Entity>(entity: Entity) -> Bool where Entity: Fetchable {
 		do {
-			duplicates = try self.interactor.fetch(filter)
+			let count = try self.interactor.fetchCount(entity.identityQuery())
+			return count > 0
 		} catch {
 			print(error)
 		}
-		if let duplicate = duplicates.first {
-			return duplicate
+		return false
+	}
+	
+	/// Insert the specified entity into storage. If an entity was previously saved with the same identifier, return
+	/// that saved instance. Otherwise insert the specified entity into storage and return that same instance.
+	@MainActor func insert<Entity>(entity: Entity) -> Entity where Entity: Fetchable {
+		var stored = [Entity]()
+		do {
+			stored = try self.interactor.fetch(entity.identityQuery())
+		} catch {
+			print(error)
 		}
-		return nil
+		if let original = stored.first {
+			return original
+		}
+		
+		self.interactor.insert(entity)
+		return entity
 	}
 	
 	@MainActor static var preview: StorageModel {
 		let model = StorageModel(preview: true)
-		model.add(edition: Edition.Preview.dorsai, book: Book.Preview.dorsai, authors: [Author.Preview.dickson])
-		model.add(edition: Edition.Preview.legend, book: Book.Preview.legend, authors: [Author.Preview.gemmell])
-		model.add(edition: Edition.Preview.quiet, book: Book.Preview.quiet, authors: [Author.Preview.cain])
+		model.insert(edition: Edition.Preview.dorsai, book: Book.Preview.dorsai, authors: [Author.Preview.dickson])
+		model.insert(edition: Edition.Preview.legend, book: Book.Preview.legend, authors: [Author.Preview.gemmell])
+		model.insert(edition: Edition.Preview.quiet, book: Book.Preview.quiet, authors: [Author.Preview.cain])
 		return model
 	}
+}
+
+/// Fetchables implement an identity query storage can use to see if an entity
+/// with the same identifer is already saved. We *should* be able to use the id
+/// from Identifiable but this doesn't work with the predicate macro. 
+public protocol Fetchable: PersistentModel {
+	func identityQuery() -> FetchDescriptor<Self>
 }

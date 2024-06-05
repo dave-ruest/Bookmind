@@ -17,7 +17,7 @@ import UIKit
 @Model final class Edition: ObservableObject {
 	/// A many to one relationship with the book or "work".
 	var book: Book?
-	/// The unique identifier for the book edition.
+	/// The unique identifier for t1he book edition.
 	let isbn: String
 	/// Ownership of the edition: does the user have a physical
 	/// copy of this edition? Required for the "should I buy this
@@ -50,6 +50,13 @@ import UIKit
 extension Edition: Equatable {
 	static func == (lhs: Edition, rhs: Edition) -> Bool {
 		return lhs.isbn == rhs.isbn
+	}
+}
+
+extension Edition: Fetchable {
+	func identityQuery() -> FetchDescriptor<Edition> {
+		let identifier = self.isbn
+		return FetchDescriptor<Edition>(predicate: #Predicate { $0.isbn == identifier })
 	}
 }
 

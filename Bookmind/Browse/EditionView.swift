@@ -51,7 +51,7 @@ struct EditionView: View {
 #Preview {
 	let storage = StorageModel(preview: true)
 	let edition = Edition.Preview.quiet
-	storage.add(edition: edition, book: Book.Preview.quiet, authors: [Author.Preview.cain])
+	storage.insert(edition: edition, book: Book.Preview.quiet, authors: [Author.Preview.cain])
 	return List {
 		EditionView(edition: edition)
 			.modelContainer(storage.container)

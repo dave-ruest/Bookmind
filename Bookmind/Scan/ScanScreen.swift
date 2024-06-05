@@ -72,7 +72,7 @@ struct ScanScreen: View {
 	
 	private func add() {
 		if case .found(let edition, let book, let authors) = self.searchModel.result {
-			self.storage.add(edition: edition, book: book, authors: authors)
+			self.storage.insert(edition: edition, book: book, authors: authors)
 		}
 		self.dismiss()
 	}

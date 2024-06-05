@@ -31,7 +31,11 @@ import UIKit
 	var rating: Int = 0
 	
 	var authorNames: String {
-		authors.map { $0.name }.joined(separator: ", ")
+		// added sorting to make test deterministic
+		// seems the storage is unordered, need to fix if we need ordered
+		// i.e. to match the list of authors on the edition
+		let sorted = authors.sorted { $0.lastName < $1.lastName }
+		return sorted.map { $0.name }.joined(separator: ", ")
 	}
 	
 	init(olid: String, title: String, subtitle: String? = nil,
@@ -43,6 +47,8 @@ import UIKit
 		self.subtitle = subtitle
 		self.authors = authors
 		self.editions = editions
+		self.readState = readState
+		self.rating = rating
 	}
 	
 	struct Preview {
@@ -59,6 +65,13 @@ import UIKit
 		static var dorsai: Book {
 			Book(olid: "/works/OL155455W", title: "Dorsai!")
 		}
+	}
+}
+
+extension Book: Fetchable {
+	func identityQuery() -> FetchDescriptor<Book> {
+		let identifier = self.olid
+		return FetchDescriptor<Book>(predicate: #Predicate { $0.olid == identifier })
 	}
 }
 

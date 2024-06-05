@@ -45,6 +45,9 @@
 		74FE52112B557B3600D1B9DD /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74FE52102B557B3600D1B9DD /* Book.swift */; };
 		74FE52162B55F03800D1B9DD /* ISBN.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74FE52152B55F03800D1B9DD /* ISBN.swift */; };
 		74FE52182B5621A300D1B9DD /* ISBNTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74FE52172B5621A300D1B9DD /* ISBNTests.swift */; };
+		EE2B1C302C0F9A6800C332F9 /* AuthorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE2B1C2F2C0F9A6700C332F9 /* AuthorTests.swift */; };
+		EE89B4E92C10C47900827F8A /* EditionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE89B4E82C10C47900827F8A /* EditionTests.swift */; };
+		EE90189A2C0FB84100B6990A /* BookTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE9018992C0FB84100B6990A /* BookTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -109,6 +112,9 @@
 		74FE52102B557B3600D1B9DD /* Book.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
 		74FE52152B55F03800D1B9DD /* ISBN.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ISBN.swift; sourceTree = "<group>"; };
 		74FE52172B5621A300D1B9DD /* ISBNTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ISBNTests.swift; sourceTree = "<group>"; };
+		EE2B1C2F2C0F9A6700C332F9 /* AuthorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorTests.swift; sourceTree = "<group>"; };
+		EE89B4E82C10C47900827F8A /* EditionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditionTests.swift; sourceTree = "<group>"; };
+		EE9018992C0FB84100B6990A /* BookTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -207,6 +213,9 @@
 		74B502E92B430FB00092B0E4 /* BookmindTests */ = {
 			isa = PBXGroup;
 			children = (
+				EE2B1C2F2C0F9A6700C332F9 /* AuthorTests.swift */,
+				EE9018992C0FB84100B6990A /* BookTests.swift */,
+				EE89B4E82C10C47900827F8A /* EditionTests.swift */,
 				74FE52172B5621A300D1B9DD /* ISBNTests.swift */,
 				74B8DF862B5CA3F100D2F818 /* OpenLibraryAuthorTests.swift */,
 				742C63D72B5720D00047FED7 /* OpenLibraryBookTests.swift */,
@@ -417,7 +426,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				74B8DF872B5CA3F100D2F818 /* OpenLibraryAuthorTests.swift in Sources */,
+				EE90189A2C0FB84100B6990A /* BookTests.swift in Sources */,
 				74B502EB2B430FB00092B0E4 /* ScanModelTests.swift in Sources */,
+				EE2B1C302C0F9A6800C332F9 /* AuthorTests.swift in Sources */,
+				EE89B4E92C10C47900827F8A /* EditionTests.swift in Sources */,
 				74FE52182B5621A300D1B9DD /* ISBNTests.swift in Sources */,
 				742C63D82B5720D00047FED7 /* OpenLibraryBookTests.swift in Sources */,
 				74B8DF892B5D670100D2F818 /* OpenLibraryWorkTests.swift in Sources */,
