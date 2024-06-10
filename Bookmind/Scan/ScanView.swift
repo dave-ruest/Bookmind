@@ -14,13 +14,11 @@ struct ScanView: UIViewControllerRepresentable {
 	
 	@EnvironmentObject var scanModel: ScanModel
 	
-		print("ScanView.makeCoordinator")
-		let coordinator = ScanViewCoordinator(model: scanModel)
-		return coordinator
+	func makeCoordinator() -> ScanViewCoordinator {
+		ScanViewCoordinator(model: scanModel)
 	}
 	
 	func makeUIViewController(context: Context) -> DataScannerViewController {
-		print("ScanView.makeUIViewController")
 		let controller = DataScannerViewController(recognizedDataTypes: [
 			.barcode(symbologies: [.ean8, .ean13]),
 			.text()
