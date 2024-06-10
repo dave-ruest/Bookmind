@@ -32,7 +32,7 @@ struct HomeScreen: View {
 					ScanScreen()
 				} label: {
 					Label("Add Book", systemImage: "camera.fill")
-						.bookButton()
+						.bookButtonStyle()
 				}
 			}
 		}

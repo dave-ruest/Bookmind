@@ -24,7 +24,7 @@ class BookSearch {
 	// The lack of context when setting the value feels less readable. But as
 	// a published state property it is fantastic to be able to convey
 	// as many states as necessary, including .none for a nil value.
-	enum Result {
+	enum Result: Equatable {
 		/// Waiting on the response for a book detail request for a scanned ISBN.
 		case searching(String)
 		/// Found details for a book matching the scanned ISBN.

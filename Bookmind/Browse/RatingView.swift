@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// RatingView displays and modifies a rating binding. 
 struct RatingView: View {
 	@Binding var rating: Int
 	
@@ -22,10 +23,19 @@ struct RatingView: View {
 			}
 		}
 		.buttonStyle(.plain)
-		.bookButton()
+		.bookButtonStyle()
 	}
 }
 
 #Preview {
-	RatingView(rating: .constant(3))
+	ZStack {
+		Color(.systemIndigo)
+			.ignoresSafeArea()
+		VStack(spacing: 16.0) {
+			RatingView(rating: .constant(0))
+			RatingView(rating: .constant(3))
+			RatingView(rating: .constant(5))
+		}
+		.padding()
+	}
 }

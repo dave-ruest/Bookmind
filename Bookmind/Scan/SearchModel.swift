@@ -14,34 +14,51 @@ import SwiftUI
 /// want to complete each lookup but be careful not to repeat it.
 final class SearchModel: ObservableObject {
 	@Published var result: BookSearch.Result?
-	private var searches: [BookSearch]
-	private var cancellable: Cancellable? = nil
+	private var searches: [OpenLibraryBookSearch] = []
+	private var cancellables: [Cancellable] = []
 	
-	init(result: BookSearch.Result? = nil, searches: [BookSearch] = []) {
+	init(result: BookSearch.Result? = nil) {
 		self.result = result
-		self.searches = searches
 	}
 	
-	func search(isbn: String) {
-		// don't repeat a search
-		if let completed = self.searches.first(where: { $0.isbn == isbn }) {
-			DispatchQueue.main.async {
-				self.result = completed.result
-			}
+	func search(results: [ISBN]) {
+		let newSearches = results.map { $0.digitString }
+		for isbn in newSearches {
+			self.search(isbn: isbn)
+		}
+	}
+	
+	private func search(isbn: String) {
+		// don't seach again for an isbn we've already checked
+		if searches.contains(where: { $0.isbn == isbn } ) {
 			return
 		}
 		
 		let search = OpenLibraryBookSearch(isbn: isbn)
 		self.searches.append(search)
-		self.cancellable = search.$result
+		self.cancellables.append(
+			search.$result
 			.receive(on: DispatchQueue.main)
 			.sink(receiveValue: { [weak self] result in
 				withAnimation {
-					self?.result = result
+					self?.update(result: result)
 				}
-			}
+			})
 		)
 		search.start()
+	}
+	
+	private func update(result: BookSearch.Result) {
+		if case .found(_, _, _) = result {
+			// a new success result, update
+			self.result = result
+		} else if case .found(_, _, _) = self.result {
+			// otherwise, a failed or searching result, when we already had a success
+			// ignore the fail and keep showing the match
+			return
+		} else  {
+			self.result = result
+		}
 	}
 	
 	struct Preview {

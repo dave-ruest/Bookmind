@@ -8,6 +8,8 @@
 import SwiftData
 import SwiftUI
 
+/// This layout to be replaced one way or another with something much
+/// more like the snazzy new scanned book screen. 
 struct EditionView: View {
 	@ObservedObject var edition: Edition
 	@State var cover: UIImage?
@@ -27,7 +29,7 @@ struct EditionView: View {
 			}
 			.pickerStyle(.menu)
 			.labelsHidden()
-			.bookButton()
+			.bookButtonStyle()
 		}.onAppear() {
 			self.fetchCover()
 		}
@@ -56,6 +58,6 @@ struct EditionView: View {
 		EditionView(edition: edition)
 			.modelContainer(storage.container)
 	}
-	.bookList()
+	.bookListStyle()
 	.environmentObject(CoverModel())
 }

@@ -18,10 +18,12 @@ import SwiftUI
 /// saves the book and its authors. The home screen hides its welcome
 /// message and instead shows a list of authors.
 struct ScanScreen: View {
-	@Environment(\.dismiss) var dismiss
-	@EnvironmentObject var storage: StorageModel
 	@StateObject var scanModel = ScanModel()
 	@StateObject var searchModel = SearchModel()
+	
+	@State var edition: Edition? = nil
+	@State var book: Book? = nil
+	@State var authors: [Author] = []
 
 	var body: some View {
 		ZStack {
@@ -34,54 +36,43 @@ struct ScanScreen: View {
 			#endif
 			VStack(spacing: 16.0) {
 				Spacer()
-				if self.searchModel.result != nil {
-					SearchResultView(result: self.searchModel.result!)
-				} else {
+				if self.searchModel.result == nil {
 					Text(self.scanModel.description)
-						.bookResult()
+						.bookGroupStyle()
 				}
-				VStack(spacing: 16.0) {
-					if self.edition != nil {
-						Button(action: {
-							self.add()
-						}, label: {
-							Label("Add", systemImage: "plus.circle.fill")
-								.bookButton()
-						})
-					}
-					Button(action: {
-						self.dismiss()
-					}, label: {
-						Label("Cancel", systemImage: "delete.left.fill")
-							.bookButton()
-					})
+				if self.edition == nil {
+					SearchProgressView(result: self.$searchModel.result)
 				}
+				EditBookButton(edition: $edition, book: $book, authors: $authors)
+				CancelButton()
 			}
+			.padding()
 		}
 		.navigationBarTitleDisplayMode(.inline)
-		.navigationTitle("Add Book")
+		.navigationTitle("Scan Book")
 		.toolbarBackground(.visible, for: .navigationBar)
-		.toolbarBackground(.thinMaterial, for: .navigationBar)
+		.toolbarBackground(.background.opacity(BookStyle.opacity), for: .navigationBar)
 		.environmentObject(self.scanModel)
 		.onChange(of: self.scanModel.state, initial: false) {
-			if case .found(let isbn) = self.scanModel.state {
-				self.searchModel.search(isbn: isbn.digitString)
-			}
+			self.scanModelChanged()
+		}
+		.onChange(of: self.searchModel.result, initial: true) {
+			self.searchModelChanged()
 		}
 	}
 	
-	private func add() {
+	private func scanModelChanged() {
+		if case .found(let results) = self.scanModel.state {
+			self.searchModel.search(results: results)
+		}
+	}
+	
+	private func searchModelChanged() {
 		if case .found(let edition, let book, let authors) = self.searchModel.result {
-			self.storage.insert(edition: edition, book: book, authors: authors)
+			self.edition = edition
+			self.book = book
+			self.authors = authors
 		}
-		self.dismiss()
-	}
-	
-	private var edition: Edition? {
-		if case .found(let edition, _, _) = self.searchModel.result {
-			return edition
-		}
-		return nil
 	}
 }
 
@@ -94,18 +85,22 @@ struct ScanScreen: View {
 }
 
 #Preview {
-	VStack {
-		ScanScreen(searchModel: SearchModel.Preview.searching)
-		ScanScreen(searchModel: SearchModel.Preview.quiet)
+	NavigationStack {
+		VStack {
+			ScanScreen(searchModel: SearchModel.Preview.searching)
+			ScanScreen(searchModel: SearchModel.Preview.quiet)
+		}
 	}
 	.modelContainer(StorageModel.preview.container)
 	.environmentObject(CoverModel())
 }
 
 #Preview {
-	VStack {
-		ScanScreen(searchModel: SearchModel.Preview.failed)
-		ScanScreen(searchModel: SearchModel.Preview.legend)
+	NavigationStack {
+		VStack {
+			ScanScreen(searchModel: SearchModel.Preview.failed)
+			ScanScreen(searchModel: SearchModel.Preview.legend)
+		}
 	}
 	.modelContainer(StorageModel.preview.container)
 }

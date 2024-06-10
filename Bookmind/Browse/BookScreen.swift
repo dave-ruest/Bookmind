@@ -33,7 +33,7 @@ struct BookScreen: View {
 						Text(read.description)
 					}
 				}
-				.bookButton()
+				.bookButtonStyle()
 				RatingView(rating: $book.rating)
 				List {
 					// The "self.book.editions" here lazy loads books
@@ -45,7 +45,7 @@ struct BookScreen: View {
 					}
 					.onDelete(perform: delete)
 					.listRowSeparator(.visible, edges: .top)
-				}.bookList()
+				}.bookListStyle()
 				Spacer()
 			}
 			.navigationBarTitleDisplayMode(.inline)
@@ -69,7 +69,12 @@ struct BookScreen: View {
 	let book = Book.Preview.quiet
 	_ = storage.insert(edition: edition, book: book,authors: [Author.Preview.cain])
 	return NavigationStack {
-		BookScreen(book: book)
+		ZStack {
+			Color(.background)
+				.ignoresSafeArea()
+			BookScreen(book: book)
+				.padding()
+		}
 	}
 	.modelContainer(storage.container)
 	.environmentObject(CoverModel())
