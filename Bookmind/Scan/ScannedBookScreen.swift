@@ -11,9 +11,7 @@ import SwiftUI
 /// ScannedBookScreen displays a scanned book: an edition and its work.
 struct ScannedBookScreen: View {
 	/// The book to display. The user may edit rating and read state.
-	@ObservedObject var book: Book
-	/// The edition to display. The user may edit the own state.
-	@ObservedObject var edition: Edition
+	@State var book: Book
 	/// Core data storage, used to edit book and edition.
 	@EnvironmentObject var storage: StorageModel
 	/// Cache for cover art, injected by the app.
@@ -26,19 +24,19 @@ struct ScannedBookScreen: View {
 			CoverBackgroundView(cover: self.$cover)
 			ViewThatFits {
 				VStack(spacing: 8.0) {
-					CoverView(book: self.book, edition: self.edition, cover: self.$cover)
-					OwnStateView(state: self.$edition.ownState)
-					ReadStateView(state: self.$book.readState)
-					RatingView(rating: $book.rating)
+					CoverView(book: self.book, cover: self.$cover)
+					OwnStateView(state: self.$book.edition.ownState)
+					ReadStateView(state: self.$book.work.readState)
+					RatingView(rating: self.$book.work.rating)
 					DoneButton()
 				}
 				.padding()
 				HStack(spacing: 8.0) {
-					CoverView(book: self.book, edition: self.edition, cover: self.$cover)
+					CoverView(book: self.book, cover: self.$cover)
 					VStack() {
-						OwnStateView(state: self.$edition.ownState)
-						ReadStateView(state: self.$book.readState)
-						RatingView(rating: $book.rating)
+						OwnStateView(state: self.$book.edition.ownState)
+						ReadStateView(state: self.$book.work.readState)
+						RatingView(rating: self.$book.work.rating)
 						DoneButton()
 					}
 				}
@@ -52,7 +50,7 @@ struct ScannedBookScreen: View {
 	}
 	
 	private func fetchCover() {
-		guard let coverId = edition.coverIds.first else { return }
+		guard let coverId = self.book.edition.coverIds.first else { return }
 		
 		if let cover = self.covers.getCover(coverId) {
 			self.cover = cover
@@ -67,30 +65,24 @@ struct ScannedBookScreen: View {
 
 #Preview {
 	let storage = StorageModel(preview: true)
-	let edition = Edition.Preview.quiet
-	let book = Book.Preview.quiet
-	storage.insert(edition: edition, book: book, authors: [Author.Preview.cain])
-	return ScannedBookScreen(book: book, edition: edition)
+	let book = storage.insert(book: Book.Preview.quiet)
+	return ScannedBookScreen(book: book)
 			.modelContainer(storage.container)
 	.environmentObject(CoverModel())
 }
 
 #Preview {
 	let storage = StorageModel(preview: true)
-	let edition = Edition.Preview.legend
-	let book = Book.Preview.legend
-	storage.insert(edition: edition, book: book, authors: [Author.Preview.gemmell])
-	return ScannedBookScreen(book: book, edition: edition)
+	let book = storage.insert(book: Book.Preview.legend)
+	return ScannedBookScreen(book: book)
 			.modelContainer(storage.container)
 	.environmentObject(CoverModel())
 }
 
 #Preview {
 	let storage = StorageModel(preview: true)
-	let edition = Edition.Preview.dorsai
-	let book = Book.Preview.dorsai
-	storage.insert(edition: edition, book: book, authors: [Author.Preview.dickson])
-	return ScannedBookScreen(book: book, edition: edition)
+	let book = storage.insert(book: Book.Preview.dorsai)
+	return ScannedBookScreen(book: book)
 			.modelContainer(storage.container)
 	.environmentObject(CoverModel())
 }

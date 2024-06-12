@@ -22,6 +22,7 @@ struct FetchTask {
 		completed: @escaping ((Subscribers.Completion<any Error>) -> Void)) -> AnyCancellable
 	{
 		URLSession.shared.dataTaskPublisher(for: self.url)
+			.subscribe(on: DispatchQueue.global(qos: .background))
 			.map() { $0.data }
 			.decode(type: Item.self, decoder: JSONDecoder())
 			.receive(on: DispatchQueue.main)
@@ -30,6 +31,7 @@ struct FetchTask {
 	
 	func start(found: @escaping ((UIImage) -> Void)) -> AnyCancellable {
 		URLSession.shared.dataTaskPublisher(for: self.url)
+			.subscribe(on: DispatchQueue.global(qos: .background))
 			.compactMap { UIImage(data: $0.data) }
 			.receive(on: DispatchQueue.main)
 			.sink(receiveCompletion: {_ in },

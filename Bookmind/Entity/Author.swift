@@ -23,9 +23,9 @@ import SwiftData
 	let olid: String
 	/// A many to many relationship with book entities.
 	/// Use the default delete rule (.nullify).
-	@Relationship(inverse: \Book.authors) var books: [Book]
+	@Relationship(inverse: \Work.authors) var books: [Work]
 
-	init(olid: String, name: String, books: [Book] = []) {
+	init(olid: String, name: String, books: [Work] = []) {
 		self.olid = olid
 		self.name = name
 		self.books = books
@@ -46,6 +46,16 @@ import SwiftData
 		static var dickson: Author {
 			Author(olid: "/authors/OL25176A", name: "Gordon Dickson")
 		}
+	}
+}
+
+extension Array where Element == Author {
+	var names: String {
+		// added sorting to make test deterministic
+		// seems the storage is unordered, need to fix if we need ordered
+		// i.e. to match the list of authors on the edition
+		let sorted = self.sorted { $0.lastName < $1.lastName }
+		return sorted.map { $0.name }.joined(separator: ", ")
 	}
 }
 

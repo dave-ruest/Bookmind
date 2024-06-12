@@ -19,13 +19,12 @@ import SwiftUI
 /// constrained.
 struct CoverView: View {
 	let book: Book
-	let edition: Edition
 	@Binding var cover: UIImage?
 
 	var body: some View {
 		if cover == nil {
 			ViewThatFits {
-				BookTallHeader(book: self.book, edition: self.edition)
+				BookTallHeader(book: self.book)
 				BookHeader(book: self.book)
 				BookShortHeader(book: self.book)
 			}
@@ -39,15 +38,14 @@ struct CoverView: View {
 	
 	private struct BookTallHeader: View {
 		let book: Book
-		let edition: Edition
 
 		var body: some View {
 			VStack(spacing: 8.0) {
 				VStack(spacing: 8.0) {
-					Text(self.book.title)
+					Text(self.book.work.title)
 						.font(.title)
-					Text(self.book.authorNames)
-					Text(self.edition.isbn)
+					Text(self.book.authors.names)
+					Text(self.book.edition.isbn)
 				}
 				.bookGroupStyle()
 			}
@@ -60,9 +58,9 @@ struct CoverView: View {
 		var body: some View {
 			VStack(spacing: 8.0) {
 				VStack(spacing: 8.0) {
-					Text(self.book.title)
+					Text(self.book.work.title)
 						.font(.title)
-					Text(self.book.authorNames)
+					Text(self.book.authors.names)
 				}
 				.bookGroupStyle()
 			}
@@ -74,9 +72,9 @@ struct CoverView: View {
 		
 		var body: some View {
 			VStack(spacing: 8.0) {
-				Text(self.book.title)
+				Text(self.book.work.title)
 					.font(.title)
-				Text(self.book.authorNames)
+				Text(self.book.authors.names)
 			}
 			.bookGroupStyle()
 		}

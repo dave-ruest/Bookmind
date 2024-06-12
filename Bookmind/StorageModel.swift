@@ -38,29 +38,39 @@ final class StorageModel: ObservableObject {
 	init(preview: Bool = false) {
 		let config = ModelConfiguration(isStoredInMemoryOnly: preview)
 		do {
-			try self.container = ModelContainer(for: Author.self, Book.self, Edition.self, configurations: config)
+			try self.container = ModelContainer(for: Author.self, Work.self, Edition.self, configurations: config)
 		} catch {
 			fatalError("Could not create swift data storage")
 		}
+	}
+	
+	/// Save the specified book: its edition, book and authors. Convenience method
+	/// that calls insert(edition:work:authors:).
+	@MainActor func insert(book: Book) -> Book {
+		self.insert(edition: book.edition, work: book.work, authors: book.authors)
 	}
 	
 	/// Save the specified edition, book and authors. Do *not* insert any entities
 	/// if one is already stored with the same unique identifier. Carefully set
 	/// the many to many relationships between books and authors, again avoiding
 	/// duplicates.
-	@MainActor func insert(edition: Edition, book: Book, authors: [Author]) {
-		let deDupedBook = self.insert(entity: book)
+	@MainActor func insert(edition: Edition, work: Work, authors: [Author]) -> Book {
+		let deDupedWork = self.insert(entity: work)
+		
 		for author in authors {
 			let deDupedAuthor = self.insert(entity: author)
-			if !deDupedBook.authors.contains(deDupedAuthor) {
-				deDupedBook.authors.append(deDupedAuthor)
+			if !deDupedWork.authors.contains(deDupedAuthor) {
+				deDupedWork.authors.append(deDupedAuthor)
 			}
 		}
+		
 		let deDupedEdition = self.insert(entity: edition)
-		if !deDupedBook.editions.contains(deDupedEdition) {
-			deDupedEdition.book = deDupedBook
+		if !deDupedWork.editions.contains(deDupedEdition) {
+			deDupedEdition.work = deDupedWork
 		}
-		self.save()		
+		
+		self.save()
+		return Book(edition: deDupedEdition, work: deDupedWork, authors: deDupedWork.authors)
 	}
 	
 	@MainActor func delete<Entity>(_ entities: [Entity]) where Entity: PersistentModel {
@@ -113,9 +123,9 @@ final class StorageModel: ObservableObject {
 	
 	@MainActor static var preview: StorageModel {
 		let model = StorageModel(preview: true)
-		model.insert(edition: Edition.Preview.dorsai, book: Book.Preview.dorsai, authors: [Author.Preview.dickson])
-		model.insert(edition: Edition.Preview.legend, book: Book.Preview.legend, authors: [Author.Preview.gemmell])
-		model.insert(edition: Edition.Preview.quiet, book: Book.Preview.quiet, authors: [Author.Preview.cain])
+		_ = model.insert(book: Book.Preview.dorsai)
+		_ = model.insert(book: Book.Preview.legend)
+		_ = model.insert(book: Book.Preview.quiet)
 		return model
 	}
 }

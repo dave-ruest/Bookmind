@@ -12,7 +12,7 @@ import Foundation
 ///
 /// We don't yet want our entity properties to be dictated by one
 /// search provider, so we store openlibrary results here, but
-/// convert to a more generic Book to display to the user.
+/// convert to a more generic Work to display to the user.
 struct OpenLibraryEdition: Decodable {
 	let key: String
 	let isbn_10: [String]?
@@ -32,12 +32,12 @@ struct OpenLibraryEdition: Decodable {
 	
 	/// Map this decoded open library edition data to a swift data
 	/// Book model object that may be persisted.
-	var book: Book? {
+	var work: Work? {
 		guard let olid = self.works?.first?.first?.value else {
 			// no work for the edition, treat as invalid for now
 			return nil
 		}
-		return Book(olid: olid, title: self.title, subtitle: self.subtitle)
+		return Work(olid: olid, title: self.title, subtitle: self.subtitle)
 	}
 
 	/// Return the open library url for edition data on the specified ISBN.

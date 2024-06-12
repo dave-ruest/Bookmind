@@ -36,8 +36,8 @@ final class SearchModel: ObservableObject {
 		
 		let search = OpenLibraryBookSearch(isbn: isbn)
 		self.searches.append(search)
-		self.cancellables.append(
-			search.$result
+		self.cancellables.append(search.$result
+			.subscribe(on: DispatchQueue.global(qos: .background))
 			.receive(on: DispatchQueue.main)
 			.sink(receiveValue: { [weak self] result in
 				withAnimation {
@@ -49,14 +49,17 @@ final class SearchModel: ObservableObject {
 	}
 	
 	private func update(result: BookSearch.Result) {
-		if case .found(_, _, _) = result {
+		if case .found(_) = result {
+			print("SearchModel using new found \(result)")
 			// a new success result, update
 			self.result = result
-		} else if case .found(_, _, _) = self.result {
+		} else if case .found(_) = self.result {
+			print("SearchModel keeping found \(String(describing: self.result)), ignoring \(result)")
 			// otherwise, a failed or searching result, when we already had a success
 			// ignore the fail and keep showing the match
 			return
 		} else  {
+			print("SearchModel using result \(result)")
 			self.result = result
 		}
 	}

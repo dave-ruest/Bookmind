@@ -1,5 +1,5 @@
 //
-//  BookScreen.swift
+//  WorkScreen.swift
 //  Bookmind
 //
 //  Created by Dave Ruest on 2/4/24.
@@ -8,15 +8,15 @@
 import SwiftData
 import SwiftUI
 
-/// BookScreen displays a book: rating, read state, and all editions.
+/// WorkScreen displays a book: rating, read state, and all editions.
 /// Each edition is shown in a list with own state and cover art, or
 /// just the ISBN if no cover is available.
-struct BookScreen: View {
+struct WorkScreen: View {
 	/// The book whose properties and editions we'll display.
 	/// Variable and observable because the user may edit rating and
 	/// read state. Editions may be deleted but that is a core data storage
 	/// operation. 
-	@ObservedObject var book: Book
+	@ObservedObject var work: Work
 	/// Core data storage, used to delete editions.
 	/// Set by the app or preview.
 	@EnvironmentObject var storage: StorageModel
@@ -26,21 +26,21 @@ struct BookScreen: View {
 			Color(.background)
 				.ignoresSafeArea()
 			VStack(spacing: 16.0) {
-				Text(self.book.title)
+				Text(self.work.title)
 					.font(.title)
-				Picker(book.readState.description, selection: self.$book.readState) {
+				Picker(work.readState.description, selection: self.$work.readState) {
 					ForEach(ReadState.allCases) { read in
 						Text(read.description)
 					}
 				}
 				.bookButtonStyle()
-				RatingView(rating: $book.rating)
+				RatingView(rating: $work.rating)
 				List {
 					// The "self.book.editions" here lazy loads books
 					// from the many to many core data relationship.
 					// Adding and deleting are trickier but wow does
 					// this ever "just work".
-					ForEach(self.book.editions) { edition in
+					ForEach(self.work.editions) { edition in
 						EditionView(edition: edition)
 					}
 					.onDelete(perform: delete)
@@ -57,22 +57,20 @@ struct BookScreen: View {
 	}
 	
 	private func delete(at offsets: IndexSet) {
-		let editions = offsets.map { self.book.editions[$0] }
+		let editions = offsets.map { self.work.editions[$0] }
 		self.storage.delete(editions)
-		self.book.editions.remove(atOffsets: offsets)
+		self.work.editions.remove(atOffsets: offsets)
 	}
 }
 
 #Preview {
 	let storage = StorageModel(preview: true)
-	let edition = Edition.Preview.quiet
-	let book = Book.Preview.quiet
-	_ = storage.insert(edition: edition, book: book,authors: [Author.Preview.cain])
+	let book = storage.insert(book: Book.Preview.quiet)
 	return NavigationStack {
 		ZStack {
 			Color(.background)
 				.ignoresSafeArea()
-			BookScreen(book: book)
+			WorkScreen(work: book.work)
 				.padding()
 		}
 	}

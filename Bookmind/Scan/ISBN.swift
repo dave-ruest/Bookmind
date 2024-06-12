@@ -36,3 +36,10 @@ struct ISBN: Equatable {
 		self.digitString = digits
 	}
 }
+
+extension Array where Element == ISBN {
+	func joined() -> String {
+		let sorted = self.sorted { $0.digitString < $1.digitString }
+		return sorted.map { $0.digitString }.joined(separator: ", ")
+	}
+}

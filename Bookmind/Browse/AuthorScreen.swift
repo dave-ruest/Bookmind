@@ -26,7 +26,7 @@ struct AuthorScreen: View {
 			// this ever "just work".
 			ForEach(self.author.books) { book in
 				NavigationLink {
-					BookScreen(book: book)
+					WorkScreen(work: book)
 				} label: {
 					Text(book.title)
 				}
@@ -52,10 +52,9 @@ struct AuthorScreen: View {
 
 #Preview {
 	let storage = StorageModel(preview: true)
-	let author = Author.Preview.cain
-	_ = storage.insert(edition: Edition.Preview.quiet, book: Book.Preview.quiet, authors: [author])
+	let book = storage.insert(book: Book.Preview.quiet)
 	return NavigationStack {
-		AuthorScreen(author: author)
+		AuthorScreen(author: book.authors.first!)
 	}
 	.modelContainer(storage.container)
 	.environmentObject(CoverModel())

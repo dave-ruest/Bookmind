@@ -44,7 +44,7 @@ extension ScanModel: CustomStringConvertible {
 			case .failed(let error):
 				return error
 			case .found(let codes):
-			return "Searching for \(codes.map { $0.displayString }.joined(separator: ", "))"
+				return "Searching for \(codes.joined())"
 		}
 	}
 }

@@ -14,6 +14,8 @@ import SwiftUI
 /// that list will remain populated on next launch. 
 struct HomeScreen: View {
 	@Query var authors: [Author]
+	@State private var isScanning = false
+	@State private var selectedScannedBook: Book? = nil
 	
     var body: some View {
 		ZStack {
@@ -23,17 +25,24 @@ struct HomeScreen: View {
 				if self.authors.isEmpty {
 					ScrollView {
 						Text("\nBookmind remembers your books.\n\nThe books you own, the books you want, the books you didn't like...\n\nBookmind remembers them all.\n\n")
-							.padding()
 					}
 				} else {
 					LibraryScreen()
 				}
-				NavigationLink {
-					ScanScreen()
+				// TODO: search button to match scan button
+				Button {
+					self.isScanning.toggle()
 				} label: {
-					Label("Add Book", systemImage: "camera.fill")
+					Label("Scan Book", systemImage: "camera.fill")
 						.bookButtonStyle()
 				}
+			}
+			.padding()
+			.fullScreenCover(isPresented: self.$isScanning, content: {
+				ScanScreen(selectedBook: self.$selectedScannedBook)
+			})
+			.fullScreenCover(item: self.$selectedScannedBook) { book in
+				ScannedBookScreen(book: book)
 			}
 		}
 		.navigationBarTitleDisplayMode(.large)

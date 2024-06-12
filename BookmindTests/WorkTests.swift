@@ -1,5 +1,5 @@
 //
-//  BookTests.swift
+//  WorkTests.swift
 //  BookmindTests
 //
 //  Created by Dave Ruest on 2024-06-04.
@@ -9,32 +9,30 @@ import XCTest
 import SwiftData
 @testable import Bookmind
 
-final class BookTests: XCTestCase {
+final class WorkTests: XCTestCase {
 	func testSubtitle() {
-		XCTAssertNil(Book.Preview.dorsai.subtitle)
-		XCTAssertNil(Book.Preview.legend.subtitle)
-		XCTAssertNotNil(Book.Preview.quiet.subtitle)
+		XCTAssertNil(Work.Preview.dorsai.subtitle)
+		XCTAssertNil(Work.Preview.legend.subtitle)
+		XCTAssertNotNil(Work.Preview.quiet.subtitle)
 	}
 	
 	@MainActor func testAuthorNames() {
-		XCTAssertEqual(Book.Preview.legend.authorNames, "")
+		var book = Book.Preview.legend
+		XCTAssertEqual(book.work.authors.names, "")
 		
 		let storage = StorageModel(preview: true)
-		var book = Book.Preview.legend
-		_ = storage.insert(edition: Edition.Preview.legend, book: book,
-						   authors: [Author.Preview.gemmell])
-		XCTAssertEqual(book.authorNames, "David Gemmell")
+		book = storage.insert(book: book)
+		XCTAssertEqual(book.work.authors.names, "David Gemmell")
 		
-		book = Book.Preview.quiet
 		let authors = [Author.Preview.cain, Author.Preview.gemmell]
-		_ = storage.insert(edition: Edition.Preview.quiet, book: book,
-						   authors: authors)
-		XCTAssertEqual(book.authorNames, "Susan Cain, David Gemmell")
+		book = Book(edition: Edition.Preview.quiet, work: Work.Preview.quiet, authors: authors)
+		book = storage.insert(book: book)
+		XCTAssertEqual(book.work.authors.names, "Susan Cain, David Gemmell")
 	}
 	
 	@MainActor func testIsStored() {
 		let storage = StorageModel(preview: true)
-		var book = Book.Preview.dorsai
+		var book = Work.Preview.dorsai
 		XCTAssertFalse(storage.isStored(entity: book))
 
 		book = storage.insert(entity: book)
@@ -43,12 +41,12 @@ final class BookTests: XCTestCase {
 	
 	@MainActor func testInsertPreservesOriginal() {
 		let storage = StorageModel(preview: true)
-		var book = storage.insert(entity: Book.Preview.dorsai)
+		var book = storage.insert(entity: Work.Preview.dorsai)
 		XCTAssertEqual(book.title, "Dorsai!")
 		XCTAssertEqual(book.readState, ReadState.none)
 		XCTAssertEqual(book.rating, 0)
 		
-		book = Book(olid: book.id, title: "test", readState: .read, rating: 5)
+		book = Work(olid: book.id, title: "test", readState: .read, rating: 5)
 		XCTAssertEqual(book.title, "test")
 		XCTAssertEqual(book.readState, ReadState.read)
 		XCTAssertEqual(book.rating, 5)

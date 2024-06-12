@@ -13,7 +13,7 @@ import SwiftUI
 /// should be shared with other styles as well, for consistency and contrast
 /// with the forground color. 
 struct BookButtonModifier: ViewModifier {
-	@ScaledMetric(relativeTo: .body) private var borderWidth = 2.0
+	@ScaledMetric(relativeTo: .body) private var border = BookStyle.border
 	@ScaledMetric(relativeTo: .body) private var padding = BookStyle.padding
 
 	func body(content: Content) -> some View {
@@ -24,7 +24,7 @@ struct BookButtonModifier: ViewModifier {
 			.bookViewBackground()
 			.overlay {
 				Capsule()
-					.stroke(Color(.accent), lineWidth: self.borderWidth)
+					.stroke(Color(.accent), lineWidth: self.border)
 			}
 	}
 }

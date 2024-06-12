@@ -18,10 +18,10 @@ import UIKit
 final class OpenLibraryBookSearch: BookSearch {
 	private var cancelables: [AnyCancellable] = []
 	private var edition: Edition!
-	private var book: Book!
+	private var work: Work!
 	private var authors = [OpenLibraryAuthor]()
 	
-	// MARK: - Book Fetch by ISBN
+	// MARK: - Work Fetch by ISBN
 	func start() {
 		guard let url = OpenLibraryEdition.url(isbn: self.isbn) else {
 			self.result = .failed(self.isbn)
@@ -40,16 +40,19 @@ final class OpenLibraryBookSearch: BookSearch {
 	
 	private func received(edition: OpenLibraryEdition) {
 		self.edition = edition.entity
-		guard let book = edition.book else {
+		guard let work = edition.work else {
 			self.result = .failed("Could not find work for ISBN \(self.edition.isbn)")
 			return
 		}
-		self.book = book
-		self.result = .found(self.edition, book, [Author]())
+		self.work = work
+		let book = Book(edition: self.edition, work: work, authors: [Author]())
+		self.result = .found(book)
 
 		if let authors = edition.authors {
+			print("fetching edition authors")
 			self.fetch(authors: authors)
 		} else {
+			print("fetching work authors")
 			self.fetch(works: edition.works)
 		}
 	}
@@ -72,7 +75,10 @@ final class OpenLibraryBookSearch: BookSearch {
 	}
 	
 	private func fetch(authorKey: String) {
-		guard let url = OpenLibraryAuthor.url(authorKey: authorKey) else { return }
+		guard let url = OpenLibraryAuthor.url(authorKey: authorKey) else {
+			print("invalid author key \(authorKey)")
+			return
+		}
 		self.cancelables.append(
 			FetchTask(url: url)
 				.start<OpenLibraryAuthor>(found: { [weak self] in
@@ -82,9 +88,11 @@ final class OpenLibraryBookSearch: BookSearch {
 	}
 	
 	private func received(author: OpenLibraryAuthor) {
+		print("received author \(author.name)")
 		self.authors.append(author)
 		let entities = self.authors.map { $0.entity }
-		self.result = .found(self.edition, self.book, entities)
+		let book = Book(edition: self.edition, work: self.work, authors: entities)
+		self.result = .found(book)
 	}
 
 	// MARK: - Work Fetch

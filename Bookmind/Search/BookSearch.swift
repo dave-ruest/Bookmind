@@ -28,7 +28,7 @@ class BookSearch {
 		/// Waiting on the response for a book detail request for a scanned ISBN.
 		case searching(String)
 		/// Found details for a book matching the scanned ISBN.
-		case found(Edition, Book, [Author])
+		case found(Book)
 		/// No book was found matching the scanned ISBN.
 		/// Should distinguish general network errors here...
 		case failed(String)		
@@ -37,14 +37,8 @@ class BookSearch {
 	struct Preview {
 		static let searching = Result.searching("9781841498584")
 		static let failed = Result.failed("9781841498584")
-		static let quiet = Result.found(Edition.Preview.quiet,
-										Book.Preview.quiet,
-										[Author.Preview.cain])
-		static let legend = Result.found(Edition.Preview.legend,
-										 Book.Preview.legend,
-										 [Author.Preview.gemmell])
-		static let dorsai = Result.found(Edition.Preview.dorsai,
-										 Book.Preview.dorsai,
-										 [Author.Preview.dickson])
+		static let quiet = Result.found(Book.Preview.quiet)
+		static let legend = Result.found(Book.Preview.legend)
+		static let dorsai = Result.found(Book.Preview.dorsai)
 	}
 }

@@ -10,6 +10,7 @@ import SwiftUI
 
 /// BookStyle defines constants shared by view styles.
 struct BookStyle {
+	static var border = 2.0
 	// TODO: Adjust for high contrast
 	static var opacity = 0.66
 	static var padding = 8.0

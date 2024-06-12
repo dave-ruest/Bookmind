@@ -18,12 +18,14 @@ import SwiftUI
 /// saves the book and its authors. The home screen hides its welcome
 /// message and instead shows a list of authors.
 struct ScanScreen: View {
+	@Binding var selectedBook: Book?
+
 	@StateObject var scanModel = ScanModel()
 	@StateObject var searchModel = SearchModel()
+	@State private var scannedBook: Book?
 	
-	@State var edition: Edition? = nil
-	@State var book: Book? = nil
-	@State var authors: [Author] = []
+	@Environment(\.dismiss) private var dismiss
+	@EnvironmentObject var storage: StorageModel
 
 	var body: some View {
 		ZStack {
@@ -40,18 +42,19 @@ struct ScanScreen: View {
 					Text(self.scanModel.description)
 						.bookGroupStyle()
 				}
-				if self.edition == nil {
+				if self.scannedBook == nil {
 					SearchProgressView(result: self.$searchModel.result)
+				} else {
+					Button {
+						self.didSelectBook()
+					} label: {
+						BookButtonLabel(book: self.scannedBook!)
+					}
 				}
-				EditBookButton(edition: $edition, book: $book, authors: $authors)
 				CancelButton()
 			}
 			.padding()
 		}
-		.navigationBarTitleDisplayMode(.inline)
-		.navigationTitle("Scan Book")
-		.toolbarBackground(.visible, for: .navigationBar)
-		.toolbarBackground(.background.opacity(BookStyle.opacity), for: .navigationBar)
 		.environmentObject(self.scanModel)
 		.onChange(of: self.scanModel.state, initial: false) {
 			self.scanModelChanged()
@@ -68,27 +71,34 @@ struct ScanScreen: View {
 	}
 	
 	private func searchModelChanged() {
-		if case .found(let edition, let book, let authors) = self.searchModel.result {
-			self.edition = edition
-			self.book = book
-			self.authors = authors
+		if case .found(let book) = self.searchModel.result {
+			print("ScanScreen searchModelChanged, found result \(String(describing: self.searchModel.result))")
+			self.scannedBook = book
+		} else {
+			print("ScanScreen searchModelChanged, not found result \(String(describing: self.searchModel.result))")
 		}
+	}
+	
+	private func didSelectBook() {
+		self.dismiss()
+		guard let scannedBook else { return }
+		self.selectedBook = self.storage.insert(book: scannedBook)
 	}
 }
 
 #Preview {
 	VStack {
-		ScanScreen()
-		ScanScreen(scanModel: ScanModel.Preview.failed)
-		ScanScreen(scanModel: ScanModel.Preview.found)
+		ScanScreen(selectedBook: .constant(nil))
+		ScanScreen(selectedBook: .constant(nil), scanModel: ScanModel.Preview.failed)
+		ScanScreen(selectedBook: .constant(nil), scanModel: ScanModel.Preview.found)
 	}
 }
 
 #Preview {
 	NavigationStack {
 		VStack {
-			ScanScreen(searchModel: SearchModel.Preview.searching)
-			ScanScreen(searchModel: SearchModel.Preview.quiet)
+			ScanScreen(selectedBook: .constant(nil), searchModel: SearchModel.Preview.searching)
+			ScanScreen(selectedBook: .constant(nil), searchModel: SearchModel.Preview.quiet)
 		}
 	}
 	.modelContainer(StorageModel.preview.container)
@@ -98,8 +108,8 @@ struct ScanScreen: View {
 #Preview {
 	NavigationStack {
 		VStack {
-			ScanScreen(searchModel: SearchModel.Preview.failed)
-			ScanScreen(searchModel: SearchModel.Preview.legend)
+			ScanScreen(selectedBook: .constant(nil), searchModel: SearchModel.Preview.failed)
+			ScanScreen(selectedBook: .constant(nil), searchModel: SearchModel.Preview.legend)
 		}
 	}
 	.modelContainer(StorageModel.preview.container)
@@ -107,7 +117,7 @@ struct ScanScreen: View {
 
 #Preview {
 	NavigationStack {
-		ScanScreen(searchModel: SearchModel.Preview.dorsai)
+		ScanScreen(selectedBook: .constant(nil), searchModel: SearchModel.Preview.dorsai)
 	}
 	.modelContainer(StorageModel.preview.container)
 	.environmentObject(CoverModel())

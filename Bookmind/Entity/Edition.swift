@@ -16,8 +16,8 @@ import UIKit
 /// the edition will persist across devices.
 @Model final class Edition: ObservableObject {
 	/// A many to one relationship with the book or "work".
-	var book: Book?
-	/// The unique identifier for t1he book edition.
+	var work: Work?
+	/// The unique identifier for this edition of the work.
 	let isbn: String
 	/// Ownership of the edition: does the user have a physical
 	/// copy of this edition? Required for the "should I buy this
@@ -26,9 +26,9 @@ import UIKit
 	/// Open library cover ids used to fetch cover images.
 	var coverIds: [Int]
 
-	init(isbn: String, book: Book? = nil, coverIds: [Int] = [], ownState: OwnState = .none) {
+	init(isbn: String, book: Work? = nil, coverIds: [Int] = [], ownState: OwnState = .none) {
 		self.isbn = isbn
-		self.book = book
+		self.work = book
 		self.coverIds = coverIds
 		self.ownState = ownState
 	}
@@ -68,7 +68,7 @@ extension Edition: Identifiable {
 
 extension Edition: CustomStringConvertible {
 	var description: String {
-		if let title = self.book?.title {
+		if let title = self.work?.title {
 			return title + "\n" + self.isbn
 		}
 		return self.isbn

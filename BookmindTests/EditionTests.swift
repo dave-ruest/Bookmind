@@ -14,9 +14,8 @@ final class EditionTests: XCTestCase {
 		XCTAssertEqual(Edition.Preview.dorsai.description, "0879973420")
 		
 		let storage = StorageModel(preview: true)
-		let edition = Edition.Preview.quiet
-		storage.insert(edition: edition, book: Book.Preview.quiet, authors: [Author.Preview.cain])
-		XCTAssertEqual(edition.description, "Quiet\n9780307352156")
+		let book = storage.insert(book: Book.Preview.quiet)
+		XCTAssertEqual(book.edition.description, "Quiet\n9780307352156")
 	}
 	
 	func testCoverIds() {

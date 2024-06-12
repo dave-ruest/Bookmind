@@ -2,81 +2,52 @@
 //  Book.swift
 //  Bookmind
 //
-//  Created by Dave Ruest on 1/15/24.
+//  Created by Dave Ruest on 2024-06-10.
 //
 
-import SwiftData
-import UIKit
-
-/// Book is an "entity", an object encapsulating persisted data.
-/// We use swift data to store books to memory only for previews,
-/// and also to store books to phone storage so they persist across
-/// restarts. The next big step for book will be cloud storage where
-/// the book will persist across devices.
-@Model final class Book: ObservableObject {
-	let title: String
-	let subtitle: String?
-	/// The unique identifier for the author.
-	/// As this is an openlibrary author id, this ties our data rather
-	/// closely to openlibrary, but we may align the whole app that way.
-	let olid: String
-	/// A many to many relationship with author entities.
+/// A convenience structure with all the entities describing
+/// all the details of a physical book.
+struct Book {
+	/// An edition describes a specific printing with its ISBN number.
+	/// A user "owns" or "wants" or "does not" want an edition (own state).
+	var edition: Edition
+	/// A work is an abstract concept representing all editions of a book.
+	/// A user "has read" or "wants to read" a work. The user rating of
+	/// the book is also stored on the work, since this is unlikely to
+	/// change between editions.
+	var work: Work
+	/// The authors of the work.
 	var authors: [Author]
-	/// A one to many relationship with edition entities.
-	@Relationship(deleteRule: .cascade, inverse: \Edition.book) var editions: [Edition]
-	/// Read state of the book/work: has the user read this book?
-	/// Required for the "have I read this book" use case.
-	var readState = ReadState.none
-	/// User rating of the book/work.
-	var rating: Int = 0
-	
-	var authorNames: String {
-		// added sorting to make test deterministic
-		// seems the storage is unordered, need to fix if we need ordered
-		// i.e. to match the list of authors on the edition
-		let sorted = authors.sorted { $0.lastName < $1.lastName }
-		return sorted.map { $0.name }.joined(separator: ", ")
-	}
-	
-	init(olid: String, title: String, subtitle: String? = nil,
-		 authors: [Author] = [], editions: [Edition] = [],
-		 readState: ReadState = .none, rating: Int = 0)
-	{
-		self.olid = olid
-		self.title = title
-		self.subtitle = subtitle
-		self.authors = authors
-		self.editions = editions
-		self.readState = readState
-		self.rating = rating
-	}
-	
+
 	struct Preview {
-		static var allBooks = [Self.quiet, Self.legend, Self.dorsai]
-		static var quiet: Book {
-			Book(olid: "/works/OL16484595W", title: "Quiet", 
-				 subtitle: "The Power of Introverts in a World That Can't Stop Talking",
-				 readState: .read, rating: 4
-			)
-		}
-		static var legend: Book {
-			Book(olid: "/works/OL21417594W", title: "Legend", readState: .read, rating: 5)
-		}
-		static var dorsai: Book {
-			Book(olid: "/works/OL155455W", title: "Dorsai!")
-		}
+		static let quiet = Book(edition: Edition.Preview.quiet,
+								work: Work.Preview.quiet,
+								authors: [Author.Preview.cain])
+		static let legend = Book(edition: Edition.Preview.legend,
+								 work: Work.Preview.legend,
+								 authors: [Author.Preview.gemmell])
+		static let dorsai = Book(edition: Edition.Preview.dorsai,
+								 work: Work.Preview.dorsai,
+								 authors: [Author.Preview.dickson])
 	}
 }
 
-extension Book: Fetchable {
-	func identityQuery() -> FetchDescriptor<Book> {
-		let identifier = self.olid
-		return FetchDescriptor<Book>(predicate: #Predicate { $0.olid == identifier })
+extension Book: CustomStringConvertible {
+	var description: String {
+		"\(work.title) by \(authors.names)"
+	}
+}
+
+extension Book: Equatable {
+	static func == (lhs: Book, rhs: Book) -> Bool {
+		lhs.edition == rhs.edition
+		&& lhs.work == rhs.work
+		&& lhs.authors == rhs.authors
 	}
 }
 
 extension Book: Identifiable {
 	var id: String {
-		self.olid
+		self.edition.isbn
 	}
 }

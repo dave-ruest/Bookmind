@@ -22,7 +22,7 @@ struct ScanView: UIViewControllerRepresentable {
 		let controller = DataScannerViewController(recognizedDataTypes: [
 			.barcode(symbologies: [.ean8, .ean13]),
 			.text()
-		], recognizesMultipleItems: true, isHighFrameRateTrackingEnabled: true, isHighlightingEnabled: true)
+		], recognizesMultipleItems: true, isHighlightingEnabled: true)
 		controller.view.backgroundColor = .background
 		controller.delegate = context.coordinator
 		context.coordinator.start(scanner: controller)
