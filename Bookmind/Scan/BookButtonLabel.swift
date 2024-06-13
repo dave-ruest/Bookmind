@@ -7,12 +7,10 @@
 
 import SwiftUI
 
-/// BookButtonLabel displays a navigation link when its bindings
-/// are non-nil. It displays an empty view otherwise. 
-///
-/// This button is currently quite specific to the scan screen.
-/// We'll factor out any common code when we start the search
-/// flow.
+/// BookButtonLabel displays a book in a "bookmind style" button.
+/// The cover, title and authors are arranged in a compact layout.
+/// The border, padding and minimum height match the bookmind
+/// button style. 
 struct BookButtonLabel: View {
 	let book: Book
 	
@@ -71,6 +69,8 @@ struct BookButtonLabel: View {
 				BookButtonLabel(book: Book.Preview.dorsai)
 				BookButtonLabel(book: Book.Preview.legend)
 				BookButtonLabel(book: Book.Preview.quiet)
+				BookButtonLabel(book: Book.Preview.dune1986)
+				BookButtonLabel(book: Book.Preview.dune1987)
 			}
 			.padding()
 		}

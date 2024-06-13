@@ -29,6 +29,12 @@ struct Book {
 		static let dorsai = Book(edition: Edition.Preview.dorsai,
 								 work: Work.Preview.dorsai,
 								 authors: [Author.Preview.dickson])
+		static let dune1986 = Book(edition: Edition.Preview.dune1986,
+								   work: Work.Preview.dune,
+								   authors: [Author.Preview.herbert])
+		static let dune1987 = Book(edition: Edition.Preview.dune1987,
+								   work: Work.Preview.dune,
+								   authors: [Author.Preview.herbert])
 	}
 }
 

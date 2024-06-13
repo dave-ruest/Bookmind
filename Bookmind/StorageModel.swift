@@ -126,6 +126,8 @@ final class StorageModel: ObservableObject {
 		_ = model.insert(book: Book.Preview.dorsai)
 		_ = model.insert(book: Book.Preview.legend)
 		_ = model.insert(book: Book.Preview.quiet)
+		_ = model.insert(book: Book.Preview.dune1987)
+		_ = model.insert(book: Book.Preview.dune1986)
 		return model
 	}
 }

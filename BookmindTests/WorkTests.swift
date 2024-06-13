@@ -43,7 +43,7 @@ final class WorkTests: XCTestCase {
 		let storage = StorageModel(preview: true)
 		var book = storage.insert(entity: Work.Preview.dorsai)
 		XCTAssertEqual(book.title, "Dorsai!")
-		XCTAssertEqual(book.readState, ReadState.none)
+		XCTAssertEqual(book.readState, ReadState.maybe)
 		XCTAssertEqual(book.rating, 0)
 		
 		book = Work(olid: book.id, title: "test", readState: .read, rating: 5)
@@ -53,7 +53,7 @@ final class WorkTests: XCTestCase {
 
 		book = storage.insert(entity: book)
 		XCTAssertEqual(book.title, "Dorsai!")
-		XCTAssertEqual(book.readState, ReadState.none)
+		XCTAssertEqual(book.readState, ReadState.maybe)
 		XCTAssertEqual(book.rating, 0)
 	}
 }

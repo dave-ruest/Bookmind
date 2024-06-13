@@ -39,10 +39,16 @@ import UIKit
 			Edition(isbn: "9780307352156", coverIds: [7407084], ownState: .own)
 		}
 		static var legend: Edition {
-			Edition(isbn: "9781841498584", ownState: .want)
+			Edition(isbn: "9781841498584", ownState: .maybe)
 		}
 		static var dorsai: Edition {
-			Edition(isbn: "0879973420", coverIds: [6638671], ownState: .none)
+			Edition(isbn: "0879973420", coverIds: [6638671], ownState: .maybe)
+		}
+		static var dune1986: Edition {
+			Edition(isbn: "9780450058868", coverIds: [9256178, 291373], ownState: .none)
+		}
+		static var dune1987: Edition {
+			Edition(isbn: "9780441102679", coverIds: [6451285, 284478], ownState: .want)
 		}
 	}
 }

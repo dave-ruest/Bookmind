@@ -36,7 +36,7 @@ final class EditionTests: XCTestCase {
 	@MainActor func testInsertPreservesOriginal() {
 		let storage = StorageModel(preview: true)
 		var edition = storage.insert(entity: Edition.Preview.legend)
-		XCTAssertEqual(edition.ownState, OwnState.want)
+		XCTAssertEqual(edition.ownState, OwnState.maybe)
 		XCTAssertEqual(edition.coverIds, [])
 
 		edition = Edition(isbn: edition.id, coverIds: [1])
@@ -45,7 +45,7 @@ final class EditionTests: XCTestCase {
 
 		let original = storage.insert(entity: edition)
 		XCTAssert(edition == original)
-		XCTAssertEqual(original.ownState, OwnState.want)
+		XCTAssertEqual(original.ownState, OwnState.maybe)
 		XCTAssertEqual(original.coverIds, [])
 	}
 }

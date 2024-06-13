@@ -46,6 +46,9 @@ import SwiftData
 		static var dickson: Author {
 			Author(olid: "/authors/OL25176A", name: "Gordon Dickson")
 		}
+		static var herbert: Author {
+			Author(olid: "/authors/OL79034A", name: "Frank Herbert")
+		}
 	}
 }
 

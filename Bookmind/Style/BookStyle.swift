@@ -34,4 +34,12 @@ extension View {
 	func bookViewFrame() -> some View {
 		frame(maxWidth: 400.0, minHeight: 40.0)
 	}
+	
+	/// Apply a slight taller "bookmind" frame suitable for cover art.
+	/// We want the same maximum width so as to align with buttons.
+	/// But we want a taller minimum height as cover art isn't just
+	/// tappable (40 pts), it needs more height for viewability.
+	func bookCoverFrame() -> some View {
+		frame(maxWidth: 400.0, minHeight: 80.0)
+	}
 }

@@ -16,46 +16,50 @@ struct WorkScreen: View {
 	/// Variable and observable because the user may edit rating and
 	/// read state. Editions may be deleted but that is a core data storage
 	/// operation. 
-	@ObservedObject var work: Work
+	@State var work: Work
+
 	/// Core data storage, used to delete editions.
-	/// Set by the app or preview.
-	@EnvironmentObject var storage: StorageModel
+	@EnvironmentObject private var storage: StorageModel
+	/// Cache for cover art, injected by the app.
+	@EnvironmentObject private var covers: CoverModel
+	/// The cover image, fetched on appear.
+	@State private var cover: UIImage?
+	/// The editions page view uses a binding to this state to communicate
+	/// its selected edition. The work screen uses the selected edition for
+	/// its background cover art and its own state picker.
+	@State private var selectedEdition: Edition
+	
+	init(work: Work) {
+		self.work = work
+		// TODO: remove force unwrap
+		self.selectedEdition = work.editions.first!
+	}
 
 	var body: some View {
 		ZStack {
-			Color(.background)
-				.ignoresSafeArea()
-			VStack(spacing: 16.0) {
-				Text(self.work.title)
-					.font(.title)
-				Picker(work.readState.description, selection: self.$work.readState) {
-					ForEach(ReadState.allCases) { read in
-						Text(read.description)
+			CoverBackgroundView(edition: self.$selectedEdition)
+			ViewThatFits {
+				VStack(spacing: 8.0) {
+					EditionPageView(work: self.work, selectedEdition: self.$selectedEdition)
+					OwnStateView(state: self.$selectedEdition.ownState)
+					ReadStateView(state: self.$work.readState)
+					RatingView(rating: self.$work.rating)
+				}
+				.padding()
+				HStack(spacing: 8.0) {
+					EditionPageView(work: self.work, selectedEdition: self.$selectedEdition)
+					VStack(spacing: 8.0) {
+						OwnStateView(state: self.$selectedEdition.ownState)
+						ReadStateView(state: self.$work.readState)
+						RatingView(rating: self.$work.rating)
 					}
 				}
-				.bookButtonStyle()
-				RatingView(rating: $work.rating)
-				List {
-					// The "self.book.editions" here lazy loads books
-					// from the many to many core data relationship.
-					// Adding and deleting are trickier but wow does
-					// this ever "just work".
-					ForEach(self.work.editions) { edition in
-						EditionView(edition: edition)
-					}
-					.onDelete(perform: delete)
-					.listRowSeparator(.visible, edges: .top)
-				}.bookListStyle()
-				Spacer()
-			}
-			.navigationBarTitleDisplayMode(.inline)
-			.dynamicTypeSize(.small ... .accessibility2)
-			.toolbar {
-				EditButton()
 			}
 		}
+		.navigationBarTitleDisplayMode(.inline)
 	}
 	
+	// TODO: restore edit button and edition delete
 	private func delete(at offsets: IndexSet) {
 		let editions = offsets.map { self.work.editions[$0] }
 		self.storage.delete(editions)
@@ -73,6 +77,31 @@ struct WorkScreen: View {
 			WorkScreen(work: book.work)
 				.padding()
 		}
+	}
+	.modelContainer(storage.container)
+	.environmentObject(CoverModel())
+}
+
+
+#Preview {
+	let storage = StorageModel(preview: true)
+	var book = storage.insert(book: Book.Preview.dune1986)
+	book = storage.insert(book: Book.Preview.dune1987)
+	return NavigationStack {
+		WorkScreen(work: book.work)
+	}
+	.padding()
+	.bookListStyle()
+	.modelContainer(storage.container)
+	.environmentObject(CoverModel())
+}
+
+
+#Preview {
+	let storage = StorageModel(preview: true)
+	let book = storage.insert(book: Book.Preview.legend)
+	return NavigationStack {
+		WorkScreen(work: book.work)
 	}
 	.modelContainer(storage.container)
 	.environmentObject(CoverModel())

@@ -12,27 +12,27 @@ import SwiftUI
 struct ScannedBookScreen: View {
 	/// The book to display. The user may edit rating and read state.
 	@State var book: Book
+	
 	/// Core data storage, used to edit book and edition.
-	@EnvironmentObject var storage: StorageModel
+	@EnvironmentObject private var storage: StorageModel
 	/// Cache for cover art, injected by the app.
-	@EnvironmentObject var covers: CoverModel
+	@EnvironmentObject private var covers: CoverModel
 	/// The cover image, fetched on appear.
-	@State var cover: UIImage?
+	@State private var cover: UIImage?
 	
 	var body: some View {
 		ZStack {
-			CoverBackgroundView(cover: self.$cover)
+			CoverBackgroundView(edition: self.$book.edition)
 			ViewThatFits {
 				VStack(spacing: 8.0) {
-					CoverView(book: self.book, cover: self.$cover)
+					CoverView(book: self.book)
 					OwnStateView(state: self.$book.edition.ownState)
 					ReadStateView(state: self.$book.work.readState)
 					RatingView(rating: self.$book.work.rating)
 					DoneButton()
 				}
-				.padding()
 				HStack(spacing: 8.0) {
-					CoverView(book: self.book, cover: self.$cover)
+					CoverView(book: self.book)
 					VStack() {
 						OwnStateView(state: self.$book.edition.ownState)
 						ReadStateView(state: self.$book.work.readState)
@@ -40,8 +40,8 @@ struct ScannedBookScreen: View {
 						DoneButton()
 					}
 				}
-				.padding()
 			}
+			.padding()
 			.navigationBarTitleDisplayMode(.inline)
 			.dynamicTypeSize(.small ... .accessibility3)
 		}.task {

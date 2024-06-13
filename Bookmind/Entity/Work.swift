@@ -55,7 +55,10 @@ import UIKit
 			Work(olid: "/works/OL21417594W", title: "Legend", readState: .read, rating: 5)
 		}
 		static var dorsai: Work {
-			Work(olid: "/works/OL155455W", title: "Dorsai!")
+			Work(olid: "/works/OL155455W", title: "Dorsai!", readState: .maybe)
+		}
+		static var dune: Work {
+			Work(olid: "/works/OL893508W", title: "Chapterhouse Dune", readState: .none, rating: 5)
 		}
 	}
 }

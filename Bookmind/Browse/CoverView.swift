@@ -19,23 +19,44 @@ import SwiftUI
 /// constrained.
 struct CoverView: View {
 	let book: Book
-	@Binding var cover: UIImage?
+	
+	/// Cache for cover art, injected by the app.
+	@EnvironmentObject private var covers: CoverModel
+	/// The cover image, fetched on appear.
+	@State private var cover: UIImage?
 
 	var body: some View {
-		if cover == nil {
-			ViewThatFits {
-				BookTallHeader(book: self.book)
-				BookHeader(book: self.book)
-				BookShortHeader(book: self.book)
+		Group {
+			if cover == nil {
+				ViewThatFits {
+					BookTallHeader(book: self.book)
+					BookHeader(book: self.book)
+					BookShortHeader(book: self.book)
+				}
+			} else {
+				Image(uiImage: self.cover!)
+					.resizable()
+					.aspectRatio(contentMode: .fit)
+					.bookCoverFrame()
 			}
-		} else {
-			Image(uiImage: self.cover!)
-				.resizable()
-				.aspectRatio(contentMode: .fit)
-				.bookViewFrame()
+		}.task {
+			self.fetchCover()
 		}
 	}
 	
+	private func fetchCover() {
+		guard let coverId = self.book.edition.coverIds.first else { return }
+		
+		if let cover = self.covers.getCover(coverId) {
+			self.cover = cover
+			return
+		}
+		
+		self.covers.fetch(coverId: coverId) { image in
+			self.cover = image
+		}
+	}
+
 	private struct BookTallHeader: View {
 		let book: Book
 
