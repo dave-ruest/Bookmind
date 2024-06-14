@@ -42,9 +42,10 @@ struct ScannedBookScreen: View {
 				}
 			}
 			.padding()
-			.navigationBarTitleDisplayMode(.inline)
 			.dynamicTypeSize(.small ... .accessibility3)
-		}.task {
+		}
+		.navigationBarTitleDisplayMode(.inline)
+		.task {
 			self.fetchCover()
 		}
 	}

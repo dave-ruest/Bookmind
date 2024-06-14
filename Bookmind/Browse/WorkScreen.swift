@@ -45,7 +45,6 @@ struct WorkScreen: View {
 					ReadStateView(state: self.$work.readState)
 					RatingView(rating: self.$work.rating)
 				}
-				.padding()
 				HStack(spacing: 8.0) {
 					EditionPageView(work: self.work, selectedEdition: self.$selectedEdition)
 					VStack(spacing: 8.0) {
@@ -55,6 +54,8 @@ struct WorkScreen: View {
 					}
 				}
 			}
+			.padding()
+			.dynamicTypeSize(.small ... .accessibility3)
 		}
 		.navigationBarTitleDisplayMode(.inline)
 	}

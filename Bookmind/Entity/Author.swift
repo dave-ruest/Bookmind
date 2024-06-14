@@ -14,13 +14,13 @@ import SwiftData
 /// restarts. The next big step for author will be cloud storage where
 /// the author will persist across devices.
 @Model final class Author {
-	let name: String
-	let firstName: String
-	let lastName: String
+	var name: String
+	var firstName: String
+	var lastName: String
 	/// The unique identifier for the author.
 	/// As this is an openlibrary author id, this ties our data rather
 	/// closely to openlibrary, but we may align the whole app that way.
-	let olid: String
+	var olid: String
 	/// A many to many relationship with book entities.
 	/// Use the default delete rule (.nullify).
 	@Relationship(inverse: \Work.authors) var books: [Work]
@@ -30,6 +30,12 @@ import SwiftData
 		self.name = name
 		self.books = books
 		
+		var splits = name.split(separator: " ")
+		self.lastName = String(splits.removeLast())
+		self.firstName = splits.joined(separator: " ")
+	}
+	
+	func nameChanged() {
 		var splits = name.split(separator: " ")
 		self.lastName = String(splits.removeLast())
 		self.firstName = splits.joined(separator: " ")

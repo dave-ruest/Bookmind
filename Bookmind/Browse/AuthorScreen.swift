@@ -10,36 +10,63 @@ import SwiftUI
 
 /// AuthorScreen displays the list of books for a specific author.
 struct AuthorScreen: View {
-	/// The author whose name and books willl be shown.
-	/// Constant as we don't define any editable author properties - yet.
-	/// Books may be deleted but that is a core data storage operation.
-	let author: Author
+	/// The author whose name and works will be shown.
+	@State var author: Author
 	/// Core data storage, used to delete editions.
-	/// Set by the app or preview.
-	@EnvironmentObject var storage: StorageModel
+	@EnvironmentObject private var storage: StorageModel
+	/// The current edit mode, used to decide whether we should
+	/// show editable author names or not.
+	@Environment(\.editMode) private var editMode
 
 	var body: some View {
-		List {
-			// The "self.author.books" here lazy loads books
-			// from the many to many core data relationship.
-			// Adding and deleting are trickier but wow does
-			// this ever "just work".
-			ForEach(self.author.books) { book in
-				NavigationLink {
-					WorkScreen(work: book)
-				} label: {
-					Text(book.title)
+		ZStack {
+			Color(.background)
+				.ignoresSafeArea()
+			VStack(alignment: .leading, spacing: 8.0) {
+				Group {
+					if self.editMode?.wrappedValue.isEditing == true {
+						TextField("Name", text: self.$author.name, axis: .vertical)
+							.textFieldStyle(.roundedBorder)
+							.border(Color.accentColor, width: 1.0)
+					} else {
+						Text("\(self.author.firstName) **\(self.author.lastName)**")
+							.frame(alignment: .leading)
+					}
 				}
-				.listRowBackground(Color(.clear))
-			}.onDelete(perform: delete)
+				.animation(.smooth, value: self.editMode?.wrappedValue)
+				.font(.title)
+				List {
+					// The "self.author.books" here lazy loads books
+					// from the many to many core data relationship.
+					// Adding and deleting are trickier but wow does
+					// this ever "just work".
+					ForEach(self.author.books.sorted()) { book in
+						NavigationLink {
+							WorkScreen(work: book)
+						} label: {
+							Text(book.title)
+						}
+						.listRowBackground(Color(.clear))
+					}.onDelete(perform: delete)
+				}
+				.listStyle(.plain)
+				.listRowSeparatorTint(.accent)
+				.background(Color(.background))
+			}
+			.padding()
 		}
-		.listStyle(.plain)
-		.listRowSeparatorTint(.accent)
-		.background(Color(.background))
-		.navigationTitle(self.author.name)
-		.navigationBarTitleDisplayMode(.large)
+		.navigationBarTitleDisplayMode(.inline)
 		.toolbar {
 			EditButton()
+		}
+		.onChange(of: self.editMode?.wrappedValue) {
+			self.editModeChanged()
+		}
+	}
+	
+	private func editModeChanged() {
+		if self.editMode?.wrappedValue == .inactive {
+			self.author.nameChanged()
 		}
 	}
 	

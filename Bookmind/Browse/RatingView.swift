@@ -24,6 +24,7 @@ struct RatingView: View {
 		}
 		.buttonStyle(.plain)
 		.bookButtonStyle()
+		.dynamicTypeSize(.small ... .accessibility3)
 	}
 }
 

@@ -70,6 +70,12 @@ extension Work: Fetchable {
 	}
 }
 
+extension Work: Comparable {
+	static func < (lhs: Work, rhs: Work) -> Bool {
+		lhs.title < rhs.title
+	}
+}
+
 extension Work: Identifiable {
 	var id: String {
 		self.olid

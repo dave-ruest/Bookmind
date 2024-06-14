@@ -23,9 +23,9 @@ struct EditionPageView: View {
 					.tag(edition)
 			}
 		}
+		.bookCoverFrame()
 		.tabViewStyle(.page)
 		.indexViewStyle(.page(backgroundDisplayMode: .always))
-		.bookCoverFrame()
 	}
 }
 

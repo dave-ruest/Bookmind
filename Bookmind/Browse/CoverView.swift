@@ -37,9 +37,10 @@ struct CoverView: View {
 				Image(uiImage: self.cover!)
 					.resizable()
 					.aspectRatio(contentMode: .fit)
-					.bookCoverFrame()
 			}
-		}.task {
+		}
+		.bookCoverFrame()
+		.task {
 			self.fetchCover()
 		}
 	}
