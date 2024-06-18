@@ -9,6 +9,7 @@
 enum ReadState: Int, Codable, CaseIterable {
 	case read
 	case want
+	case reading
 	case maybe
 	case none
 
@@ -18,6 +19,8 @@ enum ReadState: Int, Codable, CaseIterable {
 				"Might read"
 			case .want:
 				"Want to read"
+			case .reading:
+				"Reading"
 			case .read:
 				"Have read"
 			case .none:
