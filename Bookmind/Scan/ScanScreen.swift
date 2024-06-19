@@ -65,8 +65,8 @@ struct ScanScreen: View {
 	}
 	
 	private func scanModelChanged() {
-		if case .found(let results) = self.scanModel.state {
-			self.searchModel.search(results: results)
+		if case .found(let isbn) = self.scanModel.state {
+			self.searchModel.search(isbn)
 		}
 	}
 	

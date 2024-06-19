@@ -21,20 +21,13 @@ final class SearchModel: ObservableObject {
 		self.result = result
 	}
 	
-	func search(results: [ISBN]) {
-		let newSearches = results.map { $0.digitString }
-		for isbn in newSearches {
-			self.search(isbn: isbn)
-		}
-	}
-	
-	private func search(isbn: String) {
+	func search(_ scanResult: ISBN) {
 		// don't seach again for an isbn we've already checked
-		if searches.contains(where: { $0.isbn == isbn } ) {
+		if searches.contains(where: { $0.isbn == scanResult.digitString } ) {
 			return
 		}
 		
-		let search = OpenLibraryBookSearch(isbn: isbn)
+		let search = OpenLibraryBookSearch(isbn: scanResult.digitString)
 		self.searches.append(search)
 		self.cancellables.append(search.$result
 			.subscribe(on: DispatchQueue.global(qos: .background))

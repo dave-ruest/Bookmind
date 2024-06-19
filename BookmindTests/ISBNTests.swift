@@ -9,45 +9,69 @@ import XCTest
 @testable import Bookmind
 
 final class ISBNTests: XCTestCase {
-	static let sbn = "SBN 425-03071-7"
-	static let isbn10 = "ISBN 0-441-78754-1"
-	static let isbn13 = "ISBN 978-3-16-148410-0"
-	
 	func testEmpty() {
 		let isbn = ISBN("")
 		XCTAssertNil(isbn)
 	}
 	
 	func testInvalidLength() {
+		var isbn = ISBN("SBN 425-0")
+		XCTAssertNil(isbn)
+		
+		isbn = ISBN("ISBN 425-0")
+		XCTAssertNil(isbn)
+		
+		isbn = ISBN("ISBN: 425-0")
+		XCTAssertNil(isbn)
+		
+		isbn = ISBN("SBN 425-0978-3-16-148410-0")
+		XCTAssertNil(isbn)
+		
+		isbn = ISBN("ISBN 425-0978-3-16-148410-0")
+		XCTAssertNil(isbn)
+		
+		isbn = ISBN("ISBN: 425-0978-3-16-148410-0")
+		XCTAssertNil(isbn)
+	}
+	
+	func testMissing() {
 		let isbn = ISBN("Stormbringer by Michael Moorcock")
 		XCTAssertNil(isbn)
 	}
-	
-	func testInvalidSuffix() {
-		let isbn = ISBN(Self.sbn + " suffix")
-		XCTAssertNil(isbn)
+
+	func testSuffix() {
+		let isbn = ISBN.Preview.prefix
+		XCTAssertEqual(isbn?.displayString, "425-03071-7")
+		XCTAssertEqual(isbn?.digitString, "425030717")
 	}
 	
-	func testInvalidPrefix() {
-		let isbn = ISBN("prefix " + Self.sbn)
-		XCTAssertNil(isbn)
+	func testPrefix() {
+		let isbn = ISBN.Preview.suffix
+		XCTAssertEqual(isbn?.displayString, "425-03071-7")
+		XCTAssertEqual(isbn?.digitString, "425030717")
 	}
 	
 	func testSBN() {
-		let isbn = ISBN(Self.sbn)
-		XCTAssertEqual(isbn?.displayString, Self.sbn)
+		let isbn = ISBN.Preview.sbn
+		XCTAssertEqual(isbn?.displayString, "425-03071-7")
 		XCTAssertEqual(isbn?.digitString, "425030717")
 	}
 	
 	func testISBN10() {
-		let isbn = ISBN(Self.isbn10)
-		XCTAssertEqual(isbn?.displayString, Self.isbn10)
+		let isbn = ISBN.Preview.isbn10
+		XCTAssertEqual(isbn?.displayString, "0-441-78754-1")
 		XCTAssertEqual(isbn?.digitString, "0441787541")
 	}
 	
 	func testISBN13() {
-		let isbn = ISBN(Self.isbn13)
-		XCTAssertEqual(isbn?.displayString, Self.isbn13)
+		let isbn = ISBN.Preview.isbn13
+		XCTAssertEqual(isbn?.displayString, "978-3-16-148410-0")
 		XCTAssertEqual(isbn?.digitString, "9783161484100")
+	}
+	
+	func testCopyright() {
+		let isbn = ISBN.Preview.copyright
+		XCTAssertEqual(isbn?.displayString, "0-441-78754-1")
+		XCTAssertEqual(isbn?.digitString, "0441787541")
 	}
 }

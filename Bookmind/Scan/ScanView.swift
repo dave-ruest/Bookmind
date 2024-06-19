@@ -19,10 +19,8 @@ struct ScanView: UIViewControllerRepresentable {
 	}
 	
 	func makeUIViewController(context: Context) -> DataScannerViewController {
-		let controller = DataScannerViewController(recognizedDataTypes: [
-			.barcode(symbologies: [.ean8, .ean13]),
-			.text()
-		], recognizesMultipleItems: true, isHighlightingEnabled: true)
+		let controller = DataScannerViewController(recognizedDataTypes: [.text()],
+			qualityLevel: .fast, recognizesMultipleItems: true, isHighlightingEnabled: true)
 		controller.view.backgroundColor = .background
 		controller.delegate = context.coordinator
 		context.coordinator.start(scanner: controller)

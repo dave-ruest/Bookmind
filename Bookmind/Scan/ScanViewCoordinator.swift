@@ -43,23 +43,23 @@ final class ScanViewCoordinator: NSObject {
 extension ScanViewCoordinator: DataScannerViewControllerDelegate {
 	func dataScanner(_ dataScanner: DataScannerViewController, didAdd addedItems: [RecognizedItem], allItems: [RecognizedItem]) {
 		let scannedCodes: [ISBN] = addedItems.compactMap { ISBN(item: $0) }
+		guard let scannedCode = scannedCodes.first else { return }
 		DispatchQueue.main.async {
-			self.model.state = .found(scannedCodes)
+			self.model.state = .found(scannedCode)
 		}
 	}
 }
 
+/// Utility extension that avoids adding a vision kit dependency
+/// to the ISBN struct. Basically filters out bar codes, which in
+/// practice are about 50% product codes. Bar codes are therefore
+/// not really worth scanning, they just slow down the process
+/// searching non-ISBN codes.
 private extension ISBN {
 	init?(item: RecognizedItem) {
 		switch item {
-		case .barcode(let barcode): self.init(barcode: barcode)
-			case .text(let text): self.init(text.transcript)
-			default: return nil
+		case .text(let text): self.init(text.transcript)
+		default: return nil
 		}
-	}
-	
-	init?(barcode: RecognizedItem.Barcode) {
-		guard let string = barcode.payloadStringValue else { return nil }
-		self.init(string)
 	}
 }

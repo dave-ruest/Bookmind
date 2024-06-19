@@ -1,5 +1,5 @@
 //
-//  OpenLibraryBookTests.swift
+//  OpenLibraryEditionTests.swift
 //  BookmindTests
 //
 //  Created by Dave Ruest on 1/16/24.
@@ -8,7 +8,7 @@
 import XCTest
 @testable import Bookmind
 
-final class OpenLibraryBookTests: XCTestCase {
+final class OpenLibraryEditionTests: XCTestCase {
 	private let decoder = JSONDecoder()
 	
 	// https://openlibrary.org/isbn/9780307352156.json

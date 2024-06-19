@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		741913082B4DF95400F8CADB /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 741913072B4DF95400F8CADB /* README.md */; };
-		742C63D82B5720D00047FED7 /* OpenLibraryBookTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742C63D72B5720D00047FED7 /* OpenLibraryBookTests.swift */; };
+		742C63D82B5720D00047FED7 /* OpenLibraryEditionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742C63D72B5720D00047FED7 /* OpenLibraryEditionTests.swift */; };
 		742C63DA2B58157A0047FED7 /* OpenLibraryBookSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742C63D92B58157A0047FED7 /* OpenLibraryBookSearch.swift */; };
 		742C63DD2B5826450047FED7 /* OpenLibraryEdition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742C63DC2B5826450047FED7 /* OpenLibraryEdition.swift */; };
 		742C63E12B582B0D0047FED7 /* BookSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 742C63E02B582B0D0047FED7 /* BookSearch.swift */; };
@@ -80,7 +80,7 @@
 
 /* Begin PBXFileReference section */
 		741913072B4DF95400F8CADB /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		742C63D72B5720D00047FED7 /* OpenLibraryBookTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenLibraryBookTests.swift; sourceTree = "<group>"; };
+		742C63D72B5720D00047FED7 /* OpenLibraryEditionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenLibraryEditionTests.swift; sourceTree = "<group>"; };
 		742C63D92B58157A0047FED7 /* OpenLibraryBookSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenLibraryBookSearch.swift; sourceTree = "<group>"; };
 		742C63DC2B5826450047FED7 /* OpenLibraryEdition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenLibraryEdition.swift; sourceTree = "<group>"; };
 		742C63E02B582B0D0047FED7 /* BookSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookSearch.swift; sourceTree = "<group>"; };
@@ -242,7 +242,7 @@
 				EE9018992C0FB84100B6990A /* WorkTests.swift */,
 				74FE52172B5621A300D1B9DD /* ISBNTests.swift */,
 				74B8DF862B5CA3F100D2F818 /* OpenLibraryAuthorTests.swift */,
-				742C63D72B5720D00047FED7 /* OpenLibraryBookTests.swift */,
+				742C63D72B5720D00047FED7 /* OpenLibraryEditionTests.swift */,
 				74B8DF882B5D670100D2F818 /* OpenLibraryWorkTests.swift */,
 			);
 			path = BookmindTests;
@@ -483,7 +483,7 @@
 				EE2B1C302C0F9A6800C332F9 /* AuthorTests.swift in Sources */,
 				EE89B4E92C10C47900827F8A /* EditionTests.swift in Sources */,
 				74FE52182B5621A300D1B9DD /* ISBNTests.swift in Sources */,
-				742C63D82B5720D00047FED7 /* OpenLibraryBookTests.swift in Sources */,
+				742C63D82B5720D00047FED7 /* OpenLibraryEditionTests.swift in Sources */,
 				74B8DF892B5D670100D2F818 /* OpenLibraryWorkTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -717,9 +717,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = uncled.BookmindTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Bookmind.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Bookmind";
 			};
 			name = Debug;
@@ -737,9 +741,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = uncled.BookmindTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Bookmind.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Bookmind";
 			};
 			name = Release;
@@ -756,9 +764,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = uncled.BookmindUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_TARGET_NAME = Bookmind;
 			};
 			name = Debug;
@@ -775,9 +787,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = uncled.BookmindUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_TARGET_NAME = Bookmind;
 			};
 			name = Release;
