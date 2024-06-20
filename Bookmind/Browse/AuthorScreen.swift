@@ -14,9 +14,9 @@ struct AuthorScreen: View {
 	@State var author: Author
 	/// Core data storage, used to delete editions.
 	@EnvironmentObject private var storage: StorageModel
-	/// The current edit mode, used to decide whether we should
-	/// show editable author names or not.
-	@Environment(\.editMode) private var editMode
+	/// A helper flag used by the editable modifier to forward edit mode
+	/// changes in a simpler fashion.
+	@State private var isEditing = false
 
 	var body: some View {
 		ZStack {
@@ -24,7 +24,7 @@ struct AuthorScreen: View {
 				.ignoresSafeArea()
 			VStack(alignment: .leading, spacing: 8.0) {
 				Group {
-					if self.editMode?.wrappedValue.isEditing == true {
+					if self.isEditing {
 						TextField("Name", text: self.$author.name, axis: .vertical)
 							.textFieldStyle(.roundedBorder)
 							.border(Color.accentColor, width: 1.0)
@@ -34,7 +34,7 @@ struct AuthorScreen: View {
 					}
 				}
 				.padding(.horizontal)
-				.animation(.smooth, value: self.editMode?.wrappedValue)
+				.animation(.smooth, value: self.isEditing)
 				.font(.title)
 				List {
 					// The "self.author.books" here lazy loads books
@@ -56,16 +56,16 @@ struct AuthorScreen: View {
 			}
 		}
 		.navigationBarTitleDisplayMode(.inline)
+		.editable(self.$isEditing) {
+			self.editModeChanged()
+		}
 		.toolbar {
 			EditButton()
-		}
-		.onChange(of: self.editMode?.wrappedValue) {
-			self.editModeChanged()
 		}
 	}
 	
 	private func editModeChanged() {
-		if self.editMode?.wrappedValue == .inactive {
+		if !self.isEditing {
 			self.author.nameChanged()
 		}
 	}

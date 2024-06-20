@@ -28,7 +28,10 @@ struct WorkScreen: View {
 	/// its selected edition. The work screen uses the selected edition for
 	/// its background cover art and its own state picker.
 	@State private var selectedEdition: Edition
-	
+	/// A helper flag used by the editable modifier to forward edit mode
+	/// changes in a simpler fashion.
+	@State private var isEditing = false
+
 	init(work: Work) {
 		self.work = work
 		// TODO: remove force unwrap
@@ -41,27 +44,40 @@ struct WorkScreen: View {
 			ViewThatFits {
 				VStack() {
 					EditionPageView(work: self.work, selectedEdition: self.$selectedEdition)
-					OwnStateView(state: self.$selectedEdition.ownState)
-					ReadStateView(state: self.$work.readState)
-					if self.work.readState == .read {
+					if self.isEditing {
+						DeleteButton {
+							print("Vertical Delete!")
+						}
+					} else {
+						OwnStateView(state: self.$selectedEdition.ownState)
+						ReadStateView(state: self.$work.readState)
 						RatingView(rating: self.$work.rating)
 					}
 				}
 				HStack() {
 					EditionPageView(work: self.work, selectedEdition: self.$selectedEdition)
 					VStack() {
-						OwnStateView(state: self.$selectedEdition.ownState)
-						ReadStateView(state: self.$work.readState)
-						if self.work.readState == .read {
+						if self.isEditing {
+							DeleteButton {
+								print("Horizontal Delete!")
+							}
+						} else {
+							OwnStateView(state: self.$selectedEdition.ownState)
+							ReadStateView(state: self.$work.readState)
 							RatingView(rating: self.$work.rating)
 						}
 					}
 				}
 			}
+			.animation(.smooth, value: self.isEditing)
 			.padding()
 			.dynamicTypeSize(.small ... .accessibility3)
 		}
+		.editable(self.$isEditing)
 		.navigationBarTitleDisplayMode(.inline)
+		.toolbar {
+			EditButton()
+		}
 	}
 	
 	// TODO: restore edit button and edition delete

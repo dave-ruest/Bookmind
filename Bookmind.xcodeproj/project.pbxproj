@@ -43,6 +43,8 @@
 		74FE52112B557B3600D1B9DD /* Work.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74FE52102B557B3600D1B9DD /* Work.swift */; };
 		74FE52162B55F03800D1B9DD /* ISBN.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74FE52152B55F03800D1B9DD /* ISBN.swift */; };
 		74FE52182B5621A300D1B9DD /* ISBNTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74FE52172B5621A300D1B9DD /* ISBNTests.swift */; };
+		EE0A14FA2C24685000F98003 /* DeleteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0A14F92C24685000F98003 /* DeleteButton.swift */; };
+		EE0A14FE2C248F1300F98003 /* BookEditableModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0A14FD2C248F1300F98003 /* BookEditableModifier.swift */; };
 		EE2B1C302C0F9A6800C332F9 /* AuthorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE2B1C2F2C0F9A6700C332F9 /* AuthorTests.swift */; };
 		EE5F8B752C161EE700BD4AF1 /* ScanViewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE5F8B742C161EE700BD4AF1 /* ScanViewCoordinator.swift */; };
 		EE89B4E92C10C47900827F8A /* EditionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE89B4E82C10C47900827F8A /* EditionTests.swift */; };
@@ -122,6 +124,8 @@
 		74FE52102B557B3600D1B9DD /* Work.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Work.swift; sourceTree = "<group>"; };
 		74FE52152B55F03800D1B9DD /* ISBN.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ISBN.swift; sourceTree = "<group>"; };
 		74FE52172B5621A300D1B9DD /* ISBNTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ISBNTests.swift; sourceTree = "<group>"; };
+		EE0A14F92C24685000F98003 /* DeleteButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteButton.swift; sourceTree = "<group>"; };
+		EE0A14FD2C248F1300F98003 /* BookEditableModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookEditableModifier.swift; sourceTree = "<group>"; };
 		EE2B1C2F2C0F9A6700C332F9 /* AuthorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorTests.swift; sourceTree = "<group>"; };
 		EE5F8B742C161EE700BD4AF1 /* ScanViewCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanViewCoordinator.swift; sourceTree = "<group>"; };
 		EE89B4E82C10C47900827F8A /* EditionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditionTests.swift; sourceTree = "<group>"; };
@@ -183,9 +187,10 @@
 			isa = PBXGroup;
 			children = (
 				748D42FF2B6958E900D34AED /* AuthorScreen.swift */,
-				EED5C44C2C19F0A000A36E5D /* EditionPageView.swift */,
 				EEC762AA2C1368A00074066E /* CoverBackgroundView.swift */,
 				EEC762AC2C137EAC0074066E /* CoverView.swift */,
+				EE0A14F92C24685000F98003 /* DeleteButton.swift */,
+				EED5C44C2C19F0A000A36E5D /* EditionPageView.swift */,
 				74471AEC2B659EBC00400686 /* LibraryScreen.swift */,
 				EEC762A42C1344100074066E /* OwnStateView.swift */,
 				745A4FE92B82FD8300934B60 /* RatingView.swift */,
@@ -295,6 +300,7 @@
 			isa = PBXGroup;
 			children = (
 				745D92082B4ADC4500A62F89 /* BookButtonModifier.swift */,
+				EE0A14FD2C248F1300F98003 /* BookEditableModifier.swift */,
 				745D920A2B4B055500A62F89 /* BookGroupModifier.swift */,
 				747892AB2B87F815004ABDEF /* BookListModifier.swift */,
 				EEC762A62C13461F0074066E /* BookPickerModifier.swift */,
@@ -446,6 +452,7 @@
 				EE89B4EB2C10CF3E00827F8A /* ScannedBookScreen.swift in Sources */,
 				EEC762A72C13461F0074066E /* BookPickerModifier.swift in Sources */,
 				EEBB7CE52C17AD6E00C96389 /* Book.swift in Sources */,
+				EE0A14FE2C248F1300F98003 /* BookEditableModifier.swift in Sources */,
 				74B502DC2B430FAE0092B0E4 /* HomeScreen.swift in Sources */,
 				74B8DF8D2B5DDE3900D2F818 /* FetchTask.swift in Sources */,
 				745A4FEA2B82FD8300934B60 /* RatingView.swift in Sources */,
@@ -453,6 +460,7 @@
 				74FE520F2B54285800D1B9DD /* SearchModel.swift in Sources */,
 				74CB43242B862F2800E9C0AD /* Edition.swift in Sources */,
 				747892AC2B87F815004ABDEF /* BookListModifier.swift in Sources */,
+				EE0A14FA2C24685000F98003 /* DeleteButton.swift in Sources */,
 				74B502DA2B430FAE0092B0E4 /* BookmindApp.swift in Sources */,
 				EEDDF25A2C14AD6E008660F5 /* DoneButton.swift in Sources */,
 				74FE52112B557B3600D1B9DD /* Work.swift in Sources */,

@@ -26,9 +26,7 @@ struct ScannedBookScreen: View {
 					CoverView(book: self.book)
 					OwnStateView(state: self.$book.edition.ownState)
 					ReadStateView(state: self.$book.work.readState)
-					if self.book.work.readState == .read {
-						RatingView(rating: self.$book.work.rating)
-					}
+					RatingView(rating: self.$book.work.rating)
 					DoneButton()
 				}
 				HStack() {
@@ -36,9 +34,7 @@ struct ScannedBookScreen: View {
 					VStack() {
 						OwnStateView(state: self.$book.edition.ownState)
 						ReadStateView(state: self.$book.work.readState)
-						if self.book.work.readState == .read {
-							RatingView(rating: self.$book.work.rating)
-						}
+						RatingView(rating: self.$book.work.rating)
 						DoneButton()
 					}
 				}
