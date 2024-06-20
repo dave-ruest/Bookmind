@@ -41,14 +41,7 @@ struct ISBN: Equatable {
 		guard string.count >= 9 else { return nil }
 		
 		let words = string.components(separatedBy: CharacterSet.whitespacesAndNewlines)
-		var index = words.firstIndex(of: "ISBN:")
-		if index == nil {
-			index = words.firstIndex(of: "ISBN")
-		}
-		if index == nil {
-			index = words.firstIndex(of: "SBN")
-		}
-		guard let index else { return nil }
+		guard let index = firstPrefix(in: words) else { return nil }		
 		guard words.count > index + 1 else { return nil }
 		
 		let code = words[index + 1]
@@ -57,12 +50,24 @@ struct ISBN: Equatable {
 		return code
 	}
 	
+	private static func firstPrefix(in words: [String]) -> Int? {
+		// yeah this is a bit ridiculous for if/else cases
+		for prefix in ["ISBN-13:", "ISBN-10:", "ISBN:", "ISBN", "SBN"] {
+			if let index = words.firstIndex(of: prefix) {
+				return index
+			}
+		}
+		return nil
+	}
+	
 	struct Preview {
 		static let prefix = ISBN("text before isbn number SBN 425-03071-7")
 		static let suffix = ISBN("SBN 425-03071-7 text after isbn number")
 		static let sbn = ISBN("SBN 425-03071-7")
 		static let isbn10 = ISBN("ISBN 0-441-78754-1")
 		static let isbn13 = ISBN("ISBN 978-3-16-148410-0")
+		static let isbn_10 = ISBN("ISBN-10: 0-7582-8393-8")
+		static let isbn_13 = ISBN("ISBN-13: 978-0-7783-3027-1")
 		static let copyright = ISBN("ISBN: 0-441-78754-1")
 	}
 }
