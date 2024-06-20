@@ -58,15 +58,23 @@ final class ISBNTests: XCTestCase {
 	}
 	
 	func testISBN10() {
-		let isbn = ISBN.Preview.isbn10
+		var isbn = ISBN.Preview.isbn10
 		XCTAssertEqual(isbn?.displayString, "0-441-78754-1")
 		XCTAssertEqual(isbn?.digitString, "0441787541")
+		
+		isbn = ISBN.Preview.isbn_10
+		XCTAssertEqual(isbn?.displayString, "0-7582-8393-8")
+		XCTAssertEqual(isbn?.digitString, "0758283938")
 	}
 	
 	func testISBN13() {
-		let isbn = ISBN.Preview.isbn13
+		var isbn = ISBN.Preview.isbn13
 		XCTAssertEqual(isbn?.displayString, "978-3-16-148410-0")
 		XCTAssertEqual(isbn?.digitString, "9783161484100")
+		
+		isbn = ISBN.Preview.isbn_13
+		XCTAssertEqual(isbn?.displayString, "978-0-7783-3027-1")
+		XCTAssertEqual(isbn?.digitString, "9780778330271")
 	}
 	
 	func testCopyright() {
