@@ -19,25 +19,19 @@ struct CoverBackgroundView: View {
 	/// Cache for cover art, injected by the app.
 	@EnvironmentObject private var covers: CoverModel
 	/// The cover image, fetched on appear.
-	@State private var cover: UIImage?
+	@State private var cover = UIImage(resource: .defaultCover)
 
 	var body: some View {
-		Group {
-			if self.cover == nil {
-				Color(.background)
-			} else {
-				Image(uiImage: self.cover!)
-					.resizable()
-					.blur(radius: 8.0)
+		Image(uiImage: self.cover)
+			.resizable()
+			.ignoresSafeArea()
+			.blur(radius: 8.0)
+			.brightness(-0.2)
+			.toolbarBackground(.visible, for: .navigationBar)
+			.toolbarBackground(.thinMaterial, for: .navigationBar)
+			.onChange(of: self.edition, initial: true) {
+				self.fetchCover()
 			}
-		}
-		.ignoresSafeArea()
-		.brightness(-0.2)
-		.toolbarBackground(.visible, for: .navigationBar)
-		.toolbarBackground(.thinMaterial, for: .navigationBar)
-		.onChange(of: self.edition, initial: true) {
-			self.fetchCover()
-		}
 	}
 	
 	private func fetchCover() {
@@ -49,7 +43,9 @@ struct CoverBackgroundView: View {
 		}
 		
 		self.covers.fetch(coverId: coverId) { image in
-			self.cover = image
+			if let image {
+				self.cover = image
+			}
 		}
 	}
 }

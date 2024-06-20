@@ -13,3 +13,5 @@ xcuserdata/
 
 ## Build
 Build/*
+.DS_Store
+Bookmind/Assets.xcassets/.DS_Store

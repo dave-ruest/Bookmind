@@ -17,26 +17,28 @@ struct ScannedBookScreen: View {
 	@EnvironmentObject private var storage: StorageModel
 	/// Cache for cover art, injected by the app.
 	@EnvironmentObject private var covers: CoverModel
-	/// The cover image, fetched on appear.
-	@State private var cover: UIImage?
 	
 	var body: some View {
 		ZStack {
 			CoverBackgroundView(edition: self.$book.edition)
 			ViewThatFits {
-				VStack(spacing: 8.0) {
+				VStack() {
 					CoverView(book: self.book)
 					OwnStateView(state: self.$book.edition.ownState)
 					ReadStateView(state: self.$book.work.readState)
-					RatingView(rating: self.$book.work.rating)
+					if self.book.work.readState == .read {
+						RatingView(rating: self.$book.work.rating)
+					}
 					DoneButton()
 				}
-				HStack(spacing: 8.0) {
+				HStack() {
 					CoverView(book: self.book)
 					VStack() {
 						OwnStateView(state: self.$book.edition.ownState)
 						ReadStateView(state: self.$book.work.readState)
-						RatingView(rating: self.$book.work.rating)
+						if self.book.work.readState == .read {
+							RatingView(rating: self.$book.work.rating)
+						}
 						DoneButton()
 					}
 				}
@@ -45,22 +47,6 @@ struct ScannedBookScreen: View {
 			.dynamicTypeSize(.small ... .accessibility3)
 		}
 		.navigationBarTitleDisplayMode(.inline)
-		.task {
-			self.fetchCover()
-		}
-	}
-	
-	private func fetchCover() {
-		guard let coverId = self.book.edition.coverIds.first else { return }
-		
-		if let cover = self.covers.getCover(coverId) {
-			self.cover = cover
-			return
-		}
-		
-		self.covers.fetch(coverId: coverId) { image in
-			self.cover = image
-		}
 	}
 }
 

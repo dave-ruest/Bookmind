@@ -40,6 +40,6 @@ extension View {
 	/// But we want a taller minimum height as cover art isn't just
 	/// tappable (40 pts), it needs more height for viewability.
 	func bookCoverFrame() -> some View {
-		frame(maxWidth: 400.0, minHeight: 80.0)
+		frame(maxWidth: 400.0, minHeight: 200.0)
 	}
 }
