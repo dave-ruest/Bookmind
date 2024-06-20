@@ -15,20 +15,18 @@ struct BookButtonLabel: View {
 	let book: Book
 	
 	@EnvironmentObject private var covers: CoverModel
-	@State private var cover: UIImage?
+	@State private var cover = UIImage(resource: .defaultCover)
 	@ScaledMetric(relativeTo: .body) private var imageHeight = 40.0
 	@ScaledMetric(relativeTo: .body) private var border = BookStyle.border
 	@ScaledMetric(relativeTo: .body) private var padding = BookStyle.padding
 
 	var body: some View {
 		HStack(spacing: 16.0) {
-			if self.cover != nil {
-				Image(uiImage: self.cover!)
-					.resizable()
-					.scaledToFit()
-					.frame(height: self.imageHeight)
-			}
-			VStack(alignment: self.cover == nil ? .center : .leading) {
+			Image(uiImage: self.cover)
+				.resizable()
+				.scaledToFit()
+				.frame(height: self.imageHeight)
+			VStack(alignment: .leading) {
 				Text(self.book.work.title)
 					.fontWeight(.bold)
 				Text(self.book.authors.names)
@@ -55,7 +53,9 @@ struct BookButtonLabel: View {
 		}
 		
 		self.covers.fetch(coverId: coverId) { image in
-			self.cover = image
+			if let image {
+				self.cover = image
+			}
 		}
 	}
 }

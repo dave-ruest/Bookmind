@@ -33,6 +33,7 @@ struct AuthorScreen: View {
 							.frame(alignment: .leading)
 					}
 				}
+				.padding(.horizontal)
 				.animation(.smooth, value: self.editMode?.wrappedValue)
 				.font(.title)
 				List {
@@ -44,7 +45,7 @@ struct AuthorScreen: View {
 						NavigationLink {
 							WorkScreen(work: book)
 						} label: {
-							Text(book.title)
+							WorkListLabel(work: book)
 						}
 						.listRowBackground(Color(.clear))
 					}.onDelete(perform: delete)
@@ -53,7 +54,6 @@ struct AuthorScreen: View {
 				.listRowSeparatorTint(.accent)
 				.background(Color(.background))
 			}
-			.padding()
 		}
 		.navigationBarTitleDisplayMode(.inline)
 		.toolbar {
@@ -80,6 +80,17 @@ struct AuthorScreen: View {
 #Preview {
 	let storage = StorageModel(preview: true)
 	let book = storage.insert(book: Book.Preview.quiet)
+	return NavigationStack {
+		AuthorScreen(author: book.authors.first!)
+	}
+	.modelContainer(storage.container)
+	.environmentObject(CoverModel())
+}
+
+#Preview {
+	let storage = StorageModel(preview: true)
+	var book = storage.insert(book: Book.Preview.dune1986)
+	book = storage.insert(book: Book.Preview.dune1987)
 	return NavigationStack {
 		AuthorScreen(author: book.authors.first!)
 	}

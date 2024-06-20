@@ -39,18 +39,22 @@ struct WorkScreen: View {
 		ZStack {
 			CoverBackgroundView(edition: self.$selectedEdition)
 			ViewThatFits {
-				VStack(spacing: 8.0) {
+				VStack() {
 					EditionPageView(work: self.work, selectedEdition: self.$selectedEdition)
 					OwnStateView(state: self.$selectedEdition.ownState)
 					ReadStateView(state: self.$work.readState)
-					RatingView(rating: self.$work.rating)
+					if self.work.readState == .read {
+						RatingView(rating: self.$work.rating)
+					}
 				}
-				HStack(spacing: 8.0) {
+				HStack() {
 					EditionPageView(work: self.work, selectedEdition: self.$selectedEdition)
-					VStack(spacing: 8.0) {
+					VStack() {
 						OwnStateView(state: self.$selectedEdition.ownState)
 						ReadStateView(state: self.$work.readState)
-						RatingView(rating: self.$work.rating)
+						if self.work.readState == .read {
+							RatingView(rating: self.$work.rating)
+						}
 					}
 				}
 			}
@@ -72,12 +76,7 @@ struct WorkScreen: View {
 	let storage = StorageModel(preview: true)
 	let book = storage.insert(book: Book.Preview.quiet)
 	return NavigationStack {
-		ZStack {
-			Color(.background)
-				.ignoresSafeArea()
-			WorkScreen(work: book.work)
-				.padding()
-		}
+		WorkScreen(work: book.work)
 	}
 	.modelContainer(storage.container)
 	.environmentObject(CoverModel())
@@ -91,8 +90,6 @@ struct WorkScreen: View {
 	return NavigationStack {
 		WorkScreen(work: book.work)
 	}
-	.padding()
-	.bookListStyle()
 	.modelContainer(storage.container)
 	.environmentObject(CoverModel())
 }

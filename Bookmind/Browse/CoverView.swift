@@ -23,20 +23,20 @@ struct CoverView: View {
 	/// Cache for cover art, injected by the app.
 	@EnvironmentObject private var covers: CoverModel
 	/// The cover image, fetched on appear.
-	@State private var cover: UIImage?
+	@State private var cover = UIImage(resource: .defaultCover)
 
 	var body: some View {
-		Group {
-			if cover == nil {
-				ViewThatFits {
-					BookTallHeader(book: self.book)
-					BookHeader(book: self.book)
-					BookShortHeader(book: self.book)
+		ZStack {
+			Image(uiImage: self.cover)
+				.resizable()
+				.aspectRatio(contentMode: .fit)
+			if self.cover == UIImage(resource: .defaultCover) {
+				VStack() {
+					Text(self.book.work.title)
+						.font(.title)
+					Text(self.book.authors.names)
 				}
-			} else {
-				Image(uiImage: self.cover!)
-					.resizable()
-					.aspectRatio(contentMode: .fit)
+				.bookGroupStyle()
 			}
 		}
 		.bookCoverFrame()
@@ -54,51 +54,9 @@ struct CoverView: View {
 		}
 		
 		self.covers.fetch(coverId: coverId) { image in
-			self.cover = image
-		}
-	}
-
-	private struct BookTallHeader: View {
-		let book: Book
-
-		var body: some View {
-			VStack(spacing: 8.0) {
-				VStack(spacing: 8.0) {
-					Text(self.book.work.title)
-						.font(.title)
-					Text(self.book.authors.names)
-					Text(self.book.edition.isbn)
-				}
-				.bookGroupStyle()
+			if let image {
+				self.cover = image
 			}
-		}
-	}
-
-	private struct BookHeader: View {
-		let book: Book
-
-		var body: some View {
-			VStack(spacing: 8.0) {
-				VStack(spacing: 8.0) {
-					Text(self.book.work.title)
-						.font(.title)
-					Text(self.book.authors.names)
-				}
-				.bookGroupStyle()
-			}
-		}
-	}
-	
-	private struct BookShortHeader: View {
-		let book: Book
-		
-		var body: some View {
-			VStack(spacing: 8.0) {
-				Text(self.book.work.title)
-					.font(.title)
-				Text(self.book.authors.names)
-			}
-			.bookGroupStyle()
 		}
 	}
 }
