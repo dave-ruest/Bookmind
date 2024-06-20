@@ -12,31 +12,24 @@ import SwiftUI
 struct ScannedBookScreen: View {
 	/// The book to display. The user may edit rating and read state.
 	@State var book: Book
-	
-	/// Core data storage, used to edit book and edition.
-	@EnvironmentObject private var storage: StorageModel
-	/// Cache for cover art, injected by the app.
-	@EnvironmentObject private var covers: CoverModel
-	
+	/// The height class environment variable, used in screen layout.
+	@Environment(\.verticalSizeClass) private var heightClass
+
 	var body: some View {
+		// should be easy to ifdef a different case for ipad
+		let AStack = heightClass == .compact
+			? AnyLayout(HStackLayout())
+			: AnyLayout(VStackLayout())
+		
 		ZStack {
 			CoverBackgroundView(edition: self.$book.edition)
-			ViewThatFits {
+			AStack {
+				CoverView(book: self.book)
 				VStack() {
-					CoverView(book: self.book)
 					OwnStateView(state: self.$book.edition.ownState)
 					ReadStateView(state: self.$book.work.readState)
 					RatingView(rating: self.$book.work.rating)
 					DoneButton()
-				}
-				HStack() {
-					CoverView(book: self.book)
-					VStack() {
-						OwnStateView(state: self.$book.edition.ownState)
-						ReadStateView(state: self.$book.work.readState)
-						RatingView(rating: self.$book.work.rating)
-						DoneButton()
-					}
 				}
 			}
 			.padding()
