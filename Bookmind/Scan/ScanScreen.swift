@@ -8,21 +8,21 @@
 import SwiftUI
 
 /// ScanScreen presents an overlay above a wrapped data scanner controller.
+/// The scan and search process is surprisingly complex, so the behavior is
+/// distributed to several subviews.
 ///
-/// In stage one (prove we can scan an ISBN), it identified and displayed
-/// a scanned ISBN number. In stage two (fetch book details), on finding a
-/// suspected ISBN, we send a book details request to openlibrary and display
-/// basic results. Stage 2b fetches authors. Stage 2c fetches covers.
+/// First, scanning. The scan screen has a scan model, which is updated by
+/// the wrapped scan controller in the ScanView. The scan screen shows
+/// status messages for the scan model in a simple text view. When an ISBN
+/// is found, we move to search.
 ///
-/// In stage 3 we've added basic persistence. The "add" button actually
-/// saves the book and its authors. The home screen hides its welcome
-/// message and instead shows a list of authors.
+/// The scan screen also has a search model. 
 struct ScanScreen: View {
 	@Binding var selectedBook: Book?
 
 	@StateObject var scanModel = ScanModel()
 	@StateObject var searchModel = SearchModel()
-	@State private var scannedBook: Book?
+	@State private var foundBook: Book?
 	
 	@Environment(\.dismiss) private var dismiss
 	@EnvironmentObject var storage: StorageModel
@@ -41,15 +41,10 @@ struct ScanScreen: View {
 				if self.searchModel.result == nil {
 					Text(self.scanModel.description)
 						.bookGroupStyle()
-				}
-				if self.scannedBook == nil {
-					SearchProgressView(result: self.$searchModel.result)
 				} else {
-					Button {
-						self.didSelectBook()
-					} label: {
-						BookButtonLabel(book: self.scannedBook!)
-					}
+					SearchProgressView(result: self.$searchModel.result,
+									   foundBook: self.$foundBook,
+									   selectedBook: self.$selectedBook)
 				}
 				CancelButton()
 			}
@@ -72,17 +67,8 @@ struct ScanScreen: View {
 	
 	private func searchModelChanged() {
 		if case .found(let book) = self.searchModel.result {
-			print("ScanScreen searchModelChanged, found result \(String(describing: self.searchModel.result))")
-			self.scannedBook = book
-		} else {
-			print("ScanScreen searchModelChanged, not found result \(String(describing: self.searchModel.result))")
+			self.foundBook = book
 		}
-	}
-	
-	private func didSelectBook() {
-		self.dismiss()
-		guard let scannedBook else { return }
-		self.selectedBook = self.storage.insert(book: scannedBook)
 	}
 }
 

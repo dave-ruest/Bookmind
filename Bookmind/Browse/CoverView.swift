@@ -18,10 +18,8 @@ import SwiftUI
 /// authors and isbn but larger accessibility sizes are very space
 /// constrained.
 struct CoverView: View {
-	let book: Book
+	@State var book: Book
 	
-	/// Cache for cover art, injected by the app.
-	@EnvironmentObject private var covers: CoverModel
 	/// The cover image, fetched on appear.
 	@State private var cover = UIImage(resource: .defaultCover)
 
@@ -40,23 +38,6 @@ struct CoverView: View {
 			}
 		}
 		.bookCoverFrame()
-		.task {
-			self.fetchCover()
-		}
-	}
-	
-	private func fetchCover() {
-		guard let coverId = self.book.edition.coverIds.first else { return }
-		
-		if let cover = self.covers.getCover(coverId) {
-			self.cover = cover
-			return
-		}
-		
-		self.covers.fetch(coverId: coverId) { image in
-			if let image {
-				self.cover = image
-			}
-		}
+		.onChange(of: self.$book.edition, update: self.$cover)
 	}
 }

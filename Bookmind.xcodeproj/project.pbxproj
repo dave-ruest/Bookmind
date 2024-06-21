@@ -47,6 +47,7 @@
 		EE0A14FE2C248F1300F98003 /* BookEditableModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0A14FD2C248F1300F98003 /* BookEditableModifier.swift */; };
 		EE2B1C302C0F9A6800C332F9 /* AuthorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE2B1C2F2C0F9A6700C332F9 /* AuthorTests.swift */; };
 		EE5F8B752C161EE700BD4AF1 /* ScanViewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE5F8B742C161EE700BD4AF1 /* ScanViewCoordinator.swift */; };
+		EE7F7B2C2C24E1B400548AB9 /* CoverFetchModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE7F7B2B2C24E1B400548AB9 /* CoverFetchModifier.swift */; };
 		EE89B4E92C10C47900827F8A /* EditionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE89B4E82C10C47900827F8A /* EditionTests.swift */; };
 		EE89B4EB2C10CF3E00827F8A /* ScannedBookScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE89B4EA2C10CF3E00827F8A /* ScannedBookScreen.swift */; };
 		EE8F34EE2C232DA0001C7A84 /* WorkListLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8F34ED2C232DA0001C7A84 /* WorkListLabel.swift */; };
@@ -128,6 +129,7 @@
 		EE0A14FD2C248F1300F98003 /* BookEditableModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookEditableModifier.swift; sourceTree = "<group>"; };
 		EE2B1C2F2C0F9A6700C332F9 /* AuthorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorTests.swift; sourceTree = "<group>"; };
 		EE5F8B742C161EE700BD4AF1 /* ScanViewCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanViewCoordinator.swift; sourceTree = "<group>"; };
+		EE7F7B2B2C24E1B400548AB9 /* CoverFetchModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoverFetchModifier.swift; sourceTree = "<group>"; };
 		EE89B4E82C10C47900827F8A /* EditionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditionTests.swift; sourceTree = "<group>"; };
 		EE89B4EA2C10CF3E00827F8A /* ScannedBookScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannedBookScreen.swift; sourceTree = "<group>"; };
 		EE8F34ED2C232DA0001C7A84 /* WorkListLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkListLabel.swift; sourceTree = "<group>"; };
@@ -305,6 +307,7 @@
 				747892AB2B87F815004ABDEF /* BookListModifier.swift */,
 				EEC762A62C13461F0074066E /* BookPickerModifier.swift */,
 				EEC762A22C1338650074066E /* BookStyle.swift */,
+				EE7F7B2B2C24E1B400548AB9 /* CoverFetchModifier.swift */,
 			);
 			path = Style;
 			sourceTree = "<group>";
@@ -445,6 +448,7 @@
 				74471AED2B659EBC00400686 /* LibraryScreen.swift in Sources */,
 				747892AE2B87FDD9004ABDEF /* CoverModel.swift in Sources */,
 				747180C62B791AE600B8136F /* OwnState.swift in Sources */,
+				EE7F7B2C2C24E1B400548AB9 /* CoverFetchModifier.swift in Sources */,
 				74B503062B445AF90092B0E4 /* ScanModel.swift in Sources */,
 				EEC762AB2C1368A00074066E /* CoverBackgroundView.swift in Sources */,
 				742C63E12B582B0D0047FED7 /* BookSearch.swift in Sources */,
@@ -651,7 +655,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 2W3P522MTB;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Bookmind/Info.plist;
@@ -687,7 +691,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 2W3P522MTB;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Bookmind/Info.plist;
@@ -723,7 +727,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 2W3P522MTB;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MARKETING_VERSION = 1.0;
@@ -747,7 +751,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 2W3P522MTB;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MARKETING_VERSION = 1.0;
@@ -770,7 +774,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 2W3P522MTB;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MARKETING_VERSION = 1.0;
@@ -793,7 +797,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 2W3P522MTB;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MARKETING_VERSION = 1.0;
