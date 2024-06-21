@@ -62,6 +62,16 @@ final class ISBNTests: XCTestCase {
 		XCTAssertEqual(isbn?.displayString, "425-03585-9")
 		XCTAssertEqual(isbn?.digitString, "425035859")
 	}
+	
+	func testISBNX() {
+		var isbn = ISBN.Preview.isbnx
+		XCTAssertEqual(isbn?.displayString, "0-00-653192-x")
+		XCTAssertEqual(isbn?.digitString, "000653192x")
+		
+		isbn = ISBN.Preview.isbnX
+		XCTAssertEqual(isbn?.displayString, "1-55192-756-X")
+		XCTAssertEqual(isbn?.digitString, "155192756X")
+	}
 
 	func testISBN10() {
 		var isbn = ISBN.Preview.isbn10

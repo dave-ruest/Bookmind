@@ -15,7 +15,7 @@ struct ISBN: Equatable {
 	let displayString: String
 	let digitString: String
 	
-	private static let validISBNCharacters = CharacterSet(charactersIn: "01234567890-")
+	private static let validISBNCharacters = CharacterSet(charactersIn: "01234567890-xX")
 	
 	init?(_ string: String) {
 		guard let displayString = Self.firstCode(in: string) else {
@@ -65,6 +65,8 @@ struct ISBN: Equatable {
 		static let suffix = ISBN("SBN 425-03071-7 text after isbn number")
 		static let sbn = ISBN("SBN 425-03071-7")
 		static let sbn_ = ISBN("SBN-425-03585-9") // really?
+		static let isbnx = ISBN("ISBN 0-00-653192-x")
+		static let isbnX = ISBN("ISBN 1-55192-756-X")
 		static let isbn10 = ISBN("ISBN 0-441-78754-1")
 		static let isbn13 = ISBN("ISBN 978-3-16-148410-0")
 		static let isbn_10 = ISBN("ISBN-10: 0-7582-8393-8")
