@@ -23,7 +23,11 @@ struct LibraryScreen: View {
 				NavigationLink {
 					AuthorScreen(author: author)
 				} label: {
-					Text("\(author.firstName) **\(author.lastName)**")
+					HStack {
+						Text("\(author.firstName) **\(author.lastName)**")
+						Spacer()
+						Text("\(author.books.count)")
+					}
 				}
 				.listRowBackground(Color(.clear))
 			}.onDelete(perform: delete)

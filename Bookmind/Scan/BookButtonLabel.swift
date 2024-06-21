@@ -12,9 +12,8 @@ import SwiftUI
 /// The border, padding and minimum height match the bookmind
 /// button style. 
 struct BookButtonLabel: View {
-	let book: Book
+	@Binding var book: Book
 	
-	@EnvironmentObject private var covers: CoverModel
 	@State private var cover = UIImage(resource: .defaultCover)
 	@ScaledMetric(relativeTo: .body) private var imageHeight = 40.0
 	@ScaledMetric(relativeTo: .body) private var border = BookStyle.border
@@ -31,6 +30,8 @@ struct BookButtonLabel: View {
 					.fontWeight(.bold)
 				Text(self.book.authors.names)
 			}
+			.lineLimit(2)
+			.multilineTextAlignment(.leading)
 		}
 		.bookViewFrame()
 		.padding(self.padding)
@@ -39,24 +40,7 @@ struct BookButtonLabel: View {
 			Capsule()
 				.stroke(Color(.accent), lineWidth: self.border)
 		}
-		.task(priority: .background) {
-			self.fetchCover()
-		}
-	}
-	
-	private func fetchCover() {
-		guard let coverId = book.edition.coverIds.first else { return }
-		
-		if let cover = self.covers.getCover(coverId) {
-			self.cover = cover
-			return
-		}
-		
-		self.covers.fetch(coverId: coverId) { image in
-			if let image {
-				self.cover = image
-			}
-		}
+		.onChange(of: self.$book.edition, update: self.$cover)
 	}
 }
 
@@ -66,11 +50,11 @@ struct BookButtonLabel: View {
 			.ignoresSafeArea()
 		NavigationStack {
 			VStack(spacing: 16.0) {
-				BookButtonLabel(book: Book.Preview.dorsai)
-				BookButtonLabel(book: Book.Preview.legend)
-				BookButtonLabel(book: Book.Preview.quiet)
-				BookButtonLabel(book: Book.Preview.dune1986)
-				BookButtonLabel(book: Book.Preview.dune1987)
+				BookButtonLabel(book: .constant(Book.Preview.dorsai))
+				BookButtonLabel(book: .constant(Book.Preview.legend))
+				BookButtonLabel(book: .constant(Book.Preview.quiet))
+				BookButtonLabel(book: .constant(Book.Preview.dune1986))
+				BookButtonLabel(book: .constant(Book.Preview.dune1987))
 			}
 			.padding()
 		}

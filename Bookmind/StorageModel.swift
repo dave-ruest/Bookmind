@@ -62,6 +62,9 @@ final class StorageModel: ObservableObject {
 			if !deDupedWork.authors.contains(deDupedAuthor) {
 				deDupedWork.authors.append(deDupedAuthor)
 			}
+			if !deDupedAuthor.books.contains(deDupedWork) {
+				deDupedAuthor.books.append(deDupedWork)
+			}
 		}
 		
 		let deDupedEdition = self.insert(entity: edition)

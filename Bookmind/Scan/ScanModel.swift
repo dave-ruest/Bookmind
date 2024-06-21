@@ -44,7 +44,7 @@ extension ScanModel: CustomStringConvertible {
 			case .failed(let error):
 				return error
 			case .found(let isbn):
-				return "Searching for \(isbn)"
+			return "Searching for \(isbn.displayString)"
 		}
 	}
 }

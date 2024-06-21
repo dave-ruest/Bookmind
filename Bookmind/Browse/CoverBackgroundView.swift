@@ -15,9 +15,6 @@ import SwiftUI
 /// visual interest but not distract too much from book details.
 struct CoverBackgroundView: View {
 	@Binding var edition: Edition
-	
-	/// Cache for cover art, injected by the app.
-	@EnvironmentObject private var covers: CoverModel
 	/// The cover image, fetched on appear.
 	@State private var cover = UIImage(resource: .defaultCover)
 
@@ -29,23 +26,6 @@ struct CoverBackgroundView: View {
 			.brightness(-0.2)
 			.toolbarBackground(.visible, for: .navigationBar)
 			.toolbarBackground(.thinMaterial, for: .navigationBar)
-			.onChange(of: self.edition, initial: true) {
-				self.fetchCover()
-			}
-	}
-	
-	private func fetchCover() {
-		guard let coverId = self.edition.coverIds.first else { return }
-		
-		if let cover = self.covers.getCover(coverId) {
-			self.cover = cover
-			return
-		}
-		
-		self.covers.fetch(coverId: coverId) { image in
-			if let image {
-				self.cover = image
-			}
-		}
+			.onChange(of: self.$edition, update: self.$cover)
 	}
 }
