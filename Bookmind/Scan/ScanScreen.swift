@@ -30,21 +30,22 @@ struct ScanScreen: View {
 	var body: some View {
 		ZStack {
 			#if targetEnvironment(simulator)
-			Color(.background)
+			Color(.systemIndigo)
 				.ignoresSafeArea(.all)
 			#else
 			ScanView()
 				.ignoresSafeArea(.all)
 			#endif
-			VStack(spacing: 16.0) {
+			VStack() {
 				Spacer()
-				if self.searchModel.result == nil {
-					Text(self.scanModel.description)
-						.bookGroupStyle()
-				} else {
+				if self.searchModel.result != nil {
 					SearchProgressView(result: self.$searchModel.result,
 									   foundBook: self.$foundBook,
 									   selectedBook: self.$selectedBook)
+				} else {
+					Text(self.scanModel.description)
+						.bookGroupStyle()
+						.multilineTextAlignment(.center)
 				}
 				CancelButton()
 			}
@@ -73,8 +74,19 @@ struct ScanScreen: View {
 }
 
 #Preview {
-	VStack {
+	VStack() {
 		ScanScreen(selectedBook: .constant(nil))
+	}
+}
+
+#Preview {
+	VStack {
+		ScanScreen(selectedBook: .constant(nil), scanModel: ScanModel.Preview.foundText)
+	}
+}
+
+#Preview {
+	VStack() {
 		ScanScreen(selectedBook: .constant(nil), scanModel: ScanModel.Preview.failed)
 		ScanScreen(selectedBook: .constant(nil), scanModel: ScanModel.Preview.found)
 	}
@@ -99,12 +111,4 @@ struct ScanScreen: View {
 		}
 	}
 	.modelContainer(StorageModel.preview.container)
-}
-
-#Preview {
-	NavigationStack {
-		ScanScreen(selectedBook: .constant(nil), searchModel: SearchModel.Preview.dorsai)
-	}
-	.modelContainer(StorageModel.preview.container)
-	.environmentObject(CoverModel())
 }

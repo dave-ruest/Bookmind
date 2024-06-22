@@ -14,8 +14,7 @@ struct AuthorScreen: View {
 	@State var author: Author
 	/// Core data storage, used to delete editions.
 	@EnvironmentObject private var storage: StorageModel
-	/// A helper flag used by the editable modifier to forward edit mode
-	/// changes in a simpler fashion.
+	/// Updated by the editable modifier when edit mode changes.
 	@State private var isEditing = false
 
 	var body: some View {

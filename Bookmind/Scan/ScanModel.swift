@@ -23,6 +23,7 @@ final class ScanModel: ObservableObject {
 	 enum State: Equatable {
 		 /// A message helping the user understand why the scanner isn't working.
 		 case failed(String)
+		 case foundText
 		 /// The scanner found an array of possible ISBN codes.
 		 case found(ISBN)
 		 /// The scanner is working but has not yet found a possible ISBN.
@@ -32,6 +33,7 @@ final class ScanModel: ObservableObject {
 	struct Preview {
 		static let searching = ScanModel()
 		static var failed = ScanModel(state: .failed("Could not open scanner"))
+		static var foundText = ScanModel(state: .foundText)
 		static var found = ScanModel(state: .found(ISBN.Preview.isbn10!))
 	}
 }
@@ -39,11 +41,13 @@ final class ScanModel: ObservableObject {
 extension ScanModel: CustomStringConvertible {
 	var description: String {
 		switch self.state {
-			case .searching:
-				return "Center the camera on an ISBN number, either on the back cover or the copyright page."
-			case .failed(let error):
-				return error
-			case .found(let isbn):
+		case .searching:
+			return "Wait for the camera to focus on an ISBN number. Make sure \"ISBN\" and the whole number are visible."
+		case .failed(let error):
+			return error
+		case .foundText:
+			return "Trouble scanning? The copyright page may have a larger, clearer font. You can also type an ISBN in search."
+		case .found(let isbn):
 			return "Searching for \(isbn.displayString)"
 		}
 	}

@@ -21,8 +21,7 @@ struct WorkScreen: View {
 	/// its selected edition. The work screen uses the selected edition for
 	/// its background cover art and its own state picker.
 	@State private var selectedEdition: Edition
-	/// A helper flag used by the editable modifier to forward edit mode
-	/// changes in a simpler fashion.
+	/// Updated by the editable modifier when edit mode changes.
 	@State private var isEditing = false
 	/// The height class environment variable, used in screen layout.
 	@Environment(\.verticalSizeClass) private var heightClass
