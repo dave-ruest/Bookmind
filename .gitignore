@@ -1,4 +1,5 @@
 # Xcode
+*.DS_Store
 
 ## User settings
 xcuserdata/
@@ -13,5 +14,3 @@ xcuserdata/
 
 ## Build
 Build/*
-.DS_Store
-Bookmind/Assets.xcassets/.DS_Store

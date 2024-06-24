@@ -42,10 +42,19 @@ final class ScanViewCoordinator: NSObject {
 
 extension ScanViewCoordinator: DataScannerViewControllerDelegate {
 	func dataScanner(_ dataScanner: DataScannerViewController, didAdd addedItems: [RecognizedItem], allItems: [RecognizedItem]) {
+		var state: ScanModel.State? = nil
+		if !addedItems.isEmpty {
+			state = .foundText
+		}
+		
 		let scannedCodes: [ISBN] = addedItems.compactMap { ISBN(item: $0) }
-		guard let scannedCode = scannedCodes.first else { return }
+		if let scannedCode = scannedCodes.first {
+			state = .found(scannedCode)
+		}
+		
+		guard let state else { return }
 		DispatchQueue.main.async {
-			self.model.state = .found(scannedCode)
+			self.model.state = state
 		}
 	}
 }

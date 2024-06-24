@@ -28,13 +28,14 @@ struct LibraryScreen: View {
 						Spacer()
 						Text("\(author.books.count)")
 					}
+					.bookViewFrame()
 				}
-				.listRowBackground(Color(.clear))
+				.bookListRowStyle()
 			}.onDelete(perform: delete)
 		}
 		.listStyle(.plain)
 		.listRowSeparatorTint(.accent)
-		.background(Color(.background))
+//		.background(Color(.background))
 		.toolbar {
 			EditButton()
 		}
@@ -50,7 +51,10 @@ struct LibraryScreen: View {
 
 #Preview {
 	NavigationStack {
-		LibraryScreen()
+		ZStack {
+			LibraryBackgroundView()
+			LibraryScreen()
+		}
 	}
 	.modelContainer(StorageModel.preview.container)
 	.environmentObject(CoverModel())

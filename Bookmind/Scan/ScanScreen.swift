@@ -16,12 +16,15 @@ import SwiftUI
 /// status messages for the scan model in a simple text view. When an ISBN
 /// is found, we move to search.
 ///
-/// The scan screen also has a search model. 
+/// The scan screen also has a search model. When we detect something we're
+/// reasonably sure is an ISBN, we start a search. The search result is shown
+/// in our search progress view, including a found book. If the user taps the
+/// book we pass that back to the home screen via our selected book binding.
 struct ScanScreen: View {
 	@Binding var selectedBook: Book?
-
 	@StateObject var scanModel = ScanModel()
 	@StateObject var searchModel = SearchModel()
+	
 	@State private var foundBook: Book?
 	
 	@Environment(\.dismiss) private var dismiss
@@ -30,21 +33,22 @@ struct ScanScreen: View {
 	var body: some View {
 		ZStack {
 			#if targetEnvironment(simulator)
-			Color(.background)
+			Color(.systemIndigo)
 				.ignoresSafeArea(.all)
 			#else
 			ScanView()
 				.ignoresSafeArea(.all)
 			#endif
-			VStack(spacing: 16.0) {
+			VStack() {
 				Spacer()
-				if self.searchModel.result == nil {
-					Text(self.scanModel.description)
-						.bookGroupStyle()
-				} else {
+				if self.searchModel.result != nil {
 					SearchProgressView(result: self.$searchModel.result,
 									   foundBook: self.$foundBook,
 									   selectedBook: self.$selectedBook)
+				} else {
+					Text(self.scanModel.description)
+						.bookGroupStyle()
+						.multilineTextAlignment(.center)
 				}
 				CancelButton()
 			}
@@ -73,8 +77,19 @@ struct ScanScreen: View {
 }
 
 #Preview {
-	VStack {
+	VStack() {
 		ScanScreen(selectedBook: .constant(nil))
+	}
+}
+
+#Preview {
+	VStack {
+		ScanScreen(selectedBook: .constant(nil), scanModel: ScanModel.Preview.foundText)
+	}
+}
+
+#Preview {
+	VStack() {
 		ScanScreen(selectedBook: .constant(nil), scanModel: ScanModel.Preview.failed)
 		ScanScreen(selectedBook: .constant(nil), scanModel: ScanModel.Preview.found)
 	}
@@ -97,13 +112,6 @@ struct ScanScreen: View {
 			ScanScreen(selectedBook: .constant(nil), searchModel: SearchModel.Preview.failed)
 			ScanScreen(selectedBook: .constant(nil), searchModel: SearchModel.Preview.legend)
 		}
-	}
-	.modelContainer(StorageModel.preview.container)
-}
-
-#Preview {
-	NavigationStack {
-		ScanScreen(selectedBook: .constant(nil), searchModel: SearchModel.Preview.dorsai)
 	}
 	.modelContainer(StorageModel.preview.container)
 	.environmentObject(CoverModel())

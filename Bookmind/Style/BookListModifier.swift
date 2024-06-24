@@ -31,12 +31,15 @@ extension View {
 }
 
 #Preview {
-	List {
-		ForEach(Author.Preview.allAuthors) { author in
-			Text(author.name)
+	VStack {
+		List {
+			ForEach(Author.Preview.allAuthors) { author in
+				Text(author.name)
+			}
+			.bookListRowStyle()
 		}
-		.bookListRowStyle()
+		.bookListStyle()
 	}
-	.bookListStyle()
+	.padding()
 	.background(.indigo)
 }
