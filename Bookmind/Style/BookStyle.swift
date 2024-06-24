@@ -13,7 +13,7 @@ struct BookStyle {
 	static var border = 2.0
 	// TODO: Adjust for high contrast
 	static var opacity = 0.66
-	static var padding = 8.0
+	static var padding = 6.0
 }
 
 extension View {

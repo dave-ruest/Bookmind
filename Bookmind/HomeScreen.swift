@@ -48,12 +48,14 @@ struct HomeScreen: View {
 				if !self.isEditing {
 					VStack {
 						// room for maybe 1-2 more
-						NavigationLink {
-							SearchScreen()
-						} label: {
-							Label("Search", systemImage: "magnifyingglass.circle.fill")
-								.bookButtonStyle()
-						}
+						// disable for now, continue in a dedicated ticket
+						// need to try
+//						NavigationLink {
+//							SearchScreen(selectedBook: self.$selectedScannedBook)
+//						} label: {
+//							Label("Search", systemImage: "magnifyingglass.circle.fill")
+//								.bookButtonStyle()
+//						}
 						Button {
 							self.isScanning.toggle()
 						} label: {

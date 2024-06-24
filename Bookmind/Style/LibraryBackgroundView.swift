@@ -21,6 +21,6 @@ struct LibraryBackgroundView: View {
 			.blur(radius: 4.0)
 			.brightness(-0.2)
 			.toolbarBackground(.visible, for: .navigationBar)
-			.toolbarBackground(.thinMaterial, for: .navigationBar)
+			.toolbarBackground(.background.opacity(0.2), for: .navigationBar)
 	}
 }

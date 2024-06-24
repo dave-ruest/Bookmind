@@ -16,12 +16,15 @@ import SwiftUI
 /// status messages for the scan model in a simple text view. When an ISBN
 /// is found, we move to search.
 ///
-/// The scan screen also has a search model. 
+/// The scan screen also has a search model. When we detect something we're
+/// reasonably sure is an ISBN, we start a search. The search result is shown
+/// in our search progress view, including a found book. If the user taps the
+/// book we pass that back to the home screen via our selected book binding.
 struct ScanScreen: View {
 	@Binding var selectedBook: Book?
-
 	@StateObject var scanModel = ScanModel()
 	@StateObject var searchModel = SearchModel()
+	
 	@State private var foundBook: Book?
 	
 	@Environment(\.dismiss) private var dismiss
@@ -111,4 +114,5 @@ struct ScanScreen: View {
 		}
 	}
 	.modelContainer(StorageModel.preview.container)
+	.environmentObject(CoverModel())
 }
