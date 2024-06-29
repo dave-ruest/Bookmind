@@ -1,5 +1,5 @@
 //
-//  SingleEditionBookScreen.swift
+//  InsertBookScreen.swift
 //  Bookmind
 //
 //  Created by Dave Ruest on 2024-06-05.
@@ -8,8 +8,8 @@
 import SwiftData
 import SwiftUI
 
-/// ScannedBookScreen displays a scanned book: an edition and its work.
-struct ScannedBookScreen: View {
+/// InsertBookScreen displays a book found by search or scan.
+struct InsertBookScreen: View {
 	/// The book to display. The user may edit rating and read state.
 	@State var book: Book
 	/// The height class environment variable, used in screen layout.
@@ -42,7 +42,7 @@ struct ScannedBookScreen: View {
 #Preview {
 	let storage = StorageModel(preview: true)
 	let book = storage.insert(book: Book.Preview.quiet)
-	return ScannedBookScreen(book: book)
+	return InsertBookScreen(book: book)
 			.modelContainer(storage.container)
 	.environmentObject(CoverModel())
 }
@@ -50,7 +50,7 @@ struct ScannedBookScreen: View {
 #Preview {
 	let storage = StorageModel(preview: true)
 	let book = storage.insert(book: Book.Preview.legend)
-	return ScannedBookScreen(book: book)
+	return InsertBookScreen(book: book)
 			.modelContainer(storage.container)
 	.environmentObject(CoverModel())
 }
@@ -58,7 +58,7 @@ struct ScannedBookScreen: View {
 #Preview {
 	let storage = StorageModel(preview: true)
 	let book = storage.insert(book: Book.Preview.dorsai)
-	return ScannedBookScreen(book: book)
+	return InsertBookScreen(book: book)
 			.modelContainer(storage.container)
 	.environmentObject(CoverModel())
 }

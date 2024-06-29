@@ -21,7 +21,9 @@ import SwiftUI
 /// in our search progress view, including a found book. If the user taps the
 /// book we pass that back to the home screen via our selected book binding.
 struct ScanScreen: View {
-	@Binding var selectedBook: Book?
+	/// A binding used to tell the home screen to show the "insert book"
+	/// screen. We'll set this property when the user selects a book result.
+	@Binding var insertBook: Book?
 	@StateObject var scanModel = ScanModel()
 	@StateObject var searchModel = SearchModel()
 	
@@ -44,7 +46,7 @@ struct ScanScreen: View {
 				if self.searchModel.result != nil {
 					SearchProgressView(result: self.$searchModel.result,
 									   foundBook: self.$foundBook,
-									   selectedBook: self.$selectedBook)
+									   selectedBook: self.$insertBook)
 				} else {
 					Text(self.scanModel.description)
 						.bookGroupStyle()
@@ -78,28 +80,28 @@ struct ScanScreen: View {
 
 #Preview {
 	VStack() {
-		ScanScreen(selectedBook: .constant(nil))
+		ScanScreen(insertBook: .constant(nil))
 	}
 }
 
 #Preview {
 	VStack {
-		ScanScreen(selectedBook: .constant(nil), scanModel: ScanModel.Preview.foundText)
+		ScanScreen(insertBook: .constant(nil), scanModel: ScanModel.Preview.foundText)
 	}
 }
 
 #Preview {
 	VStack() {
-		ScanScreen(selectedBook: .constant(nil), scanModel: ScanModel.Preview.failed)
-		ScanScreen(selectedBook: .constant(nil), scanModel: ScanModel.Preview.found)
+		ScanScreen(insertBook: .constant(nil), scanModel: ScanModel.Preview.failed)
+		ScanScreen(insertBook: .constant(nil), scanModel: ScanModel.Preview.found)
 	}
 }
 
 #Preview {
 	NavigationStack {
 		VStack {
-			ScanScreen(selectedBook: .constant(nil), searchModel: SearchModel.Preview.searching)
-			ScanScreen(selectedBook: .constant(nil), searchModel: SearchModel.Preview.quiet)
+			ScanScreen(insertBook: .constant(nil), searchModel: SearchModel.Preview.searching)
+			ScanScreen(insertBook: .constant(nil), searchModel: SearchModel.Preview.quiet)
 		}
 	}
 	.modelContainer(StorageModel.preview.container)
@@ -109,8 +111,8 @@ struct ScanScreen: View {
 #Preview {
 	NavigationStack {
 		VStack {
-			ScanScreen(selectedBook: .constant(nil), searchModel: SearchModel.Preview.failed)
-			ScanScreen(selectedBook: .constant(nil), searchModel: SearchModel.Preview.legend)
+			ScanScreen(insertBook: .constant(nil), searchModel: SearchModel.Preview.failed)
+			ScanScreen(insertBook: .constant(nil), searchModel: SearchModel.Preview.legend)
 		}
 	}
 	.modelContainer(StorageModel.preview.container)

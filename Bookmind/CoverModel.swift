@@ -9,6 +9,10 @@ import Combine
 import Foundation
 import UIKit
 
+/// CoverModel keeps a cache of fetched images. Clients call static
+/// fetch() to retrieve an cover. If the cover is in the cache it is
+/// immediately returned. Otherwise the model will fetch the cover,
+/// store it in the cache and then return it.
 final class CoverModel: ObservableObject {
 	private var cache = NSCache<NSString, UIImage>()
 	private var cancelables = [AnyCancellable]()

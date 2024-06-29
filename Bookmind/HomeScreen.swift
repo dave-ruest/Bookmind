@@ -17,10 +17,11 @@ struct HomeScreen: View {
 	/// A flag used to present the scan screen. The scan button toggles
 	/// this flag, and the scanner remains open while the flag is true.
 	@State private var isScanning = false
-	/// A property used to present the "scanned book" screen. If the user
-	/// taps a valid search result, the book is saved and a screen opened
-	/// so the user can edit the new book.
-	@State private var selectedScannedBook: Book? = nil
+	/// A property used to present the "insert book" screen. This binding
+	/// is passed to the scan and search screens. When the user finds and
+	/// taps a book, scan or search set this property, which pushes an
+	/// insert book screen onto the navigation stack.
+	@State private var insertBook: Book? = nil
 	/// The height class environment variable, used in screen layout.
 	@Environment(\.verticalSizeClass) private var heightClass
 	/// Updated by the editable modifier when edit mode changes.
@@ -47,15 +48,12 @@ struct HomeScreen: View {
 				}
 				if !self.isEditing {
 					VStack {
-						// room for maybe 1-2 more
-						// disable for now, continue in a dedicated ticket
-						// need to try
-//						NavigationLink {
-//							SearchScreen(selectedBook: self.$selectedScannedBook)
-//						} label: {
-//							Label("Search", systemImage: "magnifyingglass.circle.fill")
-//								.bookButtonStyle()
-//						}
+						NavigationLink {
+							SearchScreen(insertBook: self.$insertBook)
+						} label: {
+							Label("Search", systemImage: "magnifyingglass.circle.fill")
+								.bookButtonStyle()
+						}
 						Button {
 							self.isScanning.toggle()
 						} label: {
@@ -69,10 +67,10 @@ struct HomeScreen: View {
 			.animation(.smooth, value: self.isEditing)
 			.editable(self.$isEditing)
 			.fullScreenCover(isPresented: self.$isScanning, content: {
-				ScanScreen(selectedBook: self.$selectedScannedBook)
+				ScanScreen(insertBook: self.$insertBook)
 			})
-			.fullScreenCover(item: self.$selectedScannedBook) { book in
-				ScannedBookScreen(book: book)
+			.fullScreenCover(item: self.$insertBook) { book in
+				InsertBookScreen(book: book)
 			}
 		}
 		.navigationBarTitleDisplayMode(.large)

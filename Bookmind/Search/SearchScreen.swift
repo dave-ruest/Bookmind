@@ -29,7 +29,9 @@ import SwiftUI
 /// before opening the detail screen. We probably want a save button on
 /// the book detail screen, and to only insert then. 
 struct SearchScreen: View {
-	@Binding var selectedBook: Book?
+	/// A binding used to tell the home screen to show the "insert book"
+	/// screen. We'll set this property when the user selects a book result.
+	@Binding var insertBook: Book?
 	@StateObject var searchModel = SearchModel()
 
 	@State private var foundBook: Book?
@@ -44,7 +46,7 @@ struct SearchScreen: View {
 				if self.searchModel.result != nil {
 					SearchProgressView(result: self.$searchModel.result,
 									   foundBook: self.$foundBook,
-									   selectedBook: self.$selectedBook)
+									   selectedBook: self.$insertBook)
 				}
 				Spacer()
 				VStack {
@@ -112,19 +114,19 @@ private enum SearchType: String, CaseIterable, Identifiable {
 
 #Preview {
 	NavigationStack {
-		SearchScreen(selectedBook: .constant(nil), searchModel: SearchModel.Preview.searching)
+		SearchScreen(insertBook: .constant(nil), searchModel: SearchModel.Preview.searching)
 	}
 }
 
 #Preview {
 	NavigationStack {
-		SearchScreen(selectedBook: .constant(nil), searchModel: SearchModel.Preview.failed)
+		SearchScreen(insertBook: .constant(nil), searchModel: SearchModel.Preview.failed)
 	}
 }
 
 #Preview {
 	NavigationStack {
-		SearchScreen(selectedBook: .constant(nil), searchModel: SearchModel.Preview.quiet)
+		SearchScreen(insertBook: .constant(nil), searchModel: SearchModel.Preview.quiet)
 	}
 	.modelContainer(StorageModel.preview.container)
 	.environmentObject(CoverModel())
@@ -132,7 +134,7 @@ private enum SearchType: String, CaseIterable, Identifiable {
 
 #Preview {
 	NavigationStack {
-		SearchScreen(selectedBook: .constant(nil), searchModel: SearchModel.Preview.legend)
+		SearchScreen(insertBook: .constant(nil), searchModel: SearchModel.Preview.legend)
 	}
 	.modelContainer(StorageModel.preview.container)
 	.environmentObject(CoverModel())

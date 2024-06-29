@@ -52,6 +52,12 @@ extension Book: Equatable {
 	}
 }
 
+extension Book: Hashable {
+	func hash(into hasher: inout Hasher) {
+		self.edition.isbn.hash(into: &hasher)
+	}
+}
+
 extension Book: Identifiable {
 	var id: String {
 		self.edition.isbn
