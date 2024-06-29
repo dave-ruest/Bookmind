@@ -14,14 +14,9 @@ import SwiftUI
 struct HomeScreen: View {
 	/// A query used to decide if we should show the welcome text.
 	@Query var authors: [Author]
-	/// A flag used to present the scan screen. The scan button toggles
-	/// this flag, and the scanner remains open while the flag is true.
-	@State private var isScanning = false
-	/// A property used to present the "insert book" screen. This binding
-	/// is passed to the scan and search screens. When the user finds and
-	/// taps a book, scan or search set this property, which pushes an
-	/// insert book screen onto the navigation stack.
-	@State private var insertBook: Book? = nil
+	/// A collection of bindings and flags that allow navigation between
+	/// search screens.
+	@ObservedObject private var router = SearchRouter()
 	/// The height class environment variable, used in screen layout.
 	@Environment(\.verticalSizeClass) private var heightClass
 	/// Updated by the editable modifier when edit mode changes.
@@ -49,13 +44,13 @@ struct HomeScreen: View {
 				if !self.isEditing {
 					VStack {
 						NavigationLink {
-							SearchScreen(insertBook: self.$insertBook)
+							SearchScreen(router: self.router)
 						} label: {
 							Label("Search", systemImage: "magnifyingglass.circle.fill")
 								.bookButtonStyle()
 						}
 						Button {
-							self.isScanning.toggle()
+							self.router.isScanning = true
 						} label: {
 							Label("Scan ISBN", systemImage: "camera.fill")
 								.bookButtonStyle()
@@ -65,11 +60,16 @@ struct HomeScreen: View {
 				}
 			}
 			.animation(.smooth, value: self.isEditing)
+			.animation(.smooth, value: self.router.isScanning)
+			.animation(.smooth, value: self.router.inserting)
 			.editable(self.$isEditing)
-			.fullScreenCover(isPresented: self.$isScanning, content: {
-				ScanScreen(insertBook: self.$insertBook)
-			})
-			.fullScreenCover(item: self.$insertBook) { book in
+			.navigationDestination(isPresented: self.$router.isScanning) {
+				ScanScreen(router: self.router)
+			}
+			.navigationDestination(isPresented: self.$router.isSearching) {
+				SearchScreen(router: self.router)
+			}
+			.navigationDestination(item: self.$router.inserting) { book in
 				InsertBookScreen(book: book)
 			}
 		}

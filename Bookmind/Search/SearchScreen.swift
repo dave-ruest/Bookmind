@@ -29,12 +29,15 @@ import SwiftUI
 /// before opening the detail screen. We probably want a save button on
 /// the book detail screen, and to only insert then. 
 struct SearchScreen: View {
-	/// A binding used to tell the home screen to show the "insert book"
-	/// screen. We'll set this property when the user selects a book result.
-	@Binding var insertBook: Book?
+	/// A binding used to navigate between search screens. When the user
+	/// selects a book search result, we set the "inserting" book and the
+	/// home screen will push the insert book screen.
+	@ObservedObject var router: SearchRouter
+	/// A model used to search for editions by ISBN. Shared by the scan
+	/// and search screens. We *could* make this an environment object
+	/// but as with the scanner it's safer and simpler to start fresh.
 	@StateObject var searchModel = SearchModel()
 
-	@State private var foundBook: Book?
 	@State private var searchType: SearchType = .ISBN
 	@State private var searchText = ""
 	@FocusState private var showKeyboard
@@ -45,8 +48,7 @@ struct SearchScreen: View {
 			VStack {
 				if self.searchModel.result != nil {
 					SearchProgressView(result: self.$searchModel.result,
-									   foundBook: self.$foundBook,
-									   selectedBook: self.$insertBook)
+									   router: self.router)
 				}
 				Spacer()
 				VStack {
@@ -75,15 +77,6 @@ struct SearchScreen: View {
 		.onAppear() {
 			self.showKeyboard = true
 		}
-		.onChange(of: self.searchModel.result, initial: true) {
-			self.searchModelChanged()
-		}
-	}
-	
-	private func searchModelChanged() {
-		if case .found(let book) = self.searchModel.result {
-			self.foundBook = book
-		}
 	}
 
 	private func isSearchDisabled() -> Bool {
@@ -95,7 +88,7 @@ struct SearchScreen: View {
 	
 	private func searchTapped() {
 		if let isbn = ISBN("ISBN " + self.searchText) {
-			self.searchModel.search(isbn)
+			self.searchModel.search(for: isbn)
 		}
 	}
 }
@@ -114,19 +107,19 @@ private enum SearchType: String, CaseIterable, Identifiable {
 
 #Preview {
 	NavigationStack {
-		SearchScreen(insertBook: .constant(nil), searchModel: SearchModel.Preview.searching)
+		SearchScreen(router: SearchRouter(), searchModel: SearchModel.Preview.searching)
 	}
 }
 
 #Preview {
 	NavigationStack {
-		SearchScreen(insertBook: .constant(nil), searchModel: SearchModel.Preview.failed)
+		SearchScreen(router: SearchRouter(), searchModel: SearchModel.Preview.failed)
 	}
 }
 
 #Preview {
 	NavigationStack {
-		SearchScreen(insertBook: .constant(nil), searchModel: SearchModel.Preview.quiet)
+		SearchScreen(router: SearchRouter(), searchModel: SearchModel.Preview.quiet)
 	}
 	.modelContainer(StorageModel.preview.container)
 	.environmentObject(CoverModel())
@@ -134,7 +127,7 @@ private enum SearchType: String, CaseIterable, Identifiable {
 
 #Preview {
 	NavigationStack {
-		SearchScreen(insertBook: .constant(nil), searchModel: SearchModel.Preview.legend)
+		SearchScreen(router: SearchRouter(), searchModel: SearchModel.Preview.legend)
 	}
 	.modelContainer(StorageModel.preview.container)
 	.environmentObject(CoverModel())
