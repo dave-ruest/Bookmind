@@ -15,11 +15,12 @@ import SwiftUI
 struct BookmindApp: App {
 	private let storage = StorageModel()
 	private let covers = CoverModel()
+	@ObservedObject private var router = SearchRouter()
 	
     var body: some Scene {
         WindowGroup {
-			NavigationStack {
-				HomeScreen()
+			NavigationStack(path: self.$router.path) {
+				HomeScreen(router: self.router)
 			}
 			.modelContainer(self.storage.container)
 			.environmentObject(self.storage)

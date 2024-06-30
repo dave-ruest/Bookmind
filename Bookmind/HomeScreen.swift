@@ -16,7 +16,7 @@ struct HomeScreen: View {
 	@Query var authors: [Author]
 	/// A collection of bindings and flags that allow navigation between
 	/// search screens.
-	@ObservedObject private var router = SearchRouter()
+	@ObservedObject var router: SearchRouter
 	/// The height class environment variable, used in screen layout.
 	@Environment(\.verticalSizeClass) private var heightClass
 	/// Updated by the editable modifier when edit mode changes.
@@ -43,8 +43,8 @@ struct HomeScreen: View {
 				}
 				if !self.isEditing {
 					VStack {
-						NavigationLink {
-							SearchScreen(router: self.router)
+						Button {
+							self.router.path.append(SearchRouter.Search())
 						} label: {
 							Label("Search", systemImage: "magnifyingglass.circle.fill")
 								.bookButtonStyle()
@@ -60,17 +60,15 @@ struct HomeScreen: View {
 				}
 			}
 			.animation(.smooth, value: self.isEditing)
-			.animation(.smooth, value: self.router.isScanning)
-			.animation(.smooth, value: self.router.inserting)
 			.editable(self.$isEditing)
-			.navigationDestination(isPresented: self.$router.isScanning) {
+			.fullScreenCover(isPresented: self.$router.isScanning) {
 				ScanScreen(router: self.router)
 			}
-			.navigationDestination(isPresented: self.$router.isSearching) {
+			.navigationDestination(for: SearchRouter.Search.self) { _ in 
 				SearchScreen(router: self.router)
 			}
-			.navigationDestination(item: self.$router.inserting) { book in
-				InsertBookScreen(book: book)
+			.navigationDestination(for: Book.self) { book in
+				InsertBookScreen(router: self.router, book: book)
 			}
 		}
 		.navigationBarTitleDisplayMode(.large)
@@ -80,14 +78,14 @@ struct HomeScreen: View {
 
 #Preview {
 	NavigationStack {
-		HomeScreen()
+		HomeScreen(router: SearchRouter())
 			.modelContainer(StorageModel().container)
 	}
 }
 
 #Preview {
 	NavigationStack {
-		HomeScreen()
+		HomeScreen(router: SearchRouter())
 	}
 	.modelContainer(StorageModel.preview.container)
 	.environmentObject(CoverModel())

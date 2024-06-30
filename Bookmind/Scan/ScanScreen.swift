@@ -32,18 +32,16 @@ struct ScanScreen: View {
 	/// and search screens. We *could* make this an environment object
 	/// but as with the scanner it's safer and simpler to start fresh.
 	@StateObject var searchModel = SearchModel()
-	
-	@Environment(\.dismiss) private var dismiss
 
 	var body: some View {
 		ZStack {
-			#if targetEnvironment(simulator)
+#if targetEnvironment(simulator)
 			Color(.systemIndigo)
 				.ignoresSafeArea(.all)
-			#else
+#else
 			ScanView()
 				.ignoresSafeArea(.all)
-			#endif
+#endif
 			VStack() {
 				Spacer()
 				if self.searchModel.result != nil {
@@ -57,7 +55,7 @@ struct ScanScreen: View {
 				if self.scanModel.state == .foundText {
 					Button(action: {
 						self.router.isScanning = false
-						self.router.isSearching = true
+						self.router.path.append(SearchRouter.Search())
 					}, label: {
 						Label("Search", systemImage: "magnifyingglass.circle.fill")
 							.bookButtonStyle()

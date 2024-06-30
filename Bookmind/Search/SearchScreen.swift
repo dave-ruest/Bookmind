@@ -38,7 +38,6 @@ struct SearchScreen: View {
 	/// but as with the scanner it's safer and simpler to start fresh.
 	@StateObject var searchModel = SearchModel()
 
-	@State private var searchType: SearchType = .ISBN
 	@State private var searchText = ""
 	@FocusState private var showKeyboard
 
@@ -46,29 +45,21 @@ struct SearchScreen: View {
 		ZStack {
 			LibraryBackgroundView()
 			VStack {
+				Spacer()
 				if self.searchModel.result != nil {
 					SearchProgressView(result: self.$searchModel.result,
 									   router: self.router)
 				}
-				Spacer()
-				VStack {
-					Picker("Search", selection: self.$searchType) {
-						ForEach(SearchType.allCases) { type in
-							Text(type.rawValue)
-						}
+				TextField("ISBN", text: self.$searchText)
+					.keyboardType(.numbersAndPunctuation)
+					.autocorrectionDisabled()
+					.submitLabel(.search)
+					.focused(self.$showKeyboard)
+					.textFieldStyle(.roundedBorder)
+					.border(Color.accentColor, width: 1.0)
+					.onSubmit {
+						self.searchTapped()
 					}
-					.bookPickerStyle()
-					TextField(self.searchType.rawValue, text: self.$searchText)
-						.keyboardType(self.searchType.keyboardType)
-						.submitLabel(.search)
-						.focused(self.$showKeyboard)
-						.textFieldStyle(.roundedBorder)
-						.border(Color.accentColor, width: 1.0)
-						.onSubmit {
-							self.searchTapped()
-						}
-				}
-				.bookGroupStyle()
 			}
 			.padding()
 		}
@@ -78,30 +69,11 @@ struct SearchScreen: View {
 			self.showKeyboard = true
 		}
 	}
-
-	private func isSearchDisabled() -> Bool {
-		switch self.searchType {
-		case .ISBN: return ISBN("ISBN " + self.searchText) == nil
-		default: return true
-		}
-	}
 	
 	private func searchTapped() {
 		if let isbn = ISBN("ISBN " + self.searchText) {
 			self.searchModel.search(for: isbn)
 		}
-	}
-}
-
-private enum SearchType: String, CaseIterable, Identifiable {
-	case ISBN
-	case Author
-	case Title
-	
-	var id: Self { self }
-	
-	var keyboardType: UIKeyboardType {
-		self == .ISBN ? .numbersAndPunctuation : .namePhonePad
 	}
 }
 

@@ -10,6 +10,10 @@ import SwiftUI
 
 /// InsertBookScreen displays a book found by search or scan.
 struct InsertBookScreen: View {
+	/// A binding used to navigate between search screens. When the user
+	/// selects a book search result, we set the "inserting" book and the
+	/// home screen will push the insert book screen.
+	@ObservedObject var router: SearchRouter
 	/// The book to display. The user may edit rating and read state.
 	@State var book: Book
 	/// The height class environment variable, used in screen layout.
@@ -29,7 +33,12 @@ struct InsertBookScreen: View {
 					OwnStateView(state: self.$book.edition.ownState)
 					ReadStateView(state: self.$book.work.readState)
 					RatingView(rating: self.$book.work.rating)
-					DoneButton()
+					Button(action: {
+						self.router.path.removeLast(self.router.path.count)
+					}, label: {
+						Label("Done", systemImage: "arrowshape.backward.fill")
+							.bookButtonStyle()
+					})
 				}
 			}
 			.padding()
@@ -42,23 +51,23 @@ struct InsertBookScreen: View {
 #Preview {
 	let storage = StorageModel(preview: true)
 	let book = storage.insert(book: Book.Preview.quiet)
-	return InsertBookScreen(book: book)
-			.modelContainer(storage.container)
-	.environmentObject(CoverModel())
+	return InsertBookScreen(router: SearchRouter(), book: book)
+		.modelContainer(storage.container)
+		.environmentObject(CoverModel())
 }
 
 #Preview {
 	let storage = StorageModel(preview: true)
 	let book = storage.insert(book: Book.Preview.legend)
-	return InsertBookScreen(book: book)
-			.modelContainer(storage.container)
-	.environmentObject(CoverModel())
+	return InsertBookScreen(router: SearchRouter(), book: book)
+		.modelContainer(storage.container)
+		.environmentObject(CoverModel())
 }
 
 #Preview {
 	let storage = StorageModel(preview: true)
 	let book = storage.insert(book: Book.Preview.dorsai)
-	return InsertBookScreen(book: book)
-			.modelContainer(storage.container)
-	.environmentObject(CoverModel())
+	return InsertBookScreen(router: SearchRouter(), book: book)
+		.modelContainer(storage.container)
+		.environmentObject(CoverModel())
 }
