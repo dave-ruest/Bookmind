@@ -12,10 +12,13 @@ import SwiftUI
 struct AuthorScreen: View {
 	/// The author whose name and works will be shown.
 	@State var author: Author
-	/// Core data storage, used to delete editions.
-	@EnvironmentObject private var storage: StorageModel
 	/// Updated by the editable modifier when edit mode changes.
 	@State private var isEditing = false
+	/// Core data storage, used to delete editions.
+	@EnvironmentObject private var storage: StorageModel
+	/// The dismiss environment variable, used to close the screen if
+	/// we delete the last edition of a work and the work.
+	@Environment(\.dismiss) private var dismiss
 
 	var body: some View {
 		ZStack {
@@ -52,6 +55,12 @@ struct AuthorScreen: View {
 				.listStyle(.plain)
 				.listRowSeparatorTint(.accent)
 				.background(Color(.background))
+				if isEditing {
+					Spacer()
+					DeleteButton {
+						self.deleteAuthor()
+					}
+				}
 			}
 		}
 		.navigationBarTitleDisplayMode(.inline)
@@ -73,6 +82,24 @@ struct AuthorScreen: View {
 		let books = offsets.map { self.author.books[$0] }
 		self.storage.delete(books)
 		self.author.books.remove(atOffsets: offsets)
+		
+		if self.author.books.isEmpty {
+			self.dismiss()
+			self.storage.delete([self.author])
+		}
+	}
+	
+	private func deleteAuthor() {
+		self.dismiss()
+		
+		let works = self.author.books
+		for work in works {
+			work.authors.removeAll(where: { $0 == self.author } )
+		}
+		self.storage.delete([self.author])
+		
+		let authorlessWorks = works.filter { $0.authors.isEmpty }
+		self.storage.delete(authorlessWorks)
 	}
 }
 

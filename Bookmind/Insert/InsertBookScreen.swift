@@ -15,7 +15,7 @@ struct InsertBookScreen: View {
 	/// home screen will push the insert book screen.
 	@ObservedObject var router: SearchRouter
 	/// The book to display. The user may edit rating and read state.
-	@State var book: Book
+	@State var model: InsertBookModel
 	/// The height class environment variable, used in screen layout.
 	@Environment(\.verticalSizeClass) private var heightClass
 
@@ -26,19 +26,31 @@ struct InsertBookScreen: View {
 			: AnyLayout(VStackLayout())
 		
 		ZStack {
-			CoverBackgroundView(edition: self.$book.edition)
+			CoverBackgroundView(edition: self.$model.book.edition)
 			AStack {
-				CoverView(book: self.book)
+				CoverView(book: self.model.book)
 				VStack() {
-					OwnStateView(state: self.$book.edition.ownState)
-					ReadStateView(state: self.$book.work.readState)
-					RatingView(rating: self.$book.work.rating)
+					OwnStateView(state: self.$model.book.edition.ownState)
+					ReadStateView(state: self.$model.book.work.readState)
+					RatingView(rating: self.$model.book.work.rating)
 					Button(action: {
 						self.router.path.removeLast(self.router.path.count)
 					}, label: {
-						Label("Done", systemImage: "arrowshape.backward.fill")
+						Label("Save", systemImage: "plus.circle.fill")
 							.bookButtonStyle()
+
 					})
+					DeleteButton {
+						
+					}
+					// uncomment when we add cancel support, i.e. a
+					// de-duped but unsaved instance of the book
+//					Button(action: {
+//						self.router.path.removeLast(self.router.path.count)
+//					}, label: {
+//						Label("Cancel", systemImage: "minus.diamond.fill")
+//							.bookButtonStyle()
+//					})
 				}
 			}
 			.padding()
@@ -51,7 +63,7 @@ struct InsertBookScreen: View {
 #Preview {
 	let storage = StorageModel(preview: true)
 	let book = storage.insert(book: Book.Preview.quiet)
-	return InsertBookScreen(router: SearchRouter(), book: book)
+	return InsertBookScreen(router: SearchRouter(), model: InsertBookModel(storage: storage, book: book))
 		.modelContainer(storage.container)
 		.environmentObject(CoverModel())
 }
@@ -59,7 +71,7 @@ struct InsertBookScreen: View {
 #Preview {
 	let storage = StorageModel(preview: true)
 	let book = storage.insert(book: Book.Preview.legend)
-	return InsertBookScreen(router: SearchRouter(), book: book)
+	return InsertBookScreen(router: SearchRouter(), model: InsertBookModel(storage: storage, book: book))
 		.modelContainer(storage.container)
 		.environmentObject(CoverModel())
 }
@@ -67,7 +79,7 @@ struct InsertBookScreen: View {
 #Preview {
 	let storage = StorageModel(preview: true)
 	let book = storage.insert(book: Book.Preview.dorsai)
-	return InsertBookScreen(router: SearchRouter(), book: book)
+	return InsertBookScreen(router: SearchRouter(), model: InsertBookModel(storage: storage, book: book))
 		.modelContainer(storage.container)
 		.environmentObject(CoverModel())
 }

@@ -15,7 +15,7 @@ struct CancelButton: View {
 		Button(action: {
 			self.dismiss()
 		}, label: {
-			Label("Cancel", systemImage: "delete.left.fill")
+			Label("Cancel", systemImage: "minus.diamond.fill")
 				.bookButtonStyle()
 		})
 	}
