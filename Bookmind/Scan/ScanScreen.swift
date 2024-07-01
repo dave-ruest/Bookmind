@@ -21,34 +21,45 @@ import SwiftUI
 /// in our search progress view, including a found book. If the user taps the
 /// book we pass that back to the home screen via our selected book binding.
 struct ScanScreen: View {
-	@Binding var selectedBook: Book?
+	/// A binding used to navigate between search screens. When the user
+	/// selects a book search result, we set the "inserting" book and the
+	/// home screen will push the insert book screen.
+	@ObservedObject var router: SearchRouter
+	/// A model tracking the scanner. We use its published state to
+	/// provide feedback on scan progress.
 	@StateObject var scanModel = ScanModel()
+	/// A model used to search for editions by ISBN. Shared by the scan
+	/// and search screens. We *could* make this an environment object
+	/// but as with the scanner it's safer and simpler to start fresh.
 	@StateObject var searchModel = SearchModel()
-	
-	@State private var foundBook: Book?
-	
-	@Environment(\.dismiss) private var dismiss
-	@EnvironmentObject var storage: StorageModel
 
 	var body: some View {
 		ZStack {
-			#if targetEnvironment(simulator)
+#if targetEnvironment(simulator)
 			Color(.systemIndigo)
 				.ignoresSafeArea(.all)
-			#else
+#else
 			ScanView()
 				.ignoresSafeArea(.all)
-			#endif
+#endif
 			VStack() {
 				Spacer()
 				if self.searchModel.result != nil {
 					SearchProgressView(result: self.$searchModel.result,
-									   foundBook: self.$foundBook,
-									   selectedBook: self.$selectedBook)
+									   router: self.router)
 				} else {
 					Text(self.scanModel.description)
 						.bookGroupStyle()
 						.multilineTextAlignment(.center)
+				}
+				if self.scanModel.state == .foundText {
+					Button(action: {
+						self.router.isScanning = false
+						self.router.path.append(SearchRouter.Search())
+					}, label: {
+						Label("Search", systemImage: "magnifyingglass.circle.fill")
+							.bookButtonStyle()
+					})
 				}
 				CancelButton()
 			}
@@ -58,61 +69,50 @@ struct ScanScreen: View {
 		.onChange(of: self.scanModel.state, initial: false) {
 			self.scanModelChanged()
 		}
-		.onChange(of: self.searchModel.result, initial: true) {
-			self.searchModelChanged()
-		}
 	}
 	
 	private func scanModelChanged() {
 		if case .found(let isbn) = self.scanModel.state {
-			self.searchModel.search(isbn)
-		}
-	}
-	
-	private func searchModelChanged() {
-		if case .found(let book) = self.searchModel.result {
-			self.foundBook = book
+			self.searchModel.search(for: isbn)
 		}
 	}
 }
 
 #Preview {
 	VStack() {
-		ScanScreen(selectedBook: .constant(nil))
+		ScanScreen(router: SearchRouter())
 	}
 }
 
 #Preview {
 	VStack {
-		ScanScreen(selectedBook: .constant(nil), scanModel: ScanModel.Preview.foundText)
+		ScanScreen(router: SearchRouter(), scanModel: ScanModel.Preview.foundText)
 	}
 }
 
 #Preview {
 	VStack() {
-		ScanScreen(selectedBook: .constant(nil), scanModel: ScanModel.Preview.failed)
-		ScanScreen(selectedBook: .constant(nil), scanModel: ScanModel.Preview.found)
+		ScanScreen(router: SearchRouter(), scanModel: ScanModel.Preview.failed)
+		ScanScreen(router: SearchRouter(), scanModel: ScanModel.Preview.found)
 	}
 }
 
 #Preview {
 	NavigationStack {
 		VStack {
-			ScanScreen(selectedBook: .constant(nil), searchModel: SearchModel.Preview.searching)
-			ScanScreen(selectedBook: .constant(nil), searchModel: SearchModel.Preview.quiet)
+			ScanScreen(router: SearchRouter(), searchModel: SearchModel.Preview.searching)
+			ScanScreen(router: SearchRouter(), searchModel: SearchModel.Preview.quiet)
 		}
 	}
-	.modelContainer(StorageModel.preview.container)
 	.environmentObject(CoverModel())
 }
 
 #Preview {
 	NavigationStack {
 		VStack {
-			ScanScreen(selectedBook: .constant(nil), searchModel: SearchModel.Preview.failed)
-			ScanScreen(selectedBook: .constant(nil), searchModel: SearchModel.Preview.legend)
+			ScanScreen(router: SearchRouter(), searchModel: SearchModel.Preview.failed)
+			ScanScreen(router: SearchRouter(), searchModel: SearchModel.Preview.legend)
 		}
 	}
-	.modelContainer(StorageModel.preview.container)
 	.environmentObject(CoverModel())
 }

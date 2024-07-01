@@ -18,36 +18,45 @@ struct SearchProgressView: View {
 	/// A binding to a search model result, shown when we are searching
 	/// for or failed to find a scanned ISBN.
 	@Binding var result: BookSearch.Result?
-	/// A binding to a found book, updated when the search model
-	/// finds results for a scanned ISBN.
-	@Binding var foundBook: Book?
-	/// A binding to tell the parent view that the user selected
-	/// the found book. 
-	@Binding var selectedBook: Book?
+	/// A binding used to navigate between search screens. When the user
+	/// selects a book search result, we set the "inserting" book and the
+	/// home screen will push the insert book screen.
+	@ObservedObject var router: SearchRouter
+
+	/// A binding for a found book, updated when the search model
+	/// finds results for a scanned ISBN. Used to show or hide the
+	/// book button label.
+	@State private var foundBook: Book?
 
 	@Environment(\.dismiss) private var dismiss
 	@EnvironmentObject var storage: StorageModel
 
 	var body: some View {
-		if self.foundBook != nil {
-			Button {
-				self.didSelectBook()
-			} label: {
-				BookButtonLabel(book: Binding($foundBook)!)
+		Group {
+			if self.foundBook != nil {
+				Button {
+					self.didSelectBook()
+				} label: {
+					BookButtonLabel(book: Binding($foundBook)!)
+				}
+			} else if let message = self.message {
+				Text(message)
+					.bookGroupStyle()
+					.multilineTextAlignment(.center)
+			} else {
+				EmptyView()
 			}
-		} else if let message = self.message {
-			Text(message)
-				.bookGroupStyle()
-				.multilineTextAlignment(.center)
-		} else {
-			EmptyView()
+		}
+		.onChange(of: self.result, initial: true) {
+			self.searchModelChanged()
 		}
 	}
 	
 	private func didSelectBook() {
-		self.dismiss()
 		guard let foundBook else { return }
-		self.selectedBook = self.storage.insert(book: foundBook)
+		let model = InsertBookModel(storage: self.storage, book: foundBook)
+		self.router.isScanning = false
+		self.router.path.append(model)
 	}
 
 	private var message: String? {
@@ -60,6 +69,12 @@ struct SearchProgressView: View {
 			nil
 		}
 	}
+	
+	private func searchModelChanged() {
+		if case .found(let book) = self.result {
+			self.foundBook = book
+		}
+	}
 }
 
 #Preview {
@@ -68,20 +83,15 @@ struct SearchProgressView: View {
 			.ignoresSafeArea()
 		VStack(spacing: 16.0) {
 			SearchProgressView(result: .constant(BookSearch.Preview.failed), 
-							   foundBook: .constant(nil),
-							   selectedBook: .constant(nil))
+							   router: SearchRouter())
 			SearchProgressView(result: .constant(BookSearch.Preview.searching),
-							   foundBook: .constant(nil),
-							   selectedBook: .constant(nil))
+							   router: SearchRouter())
 			SearchProgressView(result: .constant(BookSearch.Preview.quiet),
-							   foundBook: .constant(nil),
-							   selectedBook: .constant(nil))
+							   router: SearchRouter())
 			SearchProgressView(result: .constant(BookSearch.Preview.legend),
-							   foundBook: .constant(nil),
-							   selectedBook: .constant(nil))
+							   router: SearchRouter())
 			SearchProgressView(result: .constant(BookSearch.Preview.dorsai),
-							   foundBook: .constant(nil),
-							   selectedBook: .constant(nil))
+							   router: SearchRouter())
 		}
 		.padding()
 	}

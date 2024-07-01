@@ -29,11 +29,15 @@ import SwiftUI
 /// before opening the detail screen. We probably want a save button on
 /// the book detail screen, and to only insert then. 
 struct SearchScreen: View {
-	@Binding var selectedBook: Book?
+	/// A binding used to navigate between search screens. When the user
+	/// selects a book search result, we set the "inserting" book and the
+	/// home screen will push the insert book screen.
+	@ObservedObject var router: SearchRouter
+	/// A model used to search for editions by ISBN. Shared by the scan
+	/// and search screens. We *could* make this an environment object
+	/// but as with the scanner it's safer and simpler to start fresh.
 	@StateObject var searchModel = SearchModel()
 
-	@State private var foundBook: Book?
-	@State private var searchType: SearchType = .ISBN
 	@State private var searchText = ""
 	@FocusState private var showKeyboard
 
@@ -41,30 +45,21 @@ struct SearchScreen: View {
 		ZStack {
 			LibraryBackgroundView()
 			VStack {
+				Spacer()
 				if self.searchModel.result != nil {
 					SearchProgressView(result: self.$searchModel.result,
-									   foundBook: self.$foundBook,
-									   selectedBook: self.$selectedBook)
+									   router: self.router)
 				}
-				Spacer()
-				VStack {
-					Picker("Search", selection: self.$searchType) {
-						ForEach(SearchType.allCases) { type in
-							Text(type.rawValue)
-						}
+				TextField("ISBN", text: self.$searchText)
+					.keyboardType(.numbersAndPunctuation)
+					.autocorrectionDisabled()
+					.submitLabel(.search)
+					.focused(self.$showKeyboard)
+					.textFieldStyle(.roundedBorder)
+					.border(Color.accentColor, width: 1.0)
+					.onSubmit {
+						self.searchTapped()
 					}
-					.bookPickerStyle()
-					TextField(self.searchType.rawValue, text: self.$searchText)
-						.keyboardType(self.searchType.keyboardType)
-						.submitLabel(.search)
-						.focused(self.$showKeyboard)
-						.textFieldStyle(.roundedBorder)
-						.border(Color.accentColor, width: 1.0)
-						.onSubmit {
-							self.searchTapped()
-						}
-				}
-				.bookGroupStyle()
 			}
 			.padding()
 		}
@@ -73,58 +68,30 @@ struct SearchScreen: View {
 		.onAppear() {
 			self.showKeyboard = true
 		}
-		.onChange(of: self.searchModel.result, initial: true) {
-			self.searchModelChanged()
-		}
-	}
-	
-	private func searchModelChanged() {
-		if case .found(let book) = self.searchModel.result {
-			self.foundBook = book
-		}
-	}
-
-	private func isSearchDisabled() -> Bool {
-		switch self.searchType {
-		case .ISBN: return ISBN("ISBN " + self.searchText) == nil
-		default: return true
-		}
 	}
 	
 	private func searchTapped() {
 		if let isbn = ISBN("ISBN " + self.searchText) {
-			self.searchModel.search(isbn)
+			self.searchModel.search(for: isbn)
 		}
 	}
 }
 
-private enum SearchType: String, CaseIterable, Identifiable {
-	case ISBN
-	case Author
-	case Title
-	
-	var id: Self { self }
-	
-	var keyboardType: UIKeyboardType {
-		self == .ISBN ? .numbersAndPunctuation : .namePhonePad
+#Preview {
+	NavigationStack {
+		SearchScreen(router: SearchRouter(), searchModel: SearchModel.Preview.searching)
 	}
 }
 
 #Preview {
 	NavigationStack {
-		SearchScreen(selectedBook: .constant(nil), searchModel: SearchModel.Preview.searching)
+		SearchScreen(router: SearchRouter(), searchModel: SearchModel.Preview.failed)
 	}
 }
 
 #Preview {
 	NavigationStack {
-		SearchScreen(selectedBook: .constant(nil), searchModel: SearchModel.Preview.failed)
-	}
-}
-
-#Preview {
-	NavigationStack {
-		SearchScreen(selectedBook: .constant(nil), searchModel: SearchModel.Preview.quiet)
+		SearchScreen(router: SearchRouter(), searchModel: SearchModel.Preview.quiet)
 	}
 	.modelContainer(StorageModel.preview.container)
 	.environmentObject(CoverModel())
@@ -132,7 +99,7 @@ private enum SearchType: String, CaseIterable, Identifiable {
 
 #Preview {
 	NavigationStack {
-		SearchScreen(selectedBook: .constant(nil), searchModel: SearchModel.Preview.legend)
+		SearchScreen(router: SearchRouter(), searchModel: SearchModel.Preview.legend)
 	}
 	.modelContainer(StorageModel.preview.container)
 	.environmentObject(CoverModel())

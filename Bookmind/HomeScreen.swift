@@ -14,13 +14,9 @@ import SwiftUI
 struct HomeScreen: View {
 	/// A query used to decide if we should show the welcome text.
 	@Query var authors: [Author]
-	/// A flag used to present the scan screen. The scan button toggles
-	/// this flag, and the scanner remains open while the flag is true.
-	@State private var isScanning = false
-	/// A property used to present the "scanned book" screen. If the user
-	/// taps a valid search result, the book is saved and a screen opened
-	/// so the user can edit the new book.
-	@State private var selectedScannedBook: Book? = nil
+	/// A collection of bindings and flags that allow navigation between
+	/// search screens.
+	@ObservedObject var router: SearchRouter
 	/// The height class environment variable, used in screen layout.
 	@Environment(\.verticalSizeClass) private var heightClass
 	/// Updated by the editable modifier when edit mode changes.
@@ -47,17 +43,14 @@ struct HomeScreen: View {
 				}
 				if !self.isEditing {
 					VStack {
-						// room for maybe 1-2 more
-						// disable for now, continue in a dedicated ticket
-						// need to try
-//						NavigationLink {
-//							SearchScreen(selectedBook: self.$selectedScannedBook)
-//						} label: {
-//							Label("Search", systemImage: "magnifyingglass.circle.fill")
-//								.bookButtonStyle()
-//						}
 						Button {
-							self.isScanning.toggle()
+							self.router.path.append(SearchRouter.Search())
+						} label: {
+							Label("Search", systemImage: "magnifyingglass.circle.fill")
+								.bookButtonStyle()
+						}
+						Button {
+							self.router.isScanning = true
 						} label: {
 							Label("Scan ISBN", systemImage: "camera.fill")
 								.bookButtonStyle()
@@ -68,11 +61,14 @@ struct HomeScreen: View {
 			}
 			.animation(.smooth, value: self.isEditing)
 			.editable(self.$isEditing)
-			.fullScreenCover(isPresented: self.$isScanning, content: {
-				ScanScreen(selectedBook: self.$selectedScannedBook)
-			})
-			.fullScreenCover(item: self.$selectedScannedBook) { book in
-				ScannedBookScreen(book: book)
+			.fullScreenCover(isPresented: self.$router.isScanning) {
+				ScanScreen(router: self.router)
+			}
+			.navigationDestination(for: SearchRouter.Search.self) { _ in 
+				SearchScreen(router: self.router)
+			}
+			.navigationDestination(for: InsertBookModel.self) { model in
+				InsertBookScreen(router: self.router, model: model)
 			}
 		}
 		.navigationBarTitleDisplayMode(.large)
@@ -82,14 +78,14 @@ struct HomeScreen: View {
 
 #Preview {
 	NavigationStack {
-		HomeScreen()
+		HomeScreen(router: SearchRouter())
 			.modelContainer(StorageModel().container)
 	}
 }
 
 #Preview {
 	NavigationStack {
-		HomeScreen()
+		HomeScreen(router: SearchRouter())
 	}
 	.modelContainer(StorageModel.preview.container)
 	.environmentObject(CoverModel())

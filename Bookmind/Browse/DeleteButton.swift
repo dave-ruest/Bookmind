@@ -17,11 +17,11 @@ struct DeleteButton: View {
 	var action: (() -> Void)
 	
 	@ScaledMetric(relativeTo: .body) private var border = BookStyle.border
-	@ScaledMetric(relativeTo: .body) private var padding = BookStyle.padding
+	@ScaledMetric(relativeTo: .body) private var padding = BookStyle.padding / 2
 
 	var body: some View {
 		Button(role: .destructive, action: self.action, label: {
-			Text("Delete")
+			Label("Delete", systemImage: "minus.diamond.fill")
 				.fontWeight(.bold)
 				.bookViewFrame()
 				.padding(self.padding)
