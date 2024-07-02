@@ -14,7 +14,9 @@ import SwiftData
 /// restarts. The next big step for author will be cloud storage where
 /// the author will persist across devices.
 @Model final class Author {
-	var name: String
+	var name: String {
+		self.firstName + " " + self.lastName
+	}
 	var firstName: String
 	var lastName: String
 	/// The unique identifier for the author.
@@ -27,15 +29,8 @@ import SwiftData
 
 	init(olid: String, name: String, books: [Work] = []) {
 		self.olid = olid
-		self.name = name
 		self.books = books
 		
-		var splits = name.split(separator: " ")
-		self.lastName = String(splits.removeLast())
-		self.firstName = splits.joined(separator: " ")
-	}
-	
-	func nameChanged() {
 		var splits = name.split(separator: " ")
 		self.lastName = String(splits.removeLast())
 		self.firstName = splits.joined(separator: " ")

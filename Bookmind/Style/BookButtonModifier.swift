@@ -42,7 +42,7 @@ extension View {
 	ZStack {
 		Color(.systemIndigo)
 			.ignoresSafeArea()
-		VStack(spacing: 16.0) {
+		VStack {
 			Label("Scan Book", systemImage: "camera.fill")
 				.bookButtonStyle()
 			Label("Save Book", systemImage: "square.and.arrow.down.fill")

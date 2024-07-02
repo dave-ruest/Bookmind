@@ -51,12 +51,11 @@ struct SearchScreen: View {
 									   router: self.router)
 				}
 				TextField("ISBN", text: self.$searchText)
+					.bookTextFieldStyle()
 					.keyboardType(.numbersAndPunctuation)
 					.autocorrectionDisabled()
 					.submitLabel(.search)
 					.focused(self.$showKeyboard)
-					.textFieldStyle(.roundedBorder)
-					.border(Color.accentColor, width: 1.0)
 					.onSubmit {
 						self.searchTapped()
 					}
@@ -93,7 +92,6 @@ struct SearchScreen: View {
 	NavigationStack {
 		SearchScreen(router: SearchRouter(), searchModel: SearchModel.Preview.quiet)
 	}
-	.modelContainer(StorageModel.preview.container)
 	.environmentObject(CoverModel())
 }
 
@@ -101,6 +99,5 @@ struct SearchScreen: View {
 	NavigationStack {
 		SearchScreen(router: SearchRouter(), searchModel: SearchModel.Preview.legend)
 	}
-	.modelContainer(StorageModel.preview.container)
 	.environmentObject(CoverModel())
 }

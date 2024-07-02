@@ -44,7 +44,8 @@ struct SearchProgressView: View {
 					.bookGroupStyle()
 					.multilineTextAlignment(.center)
 			} else {
-				EmptyView()
+				// now necessary for images to appear in preview?
+				Text("")
 			}
 		}
 		.onChange(of: self.result, initial: true) {
@@ -82,7 +83,9 @@ struct SearchProgressView: View {
 		Color(.systemIndigo)
 			.ignoresSafeArea()
 		VStack(spacing: 16.0) {
-			SearchProgressView(result: .constant(BookSearch.Preview.failed), 
+			SearchProgressView(result: .constant(nil),
+							   router: SearchRouter())
+			SearchProgressView(result: .constant(BookSearch.Preview.failed),
 							   router: SearchRouter())
 			SearchProgressView(result: .constant(BookSearch.Preview.searching),
 							   router: SearchRouter())
@@ -95,4 +98,5 @@ struct SearchProgressView: View {
 		}
 		.padding()
 	}
+	.environmentObject(CoverModel())
 }

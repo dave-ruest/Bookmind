@@ -13,7 +13,7 @@ struct AuthorScreen: View {
 	/// The author whose name and works will be shown.
 	@State var author: Author
 	/// Updated by the editable modifier when edit mode changes.
-	@State private var isEditing = false
+	@State var isEditing = false
 	/// Core data storage, used to delete editions.
 	@EnvironmentObject private var storage: StorageModel
 	/// The dismiss environment variable, used to close the screen if
@@ -27,16 +27,16 @@ struct AuthorScreen: View {
 			VStack(alignment: .leading, spacing: 8.0) {
 				Group {
 					if self.isEditing {
-						TextField("Name", text: self.$author.name, axis: .vertical)
-							.textFieldStyle(.roundedBorder)
-							.border(Color.accentColor, width: 1.0)
+						TextField("First Name", text: self.$author.firstName, axis: .vertical)
+							.bookTextFieldStyle()
+						TextField("Last Name", text: self.$author.lastName, axis: .vertical)
+							.bookTextFieldStyle()
+							.fontWeight(.bold)
 					} else {
 						Text("\(self.author.firstName) **\(self.author.lastName)**")
 							.frame(alignment: .leading)
 					}
 				}
-				.padding(.horizontal)
-				.animation(.smooth, value: self.isEditing)
 				.font(.title)
 				List {
 					// The "self.author.books" here lazy loads books
@@ -62,19 +62,13 @@ struct AuthorScreen: View {
 					}
 				}
 			}
+			.padding()
+			.animation(.smooth, value: self.isEditing)
 		}
 		.navigationBarTitleDisplayMode(.inline)
-		.editable(self.$isEditing) {
-			self.editModeChanged()
-		}
+		.editable(self.$isEditing)
 		.toolbar {
 			EditButton()
-		}
-	}
-	
-	private func editModeChanged() {
-		if !self.isEditing {
-			self.author.nameChanged()
 		}
 	}
 	
@@ -107,7 +101,7 @@ struct AuthorScreen: View {
 	let storage = StorageModel(preview: true)
 	let book = storage.insert(book: Book.Preview.quiet)
 	return NavigationStack {
-		AuthorScreen(author: book.authors.first!)
+		AuthorScreen(author: book.authors.first!, isEditing: true)
 	}
 	.modelContainer(storage.container)
 	.environmentObject(CoverModel())

@@ -15,7 +15,7 @@ import SwiftUI
 /// book by title, if you forget the author name...
 struct LibraryScreen: View {
 	@EnvironmentObject var storage: StorageModel
-	@Query(sort: \Author.lastName, order: .forward) var authors: [Author]
+	@Query(sort: [SortDescriptor(\Author.lastName, comparator: .localizedStandard)]) var authors: [Author]
 	
 	var body: some View {
 		List {
@@ -35,7 +35,6 @@ struct LibraryScreen: View {
 		}
 		.listStyle(.plain)
 		.listRowSeparatorTint(.accent)
-//		.background(Color(.background))
 		.toolbar {
 			EditButton()
 		}
