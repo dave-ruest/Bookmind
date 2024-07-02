@@ -55,6 +55,7 @@
 		EE8F34EE2C232DA0001C7A84 /* WorkListLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8F34ED2C232DA0001C7A84 /* WorkListLabel.swift */; };
 		EE8F41B02C3048B1007A22F5 /* SearchRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8F41AF2C3048B1007A22F5 /* SearchRouter.swift */; };
 		EE8F41B32C331405007A22F5 /* InsertBookModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8F41B22C331405007A22F5 /* InsertBookModel.swift */; };
+		EE8F41B52C3447C0007A22F5 /* BookTextFieldModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE8F41B42C3447C0007A22F5 /* BookTextFieldModifier.swift */; };
 		EE90189A2C0FB84100B6990A /* WorkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE9018992C0FB84100B6990A /* WorkTests.swift */; };
 		EEBB7CE52C17AD6E00C96389 /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEBB7CE42C17AD6E00C96389 /* Book.swift */; };
 		EEC762A32C1338650074066E /* BookStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC762A22C1338650074066E /* BookStyle.swift */; };
@@ -140,6 +141,7 @@
 		EE8F34ED2C232DA0001C7A84 /* WorkListLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkListLabel.swift; sourceTree = "<group>"; };
 		EE8F41AF2C3048B1007A22F5 /* SearchRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRouter.swift; sourceTree = "<group>"; };
 		EE8F41B22C331405007A22F5 /* InsertBookModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsertBookModel.swift; sourceTree = "<group>"; };
+		EE8F41B42C3447C0007A22F5 /* BookTextFieldModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookTextFieldModifier.swift; sourceTree = "<group>"; };
 		EE9018992C0FB84100B6990A /* WorkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkTests.swift; sourceTree = "<group>"; };
 		EEBB7CE42C17AD6E00C96389 /* Book.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
 		EEC762A22C1338650074066E /* BookStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookStyle.swift; sourceTree = "<group>"; };
@@ -322,6 +324,7 @@
 				745D920A2B4B055500A62F89 /* BookGroupModifier.swift */,
 				747892AB2B87F815004ABDEF /* BookListModifier.swift */,
 				EEC762A62C13461F0074066E /* BookPickerModifier.swift */,
+				EE8F41B42C3447C0007A22F5 /* BookTextFieldModifier.swift */,
 				EEC762A22C1338650074066E /* BookStyle.swift */,
 				EE7F7B2B2C24E1B400548AB9 /* CoverFetchModifier.swift */,
 				EE0CAC6E2C270F9900B90B5B /* LibraryBackgroundView.swift */,
@@ -459,6 +462,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EE8F41B52C3447C0007A22F5 /* BookTextFieldModifier.swift in Sources */,
 				742C63DA2B58157A0047FED7 /* OpenLibraryBookSearch.swift in Sources */,
 				EEC762A32C1338650074066E /* BookStyle.swift in Sources */,
 				745D920B2B4B055500A62F89 /* BookGroupModifier.swift in Sources */,

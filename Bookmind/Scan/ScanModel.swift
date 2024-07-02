@@ -42,11 +42,11 @@ extension ScanModel: CustomStringConvertible {
 	var description: String {
 		switch self.state {
 		case .searching:
-			return "Wait for the camera to focus on an ISBN number. Make sure \"ISBN\" and the whole number are visible."
+			return "Focus on an ISBN number for a few seconds. Make sure \"ISBN\" and the whole number are visible."
 		case .failed(let error):
 			return error
 		case .foundText:
-			return "Trouble scanning? The copyright page may have a larger, clearer font. You can also type an ISBN in search."
+			return "Trouble scanning? The copyright page may have a larger, clearer font. Or tap search to type in the number."
 		case .found(let isbn):
 			return "Searching for \(isbn.displayString)"
 		}
