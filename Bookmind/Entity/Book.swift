@@ -18,7 +18,17 @@ struct Book {
 	var work: Work
 	/// The authors of the work.
 	var authors: [Author]
-
+	
+	/// If there is a book with the specified isbn stored in swift data,
+	/// return that book, otherwise return nil.
+	@MainActor static func fetch(isbn: String, storage: StorageModel) -> Book? {
+		guard let edition = Edition.fetch(isbn: isbn, storage: storage) else {
+			return nil
+		}
+		guard let work = edition.work else { return nil }
+		return Book(edition: edition, work: work, authors: work.authors)
+	}
+	
 	struct Preview {
 		static let quiet = Book(edition: Edition.Preview.quiet,
 								work: Work.Preview.quiet,

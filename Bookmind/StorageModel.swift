@@ -76,6 +76,7 @@ final class StorageModel: ObservableObject {
 		return Book(edition: deDupedEdition, work: deDupedWork, authors: deDupedWork.authors)
 	}
 	
+	/// Delete the specified entity from storage.
 	@MainActor func delete<Entity>(_ entities: [Entity]) where Entity: PersistentModel {
 		for entity in entities {
 			self.interactor.delete(entity)
@@ -119,6 +120,17 @@ final class StorageModel: ObservableObject {
 		
 		self.interactor.insert(entity)
 		return entity
+	}
+	
+	/// Return an array of entities matching the specified descriptor. 
+	@MainActor func fetch<Entity>(_ descriptor: FetchDescriptor<Entity>) -> [Entity] {
+		do {
+			let results = try self.interactor.fetch(descriptor)
+			return results
+		} catch {
+			print(error)
+		}
+		return []
 	}
 	
 	@MainActor static var preview: StorageModel {

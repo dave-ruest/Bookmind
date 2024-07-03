@@ -15,9 +15,14 @@ struct InsertBookScreen: View {
 	/// home screen will push the insert book screen.
 	@ObservedObject var router: SearchRouter
 	/// The book to display. The user may edit rating and read state.
-	@State var model: InsertBookModel
+	@State var book: Book
 	/// The height class environment variable, used in screen layout.
 	@Environment(\.verticalSizeClass) private var heightClass
+	
+	@EnvironmentObject private var storage: StorageModel
+	private var isStored: Bool {
+		self.storage.isStored(entity: self.book.edition)
+	}
 
 	var body: some View {
 		// should be easy to ifdef a different case for ipad
@@ -26,31 +31,27 @@ struct InsertBookScreen: View {
 			: AnyLayout(VStackLayout())
 		
 		ZStack {
-			CoverBackgroundView(edition: self.$model.book.edition)
+			CoverBackgroundView(edition: self.$book.edition)
 			AStack {
-				CoverView(book: self.model.book)
+				CoverView(book: self.book)
 				VStack() {
-					OwnStateView(state: self.$model.book.edition.ownState)
-					ReadStateView(state: self.$model.book.work.readState)
-					RatingView(rating: self.$model.book.work.rating)
-					Button(action: {
-						self.router.path.removeLast(self.router.path.count)
-					}, label: {
-						Label("Save", systemImage: "plus.circle.fill")
-							.bookButtonStyle()
-
-					})
-					DeleteButton {
-						
+					OwnStateView(state: self.$book.edition.ownState)
+					ReadStateView(state: self.$book.work.readState)
+					if !self.isStored {
+						Button(action: {
+							_ = self.storage.insert(book: self.book)
+							self.router.path.removeLast(self.router.path.count)
+						}, label: {
+							Label("Save", systemImage: "plus.circle.fill")
+								.bookButtonStyle()
+						})
+						Button(action: {
+							self.router.path.removeLast(self.router.path.count)
+						}, label: {
+							Label("Cancel", systemImage: "minus.diamond.fill")
+								.bookButtonStyle()
+						})
 					}
-					// uncomment when we add cancel support, i.e. a
-					// de-duped but unsaved instance of the book
-//					Button(action: {
-//						self.router.path.removeLast(self.router.path.count)
-//					}, label: {
-//						Label("Cancel", systemImage: "minus.diamond.fill")
-//							.bookButtonStyle()
-//					})
 				}
 			}
 			.padding()
@@ -63,7 +64,7 @@ struct InsertBookScreen: View {
 #Preview {
 	let storage = StorageModel(preview: true)
 	let book = storage.insert(book: Book.Preview.quiet)
-	return InsertBookScreen(router: SearchRouter(), model: InsertBookModel(storage: storage, book: book))
+	return InsertBookScreen(router: SearchRouter(), book: book)
 		.modelContainer(storage.container)
 		.environmentObject(CoverModel())
 }
@@ -71,7 +72,7 @@ struct InsertBookScreen: View {
 #Preview {
 	let storage = StorageModel(preview: true)
 	let book = storage.insert(book: Book.Preview.legend)
-	return InsertBookScreen(router: SearchRouter(), model: InsertBookModel(storage: storage, book: book))
+	return InsertBookScreen(router: SearchRouter(), book: book)
 		.modelContainer(storage.container)
 		.environmentObject(CoverModel())
 }
@@ -79,7 +80,7 @@ struct InsertBookScreen: View {
 #Preview {
 	let storage = StorageModel(preview: true)
 	let book = storage.insert(book: Book.Preview.dorsai)
-	return InsertBookScreen(router: SearchRouter(), model: InsertBookModel(storage: storage, book: book))
+	return InsertBookScreen(router: SearchRouter(), book: book)
 		.modelContainer(storage.container)
 		.environmentObject(CoverModel())
 }
