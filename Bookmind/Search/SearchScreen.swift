@@ -37,9 +37,12 @@ struct SearchScreen: View {
 	/// and search screens. We *could* make this an environment object
 	/// but as with the scanner it's safer and simpler to start fresh.
 	@StateObject var searchModel = SearchModel()
-
+	/// Binding for the text in the search text field.
 	@State private var searchText = ""
+	/// Binding used to control keyboard visibility.
 	@FocusState private var showKeyboard
+	/// A model providing swift data entity specific convenience methods.
+	@EnvironmentObject private var storage: StorageModel
 
 	var body: some View {
 		ZStack {
@@ -71,6 +74,11 @@ struct SearchScreen: View {
 	
 	private func searchTapped() {
 		if let isbn = ISBN("ISBN " + self.searchText) {
+			if let stored = Book.fetch(isbn: self.searchText, storage: self.storage) {
+				self.searchModel.result = .found(stored)
+				return
+			}
+			
 			self.searchModel.search(for: isbn)
 		}
 	}

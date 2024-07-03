@@ -7,7 +7,6 @@
 
 import Combine
 import Foundation
-import UIKit
 
 /// Searches for book details on a specific ISBN on the openlibrary site.
 ///

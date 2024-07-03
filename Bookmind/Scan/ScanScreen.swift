@@ -32,6 +32,8 @@ struct ScanScreen: View {
 	/// and search screens. We *could* make this an environment object
 	/// but as with the scanner it's safer and simpler to start fresh.
 	@StateObject var searchModel = SearchModel()
+	/// A model providing swift data entity specific convenience methods.
+	@EnvironmentObject private var storage: StorageModel
 
 	var body: some View {
 		ZStack {
@@ -73,6 +75,11 @@ struct ScanScreen: View {
 	
 	private func scanModelChanged() {
 		if case .found(let isbn) = self.scanModel.state {
+			if let stored = Book.fetch(isbn: isbn.digitString, storage: self.storage) {
+				self.searchModel.result = .found(stored)
+				return
+			}
+
 			self.searchModel.search(for: isbn)
 		}
 	}

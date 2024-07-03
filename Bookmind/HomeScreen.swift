@@ -67,8 +67,8 @@ struct HomeScreen: View {
 			.navigationDestination(for: SearchRouter.Search.self) { _ in 
 				SearchScreen(router: self.router)
 			}
-			.navigationDestination(for: InsertBookModel.self) { model in
-				InsertBookScreen(router: self.router, model: model)
+			.navigationDestination(for: Book.self) { book in
+				InsertBookScreen(router: self.router, book: book)
 			}
 		}
 		.navigationBarTitleDisplayMode(.large)

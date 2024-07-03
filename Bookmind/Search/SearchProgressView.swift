@@ -55,9 +55,8 @@ struct SearchProgressView: View {
 	
 	private func didSelectBook() {
 		guard let foundBook else { return }
-		let model = InsertBookModel(storage: self.storage, book: foundBook)
 		self.router.isScanning = false
-		self.router.path.append(model)
+		self.router.path.append(foundBook)
 	}
 
 	private var message: String? {

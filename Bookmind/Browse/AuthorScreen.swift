@@ -14,7 +14,7 @@ struct AuthorScreen: View {
 	@State var author: Author
 	/// Updated by the editable modifier when edit mode changes.
 	@State var isEditing = false
-	/// Core data storage, used to delete editions.
+	/// A model providing swift data entity specific convenience methods.
 	@EnvironmentObject private var storage: StorageModel
 	/// The dismiss environment variable, used to close the screen if
 	/// we delete the last edition of a work and the work.

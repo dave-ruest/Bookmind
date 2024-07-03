@@ -25,6 +25,15 @@ import UIKit
 	var ownState: OwnState
 	/// Open library cover ids used to fetch cover images.
 	var coverIds: [Int]
+	
+	/// If there is an edition with the specified isbn stored in swift data,
+	/// return that edition, otherwise return nil. 
+	@MainActor static func fetch(isbn: String, storage: StorageModel) -> Edition? {
+		let descriptor = FetchDescriptor<Edition> (
+			predicate: #Predicate { $0.isbn == isbn }
+		)
+		return storage.fetch(descriptor).first
+	}
 
 	init(isbn: String, book: Work? = nil, coverIds: [Int] = [], ownState: OwnState = .none) {
 		self.isbn = isbn
