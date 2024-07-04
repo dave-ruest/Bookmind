@@ -44,16 +44,13 @@ final class WorkTests: XCTestCase {
 		var book = storage.insert(entity: Work.Preview.dorsai)
 		XCTAssertEqual(book.title, "Dorsai!")
 		XCTAssertEqual(book.readState, ReadState.maybe)
-		XCTAssertEqual(book.rating, 0)
 		
-		book = Work(olid: book.id, title: "test", readState: .read, rating: 5)
+		book = Work(olid: book.id, title: "test", readState: .read)
 		XCTAssertEqual(book.title, "test")
 		XCTAssertEqual(book.readState, ReadState.read)
-		XCTAssertEqual(book.rating, 5)
 
 		book = storage.insert(entity: book)
 		XCTAssertEqual(book.title, "Dorsai!")
 		XCTAssertEqual(book.readState, ReadState.maybe)
-		XCTAssertEqual(book.rating, 0)
 	}
 }
