@@ -25,13 +25,14 @@ class BookSearch {
 	// a published state property it is fantastic to be able to convey
 	// as many states as necessary, including .none for a nil value.
 	enum Result: Equatable {
+		case invalid
 		/// Waiting on the response for a book detail request for a scanned ISBN.
 		case searching(String)
 		/// Found details for a book matching the scanned ISBN.
 		case found(Book)
 		/// No book was found matching the scanned ISBN.
 		/// Should distinguish general network errors here...
-		case failed(String)		
+		case failed(String)
 	}
 	
 	struct Preview {

@@ -40,7 +40,7 @@ struct SearchProgressView: View {
 					BookButtonLabel(book: Binding($foundBook)!)
 				}
 			} else if let message = self.message {
-				Text(message)
+				Text(.init(message))
 					.bookGroupStyle()
 					.multilineTextAlignment(.center)
 			} else {
@@ -63,8 +63,10 @@ struct SearchProgressView: View {
 		return switch self.result {
 		case .searching(let isbn):
 			"Searching for ISBN \(isbn)"
+		case .invalid:
+			"Please type a valid ISBN 10 or 13 code such as 0-5555-5555-X or 978-0-5555-5555-1"
 		case .failed(let isbn):
-			"Could not find ISBN \(isbn)"
+			"Could not find ISBN \(isbn) on **[Open Library](https://openlibrary.org)**. You can sign up and add it! Or, soon, tap Add to type in the details for that book."
 		default:
 			nil
 		}

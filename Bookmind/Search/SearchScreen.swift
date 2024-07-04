@@ -53,7 +53,7 @@ struct SearchScreen: View {
 					SearchProgressView(result: self.$searchModel.result,
 									   router: self.router)
 				}
-				TextField("ISBN", text: self.$searchText)
+				TextField("ISBN (e.g. 0123456781)", text: self.$searchText)
 					.bookTextFieldStyle()
 					.keyboardType(.numbersAndPunctuation)
 					.autocorrectionDisabled()
@@ -73,14 +73,17 @@ struct SearchScreen: View {
 	}
 	
 	private func searchTapped() {
-		if let isbn = ISBN("ISBN " + self.searchText) {
-			if let stored = Book.fetch(isbn: isbn, storage: self.storage) {
-				self.searchModel.result = .found(stored)
-				return
-			}
-			
-			self.searchModel.search(for: isbn)
+		guard let isbn = ISBN("ISBN " + self.searchText) else {
+			self.searchModel.result = .invalid
+			return
 		}
+		
+		if let stored = Book.fetch(isbn: isbn, storage: self.storage) {
+			self.searchModel.result = .found(stored)
+			return
+		}
+		
+		self.searchModel.search(for: isbn)
 	}
 }
 
