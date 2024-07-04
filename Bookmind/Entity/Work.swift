@@ -27,12 +27,10 @@ import UIKit
 	/// Read state of the book/work: has the user read this book?
 	/// Required for the "have I read this book" use case.
 	var readState = ReadState.none
-	/// User rating of the book/work.
-	var rating: Int = 0
 	
 	init(olid: String, title: String, subtitle: String? = nil,
 		 authors: [Author] = [], editions: [Edition] = [],
-		 readState: ReadState = .none, rating: Int = 0)
+		 readState: ReadState = .none)
 	{
 		self.olid = olid
 		self.title = title
@@ -40,7 +38,6 @@ import UIKit
 		self.authors = authors
 		self.editions = editions
 		self.readState = readState
-		self.rating = rating
 	}
 	
 	struct Preview {
@@ -48,17 +45,17 @@ import UIKit
 		static var quiet: Work {
 			Work(olid: "/works/OL16484595W", title: "Quiet", 
 				 subtitle: "The Power of Introverts in a World That Can't Stop Talking",
-				 readState: .read, rating: 4
+				 readState: .read
 			)
 		}
 		static var legend: Work {
-			Work(olid: "/works/OL21417594W", title: "Legend", readState: .read, rating: 5)
+			Work(olid: "/works/OL21417594W", title: "Legend", readState: .read)
 		}
 		static var dorsai: Work {
 			Work(olid: "/works/OL155455W", title: "Dorsai!", readState: .maybe)
 		}
 		static var dune: Work {
-			Work(olid: "/works/OL893508W", title: "Chapterhouse Dune", readState: .none, rating: 5)
+			Work(olid: "/works/OL893508W", title: "Chapterhouse Dune", readState: .none)
 		}
 	}
 }

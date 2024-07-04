@@ -52,7 +52,6 @@ struct WorkScreen: View {
 					} else {
 						OwnStateView(state: self.$selectedEdition.ownState)
 						ReadStateView(state: self.$work.readState)
-						RatingView(rating: self.$work.rating)
 					}
 				}
 			}
