@@ -74,14 +74,16 @@ struct ScanScreen: View {
 	}
 	
 	private func scanModelChanged() {
-		if case .found(let isbn) = self.scanModel.state {
-			if let stored = Book.fetch(isbn: isbn, storage: self.storage) {
-				self.searchModel.result = .found(stored)
-				return
-			}
-
-			self.searchModel.search(for: isbn)
+		guard case .found(let isbn) = self.scanModel.state else {
+			return
 		}
+		
+		if let stored = Book.fetch(isbn: isbn, storage: self.storage) {
+			self.searchModel.result = .found(stored)
+			return
+		}
+
+		self.searchModel.search(for: isbn)
 	}
 }
 
