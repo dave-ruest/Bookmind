@@ -20,11 +20,12 @@ struct BookmindApp: App {
     var body: some Scene {
         WindowGroup {
 			NavigationStack(path: self.$router.path) {
-				HomeScreen(router: self.router)
+				HomeScreen()
 			}
 			.modelContainer(self.storage.container)
 			.environmentObject(self.storage)
 			.environmentObject(self.covers)
+			.environmentObject(self.router)
         }
     }
 }

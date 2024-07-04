@@ -78,9 +78,11 @@ struct WorkScreen: View {
 			for author in authors {
 				author.books.removeAll(where: { $0 == self.work })
 			}
+			let bookless = authors.filter { $0.books.isEmpty }
+			if !bookless.isEmpty {
+				self.storage.delete(bookless)
+			}
 		}
-
-		// let the user decide if they want to keep the author or not
 	}
 }
 

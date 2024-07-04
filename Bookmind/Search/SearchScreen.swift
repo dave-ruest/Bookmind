@@ -29,10 +29,6 @@ import SwiftUI
 /// before opening the detail screen. We probably want a save button on
 /// the book detail screen, and to only insert then. 
 struct SearchScreen: View {
-	/// A binding used to navigate between search screens. When the user
-	/// selects a book search result, we set the "inserting" book and the
-	/// home screen will push the insert book screen.
-	@ObservedObject var router: SearchRouter
 	/// A model used to search for editions by ISBN. Shared by the scan
 	/// and search screens. We *could* make this an environment object
 	/// but as with the scanner it's safer and simpler to start fresh.
@@ -50,8 +46,7 @@ struct SearchScreen: View {
 			VStack {
 				Spacer()
 				if self.searchModel.result != nil {
-					SearchProgressView(result: self.$searchModel.result,
-									   router: self.router)
+					SearchProgressView(result: self.$searchModel.result)
 				}
 				TextField("ISBN (e.g. 0123456781)", text: self.$searchText)
 					.bookTextFieldStyle()
@@ -89,26 +84,26 @@ struct SearchScreen: View {
 
 #Preview {
 	NavigationStack {
-		SearchScreen(router: SearchRouter(), searchModel: SearchModel.Preview.searching)
+		SearchScreen(searchModel: SearchModel.Preview.searching)
 	}
 }
 
 #Preview {
 	NavigationStack {
-		SearchScreen(router: SearchRouter(), searchModel: SearchModel.Preview.failed)
+		SearchScreen(searchModel: SearchModel.Preview.failed)
 	}
 }
 
 #Preview {
 	NavigationStack {
-		SearchScreen(router: SearchRouter(), searchModel: SearchModel.Preview.quiet)
+		SearchScreen(searchModel: SearchModel.Preview.quiet)
 	}
 	.environmentObject(CoverModel())
 }
 
 #Preview {
 	NavigationStack {
-		SearchScreen(router: SearchRouter(), searchModel: SearchModel.Preview.legend)
+		SearchScreen(searchModel: SearchModel.Preview.legend)
 	}
 	.environmentObject(CoverModel())
 }

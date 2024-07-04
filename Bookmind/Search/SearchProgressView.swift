@@ -21,7 +21,7 @@ struct SearchProgressView: View {
 	/// A binding used to navigate between search screens. When the user
 	/// selects a book search result, we set the "inserting" book and the
 	/// home screen will push the insert book screen.
-	@ObservedObject var router: SearchRouter
+	@EnvironmentObject private var router: SearchRouter
 
 	/// A binding for a found book, updated when the search model
 	/// finds results for a scanned ISBN. Used to show or hide the
@@ -84,18 +84,12 @@ struct SearchProgressView: View {
 		Color(.systemIndigo)
 			.ignoresSafeArea()
 		VStack(spacing: 16.0) {
-			SearchProgressView(result: .constant(nil),
-							   router: SearchRouter())
-			SearchProgressView(result: .constant(BookSearch.Preview.failed),
-							   router: SearchRouter())
-			SearchProgressView(result: .constant(BookSearch.Preview.searching),
-							   router: SearchRouter())
-			SearchProgressView(result: .constant(BookSearch.Preview.quiet),
-							   router: SearchRouter())
-			SearchProgressView(result: .constant(BookSearch.Preview.legend),
-							   router: SearchRouter())
-			SearchProgressView(result: .constant(BookSearch.Preview.dorsai),
-							   router: SearchRouter())
+			SearchProgressView(result: .constant(nil))
+			SearchProgressView(result: .constant(BookSearch.Preview.failed))
+			SearchProgressView(result: .constant(BookSearch.Preview.searching))
+			SearchProgressView(result: .constant(BookSearch.Preview.quiet))
+			SearchProgressView(result: .constant(BookSearch.Preview.legend))
+			SearchProgressView(result: .constant(BookSearch.Preview.dorsai))
 		}
 		.padding()
 	}

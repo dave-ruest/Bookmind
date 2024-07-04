@@ -19,12 +19,8 @@ import SwiftUI
 /// The scan screen also has a search model. When we detect something we're
 /// reasonably sure is an ISBN, we start a search. The search result is shown
 /// in our search progress view, including a found book. If the user taps the
-/// book we pass that back to the home screen via our selected book binding.
+/// book we use the router to show the insert screen.
 struct ScanScreen: View {
-	/// A binding used to navigate between search screens. When the user
-	/// selects a book search result, we set the "inserting" book and the
-	/// home screen will push the insert book screen.
-	@ObservedObject var router: SearchRouter
 	/// A model tracking the scanner. We use its published state to
 	/// provide feedback on scan progress.
 	@StateObject var scanModel = ScanModel()
@@ -32,6 +28,8 @@ struct ScanScreen: View {
 	/// and search screens. We *could* make this an environment object
 	/// but as with the scanner it's safer and simpler to start fresh.
 	@StateObject var searchModel = SearchModel()
+	/// An environment object used to navigate between search screens.
+	@EnvironmentObject private var router: SearchRouter
 	/// A model providing swift data entity specific convenience methods.
 	@EnvironmentObject private var storage: StorageModel
 
@@ -47,8 +45,7 @@ struct ScanScreen: View {
 			VStack() {
 				Spacer()
 				if self.searchModel.result != nil {
-					SearchProgressView(result: self.$searchModel.result,
-									   router: self.router)
+					SearchProgressView(result: self.$searchModel.result)
 				} else {
 					Text(self.scanModel.description)
 						.bookGroupStyle()
@@ -89,28 +86,28 @@ struct ScanScreen: View {
 
 #Preview {
 	VStack() {
-		ScanScreen(router: SearchRouter())
+		ScanScreen()
 	}
 }
 
 #Preview {
 	VStack {
-		ScanScreen(router: SearchRouter(), scanModel: ScanModel.Preview.foundText)
+		ScanScreen(scanModel: ScanModel.Preview.foundText)
 	}
 }
 
 #Preview {
 	VStack() {
-		ScanScreen(router: SearchRouter(), scanModel: ScanModel.Preview.failed)
-		ScanScreen(router: SearchRouter(), scanModel: ScanModel.Preview.found)
+		ScanScreen(scanModel: ScanModel.Preview.failed)
+		ScanScreen(scanModel: ScanModel.Preview.found)
 	}
 }
 
 #Preview {
 	NavigationStack {
 		VStack {
-			ScanScreen(router: SearchRouter(), searchModel: SearchModel.Preview.searching)
-			ScanScreen(router: SearchRouter(), searchModel: SearchModel.Preview.quiet)
+			ScanScreen(searchModel: SearchModel.Preview.searching)
+			ScanScreen(searchModel: SearchModel.Preview.quiet)
 		}
 	}
 	.environmentObject(CoverModel())
@@ -119,8 +116,8 @@ struct ScanScreen: View {
 #Preview {
 	NavigationStack {
 		VStack {
-			ScanScreen(router: SearchRouter(), searchModel: SearchModel.Preview.failed)
-			ScanScreen(router: SearchRouter(), searchModel: SearchModel.Preview.legend)
+			ScanScreen(searchModel: SearchModel.Preview.failed)
+			ScanScreen(searchModel: SearchModel.Preview.legend)
 		}
 	}
 	.environmentObject(CoverModel())

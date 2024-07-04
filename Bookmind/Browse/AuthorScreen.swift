@@ -70,6 +70,11 @@ struct AuthorScreen: View {
 		.toolbar {
 			EditButton()
 		}
+		.onAppear() {
+			if self.author.books.isEmpty {
+				self.dismiss()
+			}
+		}
 	}
 	
 	private func delete(at offsets: IndexSet) {
