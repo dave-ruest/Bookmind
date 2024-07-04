@@ -74,7 +74,7 @@ struct SearchScreen: View {
 	
 	private func searchTapped() {
 		if let isbn = ISBN("ISBN " + self.searchText) {
-			if let stored = Book.fetch(isbn: self.searchText, storage: self.storage) {
+			if let stored = Book.fetch(isbn: isbn, storage: self.storage) {
 				self.searchModel.result = .found(stored)
 				return
 			}
