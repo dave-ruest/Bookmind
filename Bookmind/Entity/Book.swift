@@ -21,8 +21,9 @@ struct Book {
 	
 	/// If there is a book with the specified isbn stored in swift data,
 	/// return that book, otherwise return nil.
-	@MainActor static func fetch(isbn: String, storage: StorageModel) -> Book? {
-		guard let edition = Edition.fetch(isbn: isbn, storage: storage) else {
+	@MainActor static func fetch(isbn: ISBN, storage: StorageModel) -> Book? {
+		guard let isbn13 = isbn.digitString13 else { return nil }
+		guard let edition = Edition.fetch(isbn: isbn13, storage: storage) else {
 			return nil
 		}
 		guard let work = edition.work else { return nil }
