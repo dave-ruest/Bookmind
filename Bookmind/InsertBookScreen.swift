@@ -10,12 +10,10 @@ import SwiftUI
 
 /// InsertBookScreen displays a book found by search or scan.
 struct InsertBookScreen: View {
-	/// A binding used to navigate between search screens. When the user
-	/// selects a book search result, we set the "inserting" book and the
-	/// home screen will push the insert book screen.
-	@ObservedObject var router: SearchRouter
 	/// The book to display. The user may edit rating and read state.
 	@State var book: Book
+	/// An environment object used to navigate between search screens.
+	@EnvironmentObject private var router: SearchRouter
 	/// The height class environment variable, used in screen layout.
 	@Environment(\.verticalSizeClass) private var heightClass
 	
@@ -40,13 +38,13 @@ struct InsertBookScreen: View {
 					if !self.isStored {
 						Button(action: {
 							_ = self.storage.insert(book: self.book)
-							self.router.path.removeLast(self.router.path.count)
+							self.router.popToRoot()
 						}, label: {
 							Label("Save", systemImage: "plus.circle.fill")
 								.bookButtonStyle()
 						})
 						Button(action: {
-							self.router.path.removeLast(self.router.path.count)
+							self.router.popToRoot()
 						}, label: {
 							Label("Cancel", systemImage: "minus.diamond.fill")
 								.bookButtonStyle()
@@ -64,23 +62,26 @@ struct InsertBookScreen: View {
 #Preview {
 	let storage = StorageModel(preview: true)
 	let book = storage.insert(book: Book.Preview.quiet)
-	return InsertBookScreen(router: SearchRouter(), book: book)
+	return InsertBookScreen(book: book)
 		.modelContainer(storage.container)
 		.environmentObject(CoverModel())
+		.environmentObject(storage)
 }
 
 #Preview {
 	let storage = StorageModel(preview: true)
 	let book = storage.insert(book: Book.Preview.legend)
-	return InsertBookScreen(router: SearchRouter(), book: book)
+	return InsertBookScreen(book: book)
 		.modelContainer(storage.container)
 		.environmentObject(CoverModel())
+		.environmentObject(storage)
 }
 
 #Preview {
 	let storage = StorageModel(preview: true)
 	let book = storage.insert(book: Book.Preview.dorsai)
-	return InsertBookScreen(router: SearchRouter(), book: book)
+	return InsertBookScreen(book: book)
 		.modelContainer(storage.container)
 		.environmentObject(CoverModel())
+		.environmentObject(storage)
 }

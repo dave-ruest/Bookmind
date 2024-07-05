@@ -18,6 +18,10 @@ final class SearchRouter: ObservableObject {
 	/// A binding flag used to show and hide the scan screen.
 	@Published var isScanning = false
 	
+	func popToRoot() {
+		self.path.removeLast(self.path.count)
+	}
+	
 	/// A stub type used to push the search screen onto a navigations stack.
 	/// We may need to add a similar type for an inserting book if we ever
 	/// push another kind of book screen onto the stack. 

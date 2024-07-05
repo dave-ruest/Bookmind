@@ -14,9 +14,8 @@ import SwiftUI
 struct HomeScreen: View {
 	/// A query used to decide if we should show the welcome text.
 	@Query var authors: [Author]
-	/// A collection of bindings and flags that allow navigation between
-	/// search screens.
-	@ObservedObject var router: SearchRouter
+	/// An environment object used to navigate between search screens.
+	@EnvironmentObject private var router: SearchRouter
 	/// The height class environment variable, used in screen layout.
 	@Environment(\.verticalSizeClass) private var heightClass
 	/// Updated by the editable modifier when edit mode changes.
@@ -62,13 +61,13 @@ struct HomeScreen: View {
 			.animation(.smooth, value: self.isEditing)
 			.editable(self.$isEditing)
 			.fullScreenCover(isPresented: self.$router.isScanning) {
-				ScanScreen(router: self.router)
+				ScanScreen()
 			}
 			.navigationDestination(for: SearchRouter.Search.self) { _ in 
-				SearchScreen(router: self.router)
+				SearchScreen()
 			}
 			.navigationDestination(for: Book.self) { book in
-				InsertBookScreen(router: self.router, book: book)
+				InsertBookScreen(book: book)
 			}
 		}
 		.navigationBarTitleDisplayMode(.large)
@@ -78,15 +77,17 @@ struct HomeScreen: View {
 
 #Preview {
 	NavigationStack {
-		HomeScreen(router: SearchRouter())
+		HomeScreen()
 			.modelContainer(StorageModel().container)
 	}
+	.environmentObject(SearchRouter())
 }
 
 #Preview {
 	NavigationStack {
-		HomeScreen(router: SearchRouter())
+		HomeScreen()
 	}
 	.modelContainer(StorageModel.preview.container)
 	.environmentObject(CoverModel())
+	.environmentObject(SearchRouter())
 }
