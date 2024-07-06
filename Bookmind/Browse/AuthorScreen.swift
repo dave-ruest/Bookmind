@@ -11,15 +11,21 @@ import SwiftUI
 /// AuthorScreen displays the list of books for a specific author.
 struct AuthorScreen: View {
 	/// The author whose name and works will be shown.
-	@State var author: Author
+	@State private var author: Author
 	/// Updated by the editable modifier when edit mode changes.
-	@State var isEditing = false
+	/// Public to enable edit layout previews.
+	@State private var isEditing = false
 	/// A model providing swift data entity specific convenience methods.
 	@EnvironmentObject private var storage: StorageModel
 	/// The dismiss environment variable, used to close the screen if
 	/// we delete the last edition of a work and the work.
 	@Environment(\.dismiss) private var dismiss
 
+	init(author: Author, isEditing: Bool = false) {
+		self.author = author
+		self.isEditing = isEditing
+	}
+	
 	var body: some View {
 		ZStack {
 			Color(.background)

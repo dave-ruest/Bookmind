@@ -19,7 +19,6 @@ struct OpenLibraryEdition: Decodable {
 	let isbn_13: [String]?
 	
 	let title: String
-	let subtitle: String?
 	let authors: [[String: String]]?
 	let works: [[String: String]]?
 	let covers: [Int]?
@@ -37,7 +36,7 @@ struct OpenLibraryEdition: Decodable {
 			// no work for the edition, treat as invalid for now
 			return nil
 		}
-		return Work(olid: olid, title: self.title, subtitle: self.subtitle)
+		return Work(olid: olid, title: self.title)
 	}
 
 	/// Return the open library url for edition data on the specified ISBN.
