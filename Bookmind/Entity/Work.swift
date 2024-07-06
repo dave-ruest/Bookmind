@@ -14,8 +14,7 @@ import UIKit
 /// restarts. The next big step for book will be cloud storage where
 /// the book will persist across devices.
 @Model final class Work: ObservableObject {
-	let title: String
-	let subtitle: String?
+	var title: String
 	/// The unique identifier for the author.
 	/// As this is an openlibrary author id, this ties our data rather
 	/// closely to openlibrary, but we may align the whole app that way.
@@ -28,13 +27,11 @@ import UIKit
 	/// Required for the "have I read this book" use case.
 	var readState = ReadState.none
 	
-	init(olid: String, title: String, subtitle: String? = nil,
-		 authors: [Author] = [], editions: [Edition] = [],
-		 readState: ReadState = .none)
+	init(olid: String, title: String, authors: [Author] = [],
+		 editions: [Edition] = [], readState: ReadState = .none)
 	{
 		self.olid = olid
 		self.title = title
-		self.subtitle = subtitle
 		self.authors = authors
 		self.editions = editions
 		self.readState = readState
@@ -43,10 +40,7 @@ import UIKit
 	struct Preview {
 		static var allBooks = [Self.quiet, Self.legend, Self.dorsai]
 		static var quiet: Work {
-			Work(olid: "/works/OL16484595W", title: "Quiet", 
-				 subtitle: "The Power of Introverts in a World That Can't Stop Talking",
-				 readState: .read
-			)
+			Work(olid: "/works/OL16484595W", title: "Quiet", readState: .read)
 		}
 		static var legend: Work {
 			Work(olid: "/works/OL21417594W", title: "Legend", readState: .read)

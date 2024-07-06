@@ -13,6 +13,7 @@ import SwiftUI
 struct BookListModifier: ViewModifier {
 	func body(content: Content) -> some View {
 		content
+			.scrollContentBackground(.hidden)
 			.listStyle(.plain)
 			.listRowSeparatorTint(.accent)
 	}

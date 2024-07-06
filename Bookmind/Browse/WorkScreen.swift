@@ -16,7 +16,7 @@ struct WorkScreen: View {
 	/// Variable and observable because the user may edit rating and
 	/// read state. Editions may be deleted but that is a core data storage
 	/// operation. 
-	@State var work: Work
+	@State private var work: Work
 	/// The editions page view uses a binding to this state to communicate
 	/// its selected edition. The work screen uses the selected edition for
 	/// its background cover art and its own state picker.
@@ -31,8 +31,9 @@ struct WorkScreen: View {
 	/// we delete the last edition of a work and the work.
 	@Environment(\.dismiss) private var dismiss
 
-	init(work: Work) {
+	init(work: Work, isEditing: Bool = false) {
 		self.work = work
+		self.isEditing = isEditing
 		self.selectedEdition = work.editions.first ?? Edition(isbn: "")
 	}
 
@@ -45,11 +46,26 @@ struct WorkScreen: View {
 		ZStack {
 			CoverBackgroundView(edition: self.$selectedEdition)
 			AStack {
-				EditionPageView(work: self.work, selectedEdition: self.$selectedEdition)
-				VStack() {
-					if self.isEditing {
-						DeleteButton { self.delete() }
-					} else {
+				if self.isEditing {
+					VStack {
+						TextField("Title", text: self.$work.title, axis: .vertical)
+							.bookViewFrame()
+							.bookTextFieldStyle()
+						List {
+							ForEach(self.work.authors) { author in
+								AuthorLabel(author: author)
+							}
+							.bookListRowStyle()
+						}
+						.scrollContentBackground(.hidden)
+					}
+					Spacer()
+					DeleteButton { self.delete() }
+				} else {
+					EditionPageView(work: self.work, selectedEdition: self.$selectedEdition)
+					VStack {
+						Text(.init("**ISBN 13**: " + self.selectedEdition.isbn))
+							.bookGroupStyle()
 						OwnStateView(state: self.$selectedEdition.ownState)
 						ReadStateView(state: self.$work.readState)
 					}
@@ -88,6 +104,16 @@ struct WorkScreen: View {
 
 #Preview {
 	let storage = StorageModel(preview: true)
+	let book = storage.insert(book: Book.Preview.legend)
+	return NavigationStack {
+		WorkScreen(work: book.work)
+	}
+	.modelContainer(storage.container)
+	.environmentObject(CoverModel())
+}
+
+#Preview {
+	let storage = StorageModel(preview: true)
 	let book = storage.insert(book: Book.Preview.quiet)
 	return NavigationStack {
 		WorkScreen(work: book.work)
@@ -96,22 +122,10 @@ struct WorkScreen: View {
 	.environmentObject(CoverModel())
 }
 
-
 #Preview {
 	let storage = StorageModel(preview: true)
 	var book = storage.insert(book: Book.Preview.dune1986)
 	book = storage.insert(book: Book.Preview.dune1987)
-	return NavigationStack {
-		WorkScreen(work: book.work)
-	}
-	.modelContainer(storage.container)
-	.environmentObject(CoverModel())
-}
-
-
-#Preview {
-	let storage = StorageModel(preview: true)
-	let book = storage.insert(book: Book.Preview.legend)
 	return NavigationStack {
 		WorkScreen(work: book.work)
 	}

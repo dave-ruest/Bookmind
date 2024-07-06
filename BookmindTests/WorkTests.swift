@@ -10,12 +10,6 @@ import SwiftData
 @testable import Bookmind
 
 final class WorkTests: XCTestCase {
-	func testSubtitle() {
-		XCTAssertNil(Work.Preview.dorsai.subtitle)
-		XCTAssertNil(Work.Preview.legend.subtitle)
-		XCTAssertNotNil(Work.Preview.quiet.subtitle)
-	}
-	
 	@MainActor func testAuthorNames() {
 		var book = Book.Preview.legend
 		XCTAssertEqual(book.work.authors.names, "")
