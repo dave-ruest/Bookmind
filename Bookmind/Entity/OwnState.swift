@@ -7,21 +7,18 @@
 
 /// Enumerates the possible ownership relationships to an edition.
 enum OwnState: String, Codable, CaseIterable {
-	case own
-	case want
-	case maybe
 	case none
+	case want
+	case own
 
 	var description: String {
 		return switch self {
-			case .maybe:
-				"Might want"
-			case .want:
-				"Want"
-			case .own:
-				"Own"
-			case .none:
-				"Don't want"
+		case .none:
+			"Don't want"
+		case .want:
+			"Want"
+		case .own:
+			"Own"
 		}
 	}
 }

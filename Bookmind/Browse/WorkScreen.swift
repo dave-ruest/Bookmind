@@ -66,8 +66,8 @@ struct WorkScreen: View {
 					VStack {
 						Text(.init("**ISBN 13**: " + self.selectedEdition.isbn))
 							.bookGroupStyle()
-						OwnStateView(state: self.$selectedEdition.ownState)
-						ReadStateView(state: self.$work.readState)
+						OwnStateMenu(state: self.$selectedEdition.ownState)
+						ReadStateMenu(state: self.$work.readState)
 					}
 				}
 			}

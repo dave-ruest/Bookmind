@@ -58,9 +58,9 @@
 		EE9032E82C39761900D19EA8 /* AuthorLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE9032E72C39761900D19EA8 /* AuthorLabel.swift */; };
 		EEBB7CE52C17AD6E00C96389 /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEBB7CE42C17AD6E00C96389 /* Book.swift */; };
 		EEC762A32C1338650074066E /* BookStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC762A22C1338650074066E /* BookStyle.swift */; };
-		EEC762A52C1344100074066E /* OwnStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC762A42C1344100074066E /* OwnStateView.swift */; };
+		EEC762A52C1344100074066E /* OwnStateMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC762A42C1344100074066E /* OwnStateMenu.swift */; };
 		EEC762A72C13461F0074066E /* BookPickerModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC762A62C13461F0074066E /* BookPickerModifier.swift */; };
-		EEC762A92C1351CC0074066E /* ReadStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC762A82C1351CC0074066E /* ReadStateView.swift */; };
+		EEC762A92C1351CC0074066E /* ReadStateMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC762A82C1351CC0074066E /* ReadStateMenu.swift */; };
 		EEC762AB2C1368A00074066E /* CoverBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC762AA2C1368A00074066E /* CoverBackgroundView.swift */; };
 		EEC762AD2C137EAC0074066E /* CoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC762AC2C137EAC0074066E /* CoverView.swift */; };
 		EEC762AF2C13AD6C0074066E /* CancelButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEC762AE2C13AD6C0074066E /* CancelButton.swift */; };
@@ -143,9 +143,9 @@
 		EE9032E72C39761900D19EA8 /* AuthorLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorLabel.swift; sourceTree = "<group>"; };
 		EEBB7CE42C17AD6E00C96389 /* Book.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
 		EEC762A22C1338650074066E /* BookStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookStyle.swift; sourceTree = "<group>"; };
-		EEC762A42C1344100074066E /* OwnStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnStateView.swift; sourceTree = "<group>"; };
+		EEC762A42C1344100074066E /* OwnStateMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnStateMenu.swift; sourceTree = "<group>"; };
 		EEC762A62C13461F0074066E /* BookPickerModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookPickerModifier.swift; sourceTree = "<group>"; };
-		EEC762A82C1351CC0074066E /* ReadStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadStateView.swift; sourceTree = "<group>"; };
+		EEC762A82C1351CC0074066E /* ReadStateMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadStateMenu.swift; sourceTree = "<group>"; };
 		EEC762AA2C1368A00074066E /* CoverBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoverBackgroundView.swift; sourceTree = "<group>"; };
 		EEC762AC2C137EAC0074066E /* CoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoverView.swift; sourceTree = "<group>"; };
 		EEC762AE2C13AD6C0074066E /* CancelButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelButton.swift; sourceTree = "<group>"; };
@@ -204,8 +204,8 @@
 				EE0A14F92C24685000F98003 /* DeleteButton.swift */,
 				EED5C44C2C19F0A000A36E5D /* EditionPageView.swift */,
 				74471AEC2B659EBC00400686 /* LibraryScreen.swift */,
-				EEC762A42C1344100074066E /* OwnStateView.swift */,
-				EEC762A82C1351CC0074066E /* ReadStateView.swift */,
+				EEC762A42C1344100074066E /* OwnStateMenu.swift */,
+				EEC762A82C1351CC0074066E /* ReadStateMenu.swift */,
 				EE8F34ED2C232DA0001C7A84 /* WorkListLabel.swift */,
 				747147E42B6FEB5600F74934 /* WorkScreen.swift */,
 			);
@@ -462,7 +462,7 @@
 				74B503062B445AF90092B0E4 /* ScanModel.swift in Sources */,
 				EEC762AB2C1368A00074066E /* CoverBackgroundView.swift in Sources */,
 				742C63E12B582B0D0047FED7 /* BookSearch.swift in Sources */,
-				EEC762A52C1344100074066E /* OwnStateView.swift in Sources */,
+				EEC762A52C1344100074066E /* OwnStateMenu.swift in Sources */,
 				EE0CAC6F2C270F9900B90B5B /* LibraryBackgroundView.swift in Sources */,
 				EE89B4EB2C10CF3E00827F8A /* InsertBookScreen.swift in Sources */,
 				EEC762A72C13461F0074066E /* BookPickerModifier.swift in Sources */,
@@ -487,7 +487,7 @@
 				747180C82B791AEE00B8136F /* ReadState.swift in Sources */,
 				748D42FE2B6859BC00D34AED /* Author.swift in Sources */,
 				EE8F41B02C3048B1007A22F5 /* SearchRouter.swift in Sources */,
-				EEC762A92C1351CC0074066E /* ReadStateView.swift in Sources */,
+				EEC762A92C1351CC0074066E /* ReadStateMenu.swift in Sources */,
 				EED5C44D2C19F0A000A36E5D /* EditionPageView.swift in Sources */,
 				745D92092B4ADC4500A62F89 /* BookButtonModifier.swift in Sources */,
 				74FE52162B55F03800D1B9DD /* ISBN.swift in Sources */,
