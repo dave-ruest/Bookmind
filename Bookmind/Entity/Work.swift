@@ -46,7 +46,7 @@ import UIKit
 			Work(olid: "/works/OL21417594W", title: "Legend", readState: .want)
 		}
 		static var dorsai: Work {
-			Work(olid: "/works/OL155455W", title: "Dorsai!", readState: .reading)
+			Work(olid: "/works/OL155455W", title: "Dorsai!", readState: .want)
 		}
 		static var dune: Work {
 			Work(olid: "/works/OL893508W", title: "Chapterhouse Dune", readState: .none)

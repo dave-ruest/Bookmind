@@ -27,7 +27,7 @@ extension View {
 	
 	/// Apply the "bookmind list row" appearance.
 	func bookListRowStyle() -> some View {
-		listRowBackground(Color.background.opacity(BookStyle.opacity))
+		listRowBackground(Color(.clear))
 	}
 }
 

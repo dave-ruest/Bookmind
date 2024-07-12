@@ -9,7 +9,6 @@
 enum ReadState: String, Codable, CaseIterable {
 	case none
 	case want
-	case reading
 	case read
 
 	var description: String {
@@ -18,8 +17,6 @@ enum ReadState: String, Codable, CaseIterable {
 			"Won't read"
 		case .want:
 			"Want to read"
-		case .reading:
-			"Reading"
 		case .read:
 			"Have read"
 		}
@@ -27,5 +24,5 @@ enum ReadState: String, Codable, CaseIterable {
 }
 
 extension ReadState: Identifiable {
-	var id: Self { self }
+	var id: String { "ReadState." + self.rawValue }
 }

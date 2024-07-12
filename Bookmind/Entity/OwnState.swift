@@ -24,5 +24,5 @@ enum OwnState: String, Codable, CaseIterable {
 }
 
 extension OwnState: Identifiable {
-	var id: Self { self }
+	var id: String { "OwnState." + self.rawValue }
 }

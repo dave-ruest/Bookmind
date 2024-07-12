@@ -38,7 +38,6 @@ struct ReadStateMenu: View {
 		VStack(spacing: 16.0) {
 			ReadStateMenu(state: .constant(.none))
 			ReadStateMenu(state: .constant(.want))
-			ReadStateMenu(state: .constant(.reading))
 			ReadStateMenu(state: .constant(.read))
 		}
 		.padding()
