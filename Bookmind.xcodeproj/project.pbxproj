@@ -45,6 +45,7 @@
 		EE0A14FA2C24685000F98003 /* DeleteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0A14F92C24685000F98003 /* DeleteButton.swift */; };
 		EE0A14FE2C248F1300F98003 /* BookEditableModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0A14FD2C248F1300F98003 /* BookEditableModifier.swift */; };
 		EE0CAC6F2C270F9900B90B5B /* LibraryBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0CAC6E2C270F9900B90B5B /* LibraryBackgroundView.swift */; };
+		EE2234D62C44997800633B81 /* BookTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE2234D52C44997800633B81 /* BookTests.swift */; };
 		EE2B1C302C0F9A6800C332F9 /* AuthorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE2B1C2F2C0F9A6700C332F9 /* AuthorTests.swift */; };
 		EE4AFABA2C264B0700D18F7D /* SearchScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE4AFAB92C264B0700D18F7D /* SearchScreen.swift */; };
 		EE5F8B752C161EE700BD4AF1 /* ScanViewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE5F8B742C161EE700BD4AF1 /* ScanViewCoordinator.swift */; };
@@ -134,6 +135,7 @@
 		EE0A14F92C24685000F98003 /* DeleteButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteButton.swift; sourceTree = "<group>"; };
 		EE0A14FD2C248F1300F98003 /* BookEditableModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookEditableModifier.swift; sourceTree = "<group>"; };
 		EE0CAC6E2C270F9900B90B5B /* LibraryBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryBackgroundView.swift; sourceTree = "<group>"; };
+		EE2234D52C44997800633B81 /* BookTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookTests.swift; sourceTree = "<group>"; };
 		EE2B1C2F2C0F9A6700C332F9 /* AuthorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorTests.swift; sourceTree = "<group>"; };
 		EE4AFAB92C264B0700D18F7D /* SearchScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchScreen.swift; sourceTree = "<group>"; };
 		EE5F8B742C161EE700BD4AF1 /* ScanViewCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanViewCoordinator.swift; sourceTree = "<group>"; };
@@ -268,6 +270,7 @@
 			isa = PBXGroup;
 			children = (
 				EE2B1C2F2C0F9A6700C332F9 /* AuthorTests.swift */,
+				EE2234D52C44997800633B81 /* BookTests.swift */,
 				EE89B4E82C10C47900827F8A /* EditionTests.swift */,
 				74FE52172B5621A300D1B9DD /* ISBNTests.swift */,
 				EE9018992C0FB84100B6990A /* WorkTests.swift */,
@@ -530,6 +533,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EE2234D62C44997800633B81 /* BookTests.swift in Sources */,
 				74B8DF872B5CA3F100D2F818 /* OpenLibraryAuthorTests.swift in Sources */,
 				EE90189A2C0FB84100B6990A /* WorkTests.swift in Sources */,
 				EE2B1C302C0F9A6800C332F9 /* AuthorTests.swift in Sources */,

@@ -107,7 +107,7 @@ final class StorageModel: ObservableObject {
 	
 	/// Insert the specified entity into storage. If an entity was previously saved with the same identifier, return
 	/// that saved instance. Otherwise insert the specified entity into storage and return that same instance.
-	@MainActor func insert<Entity>(entity: Entity) -> Entity where Entity: Fetchable {
+	@MainActor @discardableResult func insert<Entity>(entity: Entity) -> Entity where Entity: Fetchable {
 		var stored = [Entity]()
 		do {
 			stored = try self.interactor.fetch(entity.identityQuery())
