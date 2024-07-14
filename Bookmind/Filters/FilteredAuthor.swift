@@ -9,28 +9,38 @@
 /// This wrapper allows the same view to show all authors, or
 /// only authors with books in various own or read states.
 struct FilteredAuthor {
-	let author: Author
+	var author: Author
+	var workCount: Int? {
+		self.counter(self.author)
+	}
 	var works: [FilteredWork] {
 		self.filter(self.author.books)
 	}
 	private var filter: (([Work]) -> [FilteredWork])
+	private var counter: ((Author) -> Int?)
 	
-	init(author: Author) {
+	init(_ author: Author) {
 		self.author = author
 		self.filter = { works in
 			works.map { FilteredWork(work: $0) }
 		}
+		self.counter = { author in
+			author.books.count
+		}
 	}
 	
-	init(author: Author, readState: ReadState) {
+	init(_ author: Author, readState: ReadState) {
 		self.author = author
 		self.filter = { works in
 			works.filter { $0.readState == readState }
 				.map { FilteredWork(work: $0) }
 		}
+		self.counter = { author in
+			nil
+		}
 	}
 	
-	init(author: Author, ownState: OwnState) {
+	init(_ author: Author, ownState: OwnState) {
 		self.author = author
 		self.filter = { works in
 			works.filter {
@@ -38,6 +48,9 @@ struct FilteredAuthor {
 					edition.ownState == ownState
 				}
 			}.map { FilteredWork(work: $0, ownState: ownState)}
+		}
+		self.counter = { author in
+			nil
 		}
 	}
 }

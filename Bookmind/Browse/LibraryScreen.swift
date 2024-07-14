@@ -19,7 +19,7 @@ struct LibraryScreen: View {
 				NavigationLink {
 					AuthorScreen(author: author.author)
 				} label: {
-					AuthorLabel(author: author.author)
+					AuthorLabel(filter: author)
 				}
 				.bookListRowStyle()
 			}

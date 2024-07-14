@@ -10,15 +10,17 @@
 /// related to own state of the editions. 
 struct FilteredWork {
 	let work: Work
-	var editions: [Edition] {
+	var books: [Book] {
 		self.filter(self.work.editions)
 	}
-	private var filter: (([Edition]) -> [Edition])
+	private var filter: (([Edition]) -> [Book])
 	
 	init(work: Work) {
 		self.work = work
 		self.filter = { editions in
-			return editions
+			editions.map {
+				Book(edition: $0, work: work, authors: work.authors)
+			}
 		}
 	}
 	
@@ -28,6 +30,27 @@ struct FilteredWork {
 			editions.filter {
 				$0.ownState == ownState
 			}
+			.map {
+				Book(edition: $0, work: work, authors: work.authors)
+			}
 		}
+	}
+}
+
+extension FilteredWork: Comparable {
+	static func < (lhs: FilteredWork, rhs: FilteredWork) -> Bool {
+		lhs.id < rhs.id
+	}
+	
+	static func == (lhs: FilteredWork, rhs: FilteredWork) -> Bool {
+		lhs.id == rhs.id
+	}
+	
+	
+}
+
+extension FilteredWork: Identifiable {
+	var id: String {
+		self.work.id
 	}
 }

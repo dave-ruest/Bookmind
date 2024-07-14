@@ -11,13 +11,23 @@ import SwiftUI
 /// hstack. This is used in a couple places, so moving that code here
 /// simplifies the calling screens. 
 struct AuthorLabel: View {
-	let author: Author
+	private let filter: FilteredAuthor
+	
+	init(author: Author) {
+		self.filter = FilteredAuthor(author)
+	}
+	
+	init(filter: FilteredAuthor) {
+		self.filter = filter
+	}
 	
 	var body: some View {
 		HStack {
-			Text("\(author.firstName) **\(author.lastName)**")
+			Text("\(filter.author.firstName) **\(filter.author.lastName)**")
 			Spacer()
-			Text("\(author.books.count)")
+			if let count = filter.workCount {
+				Text("\(count)")
+			}
 		}
 		.bookViewFrame()
 	}

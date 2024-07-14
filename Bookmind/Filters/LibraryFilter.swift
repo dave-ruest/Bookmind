@@ -18,12 +18,12 @@ struct LibraryFilter {
 		self.title = "Authors"
 		self.id = self.title
 		self.filter = { authors in
-			authors.map { FilteredAuthor(author: $0) }
+			authors.map { FilteredAuthor($0) }
 		}
 	}
 	
-	init(title: String, readState: ReadState) {
-		self.title = title
+	init(readState: ReadState) {
+		self.title = readState.description
 		self.id = readState.id
 		self.filter = { authors in
 			authors.filter {
@@ -31,12 +31,12 @@ struct LibraryFilter {
 					work.readState == readState
 				}
 			}
-			.map { FilteredAuthor(author: $0, readState: readState) }
+			.map { FilteredAuthor($0, readState: readState) }
 		}
 	}
 	
-	init(title: String, ownState: OwnState) {
-		self.title = title
+	init(ownState: OwnState) {
+		self.title = ownState.description
 		self.id = ownState.id
 		self.filter = { authors in
 			authors.filter {
@@ -46,7 +46,7 @@ struct LibraryFilter {
 					}
 				}
 			}
-			.map { FilteredAuthor(author: $0, ownState: ownState) }
+			.map { FilteredAuthor($0, ownState: ownState) }
 		}
 	}
 	
@@ -56,8 +56,11 @@ struct LibraryFilter {
 	
 	struct Preview {
 		static let authors = LibraryFilter()
-		static let own = LibraryFilter(title: "Owned Books", ownState: .own)
-		static let read = LibraryFilter(title: "Reading List", readState: .want)
+		static let own = LibraryFilter(ownState: .own)
+		static let want = LibraryFilter(ownState: .want)
+		static let wantToRead = LibraryFilter(readState: .want)
+		static let read = LibraryFilter(readState: .read)
+		static let wontRead = LibraryFilter(readState: .none)
 	}
 }
 

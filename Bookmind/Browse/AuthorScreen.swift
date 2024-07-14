@@ -12,6 +12,9 @@ import SwiftUI
 struct AuthorScreen: View {
 	/// The author whose name and works will be shown.
 	@State private var author: Author
+	/// A filter on the authors works, which may be hidden based on
+	/// read or own state or genre. 
+	@State private var filter: FilteredAuthor
 	/// Updated by the editable modifier when edit mode changes.
 	/// Public to enable edit layout previews.
 	@State private var isEditing = false
@@ -21,16 +24,20 @@ struct AuthorScreen: View {
 	/// we delete the last edition of a work and the work.
 	@Environment(\.dismiss) private var dismiss
 
-	init(author: Author, isEditing: Bool = false) {
+	init(author: Author) {
 		self.author = author
-		self.isEditing = isEditing
+		self.filter = FilteredAuthor(author)
+	}
+	
+	init(filter: FilteredAuthor) {
+		self.filter = filter
+		self.author = filter.author
 	}
 	
 	var body: some View {
 		ZStack {
-			Color(.background)
-				.ignoresSafeArea()
-			VStack(alignment: .leading, spacing: 8.0) {
+			LibraryBackgroundView()
+			VStack(alignment: .leading) {
 				Group {
 					if self.isEditing {
 						TextField("First Name", text: self.$author.firstName, axis: .vertical)
@@ -49,18 +56,17 @@ struct AuthorScreen: View {
 					// from the many to many core data relationship.
 					// Adding and deleting are trickier but wow does
 					// this ever "just work".
-					ForEach(self.author.books.sorted()) { book in
+					ForEach(self.filter.works.sorted()) { book in
 						NavigationLink {
-							WorkScreen(work: book)
+							WorkScreen(work: book.work)
 						} label: {
-							WorkListLabel(work: book)
+							WorkListLabel(work: book.work)
 						}
-						.listRowBackground(Color(.clear))
+						.bookListRowStyle()
 					}.onDelete(perform: delete)
 				}
 				.listStyle(.plain)
 				.listRowSeparatorTint(.accent)
-				.background(Color(.background))
 				if isEditing {
 					Spacer()
 					DeleteButton {
@@ -77,7 +83,7 @@ struct AuthorScreen: View {
 			EditButton()
 		}
 		.onAppear() {
-			if self.author.books.isEmpty {
+			if self.filter.works.isEmpty {
 				self.dismiss()
 			}
 		}
@@ -112,7 +118,7 @@ struct AuthorScreen: View {
 	let storage = StorageModel(preview: true)
 	let book = storage.insert(book: Book.Preview.quiet)
 	return NavigationStack {
-		AuthorScreen(author: book.authors.first!, isEditing: true)
+		AuthorScreen(author: book.authors.first!)
 	}
 	.modelContainer(storage.container)
 	.environmentObject(CoverModel())

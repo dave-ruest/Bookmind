@@ -13,10 +13,11 @@ struct LibraryFilterMenu: View {
 	@Binding var filter: LibraryFilter
 	@State private var filters = [
 		LibraryFilter(),
-		LibraryFilter(title: "Owned Books", ownState: .own),
-		LibraryFilter(title: "Wish List", ownState: .want),
-		LibraryFilter(title: "Read Books", readState: .read),
-		LibraryFilter(title: "Reading List", readState: .want)
+		LibraryFilter(ownState: .own),
+		LibraryFilter(ownState: .want),
+		LibraryFilter(readState: .read),
+		LibraryFilter(readState: .want),
+		LibraryFilter(readState: .none)
 	]
 	
 	var body: some View {
@@ -33,8 +34,8 @@ struct LibraryFilterMenu: View {
 				}
 			}
 		} label: {
-			Label(self.filter.title, systemImage: "books.vertical.fill")
-				.bookButtonStyle()
+			Text("Filter")
+				.fontWeight(.bold)
 		}
 	}
 }

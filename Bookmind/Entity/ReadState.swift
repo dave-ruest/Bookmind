@@ -18,7 +18,7 @@ enum ReadState: String, Codable, CaseIterable {
 		case .want:
 			"Want to read"
 		case .read:
-			"Have read"
+			"Read"
 		}
 	}
 }

@@ -33,7 +33,7 @@ struct HomeScreen: View {
 			AStack {
 				if self.authors.isEmpty {
 					ScrollView {
-						Text("Bookmind remembers your books.\n\nThe books you've read, the books you own, the books you want...\n\nBookmind remembers them.")
+						Text("Bookmind remembers your books.\n\nThe books you've read, the books you own, the books you want... Bookmind remembers them all.\n\nTap scan to start.")
 							.bookGroupStyle()
 							.padding()
 					}
@@ -75,8 +75,11 @@ struct HomeScreen: View {
 		.navigationTitle("Bookmind")
 		.toolbar {
 			if !self.authors.isEmpty {
-				ToolbarItem(placement: .topBarTrailing) {
+				ToolbarItem(placement: .topBarLeading) {
 					LibraryFilterMenu(filter: self.$filter)
+				}
+				ToolbarItem(placement: .topBarTrailing) {
+					GenreMenu()
 				}
 			}
 		}

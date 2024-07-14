@@ -16,7 +16,7 @@ enum OwnState: String, Codable, CaseIterable {
 		case .none:
 			"Don't want"
 		case .want:
-			"Want"
+			"Want to Own"
 		case .own:
 			"Own"
 		}
