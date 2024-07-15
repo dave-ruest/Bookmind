@@ -6,29 +6,23 @@
 //
 
 /// Enumerates the possible read states of a book/work. 
-enum ReadState: Int, Codable, CaseIterable {
-	case read
-	case want
-	case reading
-	case maybe
+enum ReadState: String, Codable, CaseIterable {
 	case none
+	case want
+	case read
 
 	var description: String {
 		return switch self {
-			case .maybe:
-				"Might read"
-			case .want:
-				"Want to read"
-			case .reading:
-				"Reading"
-			case .read:
-				"Have read"
-			case .none:
-				"Won't read"
+		case .none:
+			"Won't read"
+		case .want:
+			"Want to read"
+		case .read:
+			"Read"
 		}
 	}
 }
 
 extension ReadState: Identifiable {
-	var id: Self { self }
+	var id: String { "ReadState." + self.rawValue }
 }

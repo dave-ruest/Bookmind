@@ -18,8 +18,9 @@ struct HomeScreen: View {
 	@EnvironmentObject private var router: SearchRouter
 	/// The height class environment variable, used in screen layout.
 	@Environment(\.verticalSizeClass) private var heightClass
-	/// Updated by the editable modifier when edit mode changes.
-	@State private var isEditing = false
+	/// The selection in the library filter menu. Hides authors based
+	/// on own or read state of the authors works and editions. 
+	@State private var filter = LibraryFilter()
 
     var body: some View {
 		// should be easy to ifdef a different case for ipad
@@ -28,38 +29,38 @@ struct HomeScreen: View {
 			: AnyLayout(VStackLayout())
 		
 		ZStack {
-			Color(.background)
-				.ignoresSafeArea()
+			LibraryBackgroundView()
 			AStack {
 				if self.authors.isEmpty {
 					ScrollView {
-						Text("Bookmind remembers your books.\n\nThe books you own, the books you want, the books you didn't like...\n\nBookmind remembers them all.")
+						Text("Bookmind remembers your books.\n\nThe books you've read, the books you own, the books you want... Bookmind remembers them all.\n\nTap scan to start.")
 							.bookGroupStyle()
 							.padding()
 					}
+					// hack to prevent the list being visible under the safe area
+					// breaks the large title going inline, but better overall
+					.padding(.top, 1)
 				} else {
-					LibraryScreen()
+					LibraryScreen(filter: self.$filter)
 				}
-				if !self.isEditing {
-					VStack {
+				VStack {
+					if !self.authors.isEmpty {
 						Button {
 							self.router.path.append(SearchRouter.Search())
 						} label: {
 							Label("Search", systemImage: "magnifyingglass.circle.fill")
 								.bookButtonStyle()
 						}
-						Button {
-							self.router.isScanning = true
-						} label: {
-							Label("Scan ISBN", systemImage: "camera.fill")
-								.bookButtonStyle()
-						}
 					}
-					.padding()
+					Button {
+						self.router.isScanning = true
+					} label: {
+						Label("Scan ISBN", systemImage: "camera.fill")
+							.bookButtonStyle()
+					}
 				}
+				.padding()
 			}
-			.animation(.smooth, value: self.isEditing)
-			.editable(self.$isEditing)
 			.fullScreenCover(isPresented: self.$router.isScanning) {
 				ScanScreen()
 			}
@@ -72,14 +73,24 @@ struct HomeScreen: View {
 		}
 		.navigationBarTitleDisplayMode(.large)
 		.navigationTitle("Bookmind")
+		.toolbar {
+			if !self.authors.isEmpty {
+				ToolbarItem(placement: .topBarLeading) {
+					LibraryFilterMenu(filter: self.$filter)
+				}
+				ToolbarItem(placement: .topBarTrailing) {
+					GenreMenu()
+				}
+			}
+		}
     }
 }
 
 #Preview {
 	NavigationStack {
 		HomeScreen()
-			.modelContainer(StorageModel().container)
 	}
+	.modelContainer(StorageModel().container)
 	.environmentObject(SearchRouter())
 }
 

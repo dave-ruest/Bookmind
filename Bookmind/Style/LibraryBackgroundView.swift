@@ -15,12 +15,14 @@ struct LibraryBackgroundView: View {
 	static private let cover = UIImage(resource: .libraryBackground)
 	
 	var body: some View {
-		Image(uiImage: Self.cover)
-			.resizable()
-			.ignoresSafeArea()
-			.blur(radius: 4.0)
-			.brightness(-0.2)
-			.toolbarBackground(.visible, for: .navigationBar)
-			.toolbarBackground(.background.opacity(0.2), for: .navigationBar)
+		ZStack {
+			Image(uiImage: Self.cover)
+				.resizable()
+				.blur(radius: 4.0)
+				.brightness(-0.2)
+				.toolbarBackground(.hidden, for: .navigationBar)
+			Color(.background).opacity(BookStyle.opacity)
+		}
+		.ignoresSafeArea()
 	}
 }

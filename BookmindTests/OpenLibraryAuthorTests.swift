@@ -17,8 +17,19 @@ final class OpenLibraryAuthorTests: XCTestCase {
 			{"photos": [11413394], "key": "/authors/OL25176A", "source_records": ["amazon:0202865126", "amazon:1531801404", "amazon:0202871053", "amazon:1522664394", "amazon:2277236209", "amazon:0671559397"], "death_date": "31 January 2001", "name": "Gordon R. Dickson", "birth_date": "1 November 1923", "alternate_names": ["Gordon Rupert Dickson", "Gordon Dickson", "Dickson, Gordon R. And Harrison, Harry"], "remote_ids": {"wikidata": "Q446941", "viaf": "24613052", "isni": "0000000081028742"}, "type": {"key": "/type/author"}, "personal_name": "Gordon R. Dickson", "latest_revision": 16, "revision": 16, "created": {"type": "/type/datetime", "value": "2008-04-01T03:28:50.625462"}, "last_modified": {"type": "/type/datetime", "value": "2022-07-16T14:05:07.898218"}}
 			"""
 			.data(using: .utf8)!
-		let author = try self.decoder.decode(OpenLibraryAuthor.self, from: data)
+		let openAuthor = try self.decoder.decode(OpenLibraryAuthor.self, from: data)
+		XCTAssertEqual(openAuthor.name, "Gordon R. Dickson")
+		XCTAssertEqual(openAuthor.key, "/authors/OL25176A")
+
+		let author = openAuthor.entity
+		XCTAssertEqual(author.olid, "/authors/OL25176A")
+		XCTAssertEqual(author.firstName, "Gordon R.")
+		XCTAssertEqual(author.lastName, "Dickson")
 		XCTAssertEqual(author.name, "Gordon R. Dickson")
+		XCTAssertEqual(author.description, "Gordon R. Dickson")
+		
+		let url = OpenLibraryAuthor.url(authorKey: openAuthor.key)
+		XCTAssertEqual(url?.absoluteString, "https://openlibrary.org\(openAuthor.key).json")
 	}
 	
 	// https://openlibrary.org/authors/OL394285A.json

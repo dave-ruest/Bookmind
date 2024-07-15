@@ -17,11 +17,21 @@ final class OpenLibraryEditionTests: XCTestCase {
 			{"publishers": ["Broadway Books"], "number_of_pages": 352, "subtitle": "The Power of Introverts in a World That Can't Stop Talking", "covers": [7407084], "physical_format": "Paperback", "lc_classifications": ["BF698.35.I59 C35 2013", "BF698.35.I59 C35 2012"], "key": "/books/OL25613310M", "publish_places": ["United States of America"], "isbn_13": ["9780307352156"], "classifications": {}, "title": "Quiet", "lccn": ["2012464906", "2010053204"], "identifiers": {}, "languages": [{"key": "/languages/eng"}], "local_id": ["urn:evs:39663100293299", "urn:bwbsku:W7-BUP-460"], "publish_date": "2013", "works": [{"key": "/works/OL16484595W"}], "type": {"key": "/type/edition"}, "ocaid": "quietpowerofintr0000cain_y1p5", "oclc_numbers": ["695683619"], "latest_revision": 9, "revision": 9, "created": {"type": "/type/datetime", "value": "2014-08-16T09:21:01.099860"}, "last_modified": {"type": "/type/datetime", "value": "2022-12-22T16:07:02.537404"}}
 			"""
 			.data(using: .utf8)!
-		let book = try self.decoder.decode(OpenLibraryEdition.self, from: data)
-		XCTAssertEqual(book.key, "/books/OL25613310M")
-		XCTAssertEqual(book.title, "Quiet")
-		XCTAssertNil(book.authors)
-		XCTAssertEqual(book.works, [["key":"/works/OL16484595W"]])
+		let openEdition = try self.decoder.decode(OpenLibraryEdition.self, from: data)
+		XCTAssertEqual(openEdition.key, "/books/OL25613310M")
+		XCTAssertEqual(openEdition.title, "Quiet")
+		XCTAssertNil(openEdition.authors)
+		XCTAssertEqual(openEdition.works, [["key":"/works/OL16484595W"]])
+		
+		XCTAssertNotNil(openEdition.work)
+
+		let edition = openEdition.entity
+		XCTAssertEqual(edition.isbn, "9780307352156")
+		XCTAssertEqual(edition.ownState, .none)
+		XCTAssertEqual(edition.coverIds, [7407084])
+		
+		let url = OpenLibraryEdition.url(isbn: edition.isbn)
+		XCTAssertEqual(url?.absoluteString, "https://openlibrary.org/isbn/\(edition.isbn).json")
 	}
 	
 	// https://openlibrary.org/isbn/9780525509288.json
@@ -81,13 +91,23 @@ final class OpenLibraryEditionTests: XCTestCase {
 	// https://openlibrary.org/isbn/9781635864779.json
 	func testChalkPit() throws {
 		let data = """
-			{"title": "Quercus The Chalk Pit", "type": {"key": "/type/edition"}, "isbn_10": ["1787470369"], "isbn_13": ["9781787470361"], "local_id": ["urn:bwbsku:T2-DDQ-528"], "source_records": ["promise:bwb_daily_pallets_2022-05-16:T2-DDQ-528"], "key": "/books/OL42973867M", "works": [{"key": "/works/OL31324143W"}], "latest_revision": 4, "revision": 4, "created": {"type": "/type/datetime", "value": "2022-12-05T09:17:29.450666"}, "last_modified": {"type": "/type/datetime", "value": "2023-10-09T23:35:01.410679"}}
+			{"title": "Quercus The Chalk Pit", "type": {"key": "/type/edition"}, "isbn_10": ["1787470369"], "local_id": ["urn:bwbsku:T2-DDQ-528"], "source_records": ["promise:bwb_daily_pallets_2022-05-16:T2-DDQ-528"], "key": "/books/OL42973867M", "latest_revision": 4, "revision": 4, "created": {"type": "/type/datetime", "value": "2022-12-05T09:17:29.450666"}, "last_modified": {"type": "/type/datetime", "value": "2023-10-09T23:35:01.410679"}}
 			"""
 			.data(using: .utf8)!
-		let book = try self.decoder.decode(OpenLibraryEdition.self, from: data)
-		XCTAssertEqual(book.title, "Quercus The Chalk Pit")
-		XCTAssertNil(book.covers)
-		XCTAssertNil(book.authors)
-		XCTAssertEqual(book.works, [["key": "/works/OL31324143W"]])
+		let openEdition = try self.decoder.decode(OpenLibraryEdition.self, from: data)
+		XCTAssertEqual(openEdition.title, "Quercus The Chalk Pit")
+		XCTAssertNil(openEdition.covers)
+		XCTAssertNil(openEdition.authors)
+		XCTAssertNil(openEdition.works)
+		
+		XCTAssertNil(openEdition.work)
+
+		let edition = openEdition.entity
+		XCTAssertEqual(edition.isbn, "1787470369")
+		XCTAssertEqual(edition.ownState, .none)
+		XCTAssertEqual(edition.coverIds, [])
+		
+		let url = OpenLibraryEdition.url(isbn: edition.isbn)
+		XCTAssertEqual(url?.absoluteString, "https://openlibrary.org/isbn/\(edition.isbn).json")
 	}
 }

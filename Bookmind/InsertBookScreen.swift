@@ -33,8 +33,8 @@ struct InsertBookScreen: View {
 			AStack {
 				CoverView(book: self.book)
 				VStack() {
-					OwnStateView(state: self.$book.edition.ownState)
-					ReadStateView(state: self.$book.work.readState)
+					OwnStateMenu(state: self.$book.edition.ownState)
+					ReadStateMenu(state: self.$book.work.readState)
 					if !self.isStored {
 						Button(action: {
 							_ = self.storage.insert(book: self.book)

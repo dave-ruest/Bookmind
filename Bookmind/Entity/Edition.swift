@@ -48,10 +48,10 @@ import UIKit
 			Edition(isbn: "9780307352156", coverIds: [7407084], ownState: .own)
 		}
 		static var legend: Edition {
-			Edition(isbn: "9781841498584", ownState: .maybe)
+			Edition(isbn: "9781841498584", ownState: .want)
 		}
 		static var dorsai: Edition {
-			Edition(isbn: "0879973420", coverIds: [6638671], ownState: .maybe)
+			Edition(isbn: "0879973420", coverIds: [6638671], ownState: .want)
 		}
 		static var dune1986: Edition {
 			Edition(isbn: "9780450058868", coverIds: [9256178, 291373], ownState: .none)

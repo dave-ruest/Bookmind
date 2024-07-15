@@ -17,6 +17,9 @@ struct WorkScreen: View {
 	/// read state. Editions may be deleted but that is a core data storage
 	/// operation. 
 	@State private var work: Work
+	/// A filter on the works editions, which may be hidden based on read
+	/// or own state or genre.
+	@State private var filter: FilteredWork
 	/// The editions page view uses a binding to this state to communicate
 	/// its selected edition. The work screen uses the selected edition for
 	/// its background cover art and its own state picker.
@@ -31,10 +34,16 @@ struct WorkScreen: View {
 	/// we delete the last edition of a work and the work.
 	@Environment(\.dismiss) private var dismiss
 
-	init(work: Work, isEditing: Bool = false) {
+	init(work: Work) {
 		self.work = work
-		self.isEditing = isEditing
+		self.filter = FilteredWork(work: work)
 		self.selectedEdition = work.editions.first ?? Edition(isbn: "")
+	}
+	
+	init(filter: FilteredWork) {
+		self.work = filter.work
+		self.filter = filter
+		self.selectedEdition = filter.books.first?.edition ?? Edition(isbn: "")
 	}
 
 	var body: some View {
@@ -55,19 +64,19 @@ struct WorkScreen: View {
 							ForEach(self.work.authors) { author in
 								AuthorLabel(author: author)
 							}
-							.bookListRowStyle()
 						}
 						.scrollContentBackground(.hidden)
+						.colorMultiply(.background.opacity(BookStyle.opacity))
 					}
 					Spacer()
 					DeleteButton { self.delete() }
 				} else {
-					EditionPageView(work: self.work, selectedEdition: self.$selectedEdition)
+					EditionPageView(filter: self.filter, selectedEdition: self.$selectedEdition)
 					VStack {
 						Text(.init("**ISBN 13**: " + self.selectedEdition.isbn))
 							.bookGroupStyle()
-						OwnStateView(state: self.$selectedEdition.ownState)
-						ReadStateView(state: self.$work.readState)
+						OwnStateMenu(state: self.$selectedEdition.ownState)
+						ReadStateMenu(state: self.$work.readState)
 					}
 				}
 			}
