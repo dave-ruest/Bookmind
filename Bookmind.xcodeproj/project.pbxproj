@@ -153,6 +153,7 @@
 		EE94753D2C3F813500782316 /* FilteredAuthor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilteredAuthor.swift; sourceTree = "<group>"; };
 		EE9475412C41B11400782316 /* GenreMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenreMenu.swift; sourceTree = "<group>"; };
 		EEBB7CE42C17AD6E00C96389 /* Book.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
+		EEBE1F9C2C5A8621006B9C85 /* PRIVACYPOLICY.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = PRIVACYPOLICY.md; sourceTree = "<group>"; };
 		EEC762A22C1338650074066E /* BookStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookStyle.swift; sourceTree = "<group>"; };
 		EEC762A42C1344100074066E /* OwnStateMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnStateMenu.swift; sourceTree = "<group>"; };
 		EEC762A82C1351CC0074066E /* ReadStateMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadStateMenu.swift; sourceTree = "<group>"; };
@@ -225,6 +226,7 @@
 		74B502CD2B430FAE0092B0E4 = {
 			isa = PBXGroup;
 			children = (
+				EEBE1F9C2C5A8621006B9C85 /* PRIVACYPOLICY.md */,
 				741913072B4DF95400F8CADB /* README.md */,
 				745496672B6E9DBC00F2A3D2 /* AuthorScreen.png */,
 				74471AEA2B654F0800400686 /* ScanScreen.jpeg */,

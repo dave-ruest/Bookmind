@@ -1,26 +1,27 @@
 # Bookmind
 
-Bookmind will remember your book collection and reading history. No signup. As little advertising as possible.
+Bookmind *does* remember your your reading history and book collection. When your books exceed your memory, Bookmind can help. If you've found yourself wondering if you own or read #13 in that series, you need Bookmind.
 
-## Why might you be interested in Bookmind?
+Bookmind *doesn't*:
+- Cost anything. The app is free. There are no limits to saved books, no premium version to buy in order to unlock features.
+- Require signup. No need to create an account or remember yet another password. 
+- Collect your data. Bookmind has no cloud, it *can't* store your data. 
 
-If you'd like to see my coding style, or how I break down and de-risk the task of implementing Bookmind, have a look at the source, prototypes and commit history. Always tackle the biggest risk first. 
+Bookmind does infrequently show ads. If these ads generate enough revenue, we'll use it to add new features. So if you love Bookmind and want a feature added, tell your friends about the app!
 
-## Current Version: Basic Persistence
+# Availability
 
-We're starting "stage three", saving scanned books and authors so they are restored when the app restarts. The add button on the scan screen is now functional! But to display that saved author and book, we needed a new "library screen" which shows a list of authors, and an "author screen" which shows a list of the books by that author. 
+Bookmind 1.0 will be availabe on the app store soon! You will need an iPhone with iOS 17.0 or higher. I hope to add iPad and macOS support soon.
 
-[Author Screen](AuthorScreen.png)
-[Scan Screen](ScanScreen.jpeg)
+# For Employers
 
-"Stage two" fetched book details for scanned ISBNs. When the scan screen recognizes a result that may be an ISBN, we fetch book details from openlibrary. If the book is there we pull the title, authors and cover, and display them on the scan screen.
-"Stage one" evaluated the new-ish data scanner view controller. Scanning prototypes with earlier versions of vision found the bar code scanning pretty good, but text scanning complex and unreliable. Many books, particularly older ones, don't have a bar code. So the whole app wasn't going to fly without reliable text scanning.
+The *nearly* complete source code for Bookmind is stored in this public repository. You can see my coding style in every line, I wrote it all. The commit history and project demonstrate my development process, from de-risking to identifying and prioritizing tasks. Always tackle the biggest unknowns first.
 
-## Installation
+## For Developers
+
+The *nearly* complete source here demonstrates Swift, SwiftUI, Swift Data and VisionKit. I have not set a license for the code, so it is all copyrighted. But I do hope you find it instructive to see some of the workarounds required when you implement something more serious than the sample code provided for these technologies.
 
 To run the app you will need
 - Xcode 15 or later
-- development team to sign the app
-- iPhone with iOS 16 or later
-	- the scanner does not work in simulator or on mac
-	- the iPad ui looks awful, to be addressed in a future prototype
+- A development team to sign the app
+- An iPhone with iOS 17 or later (the scanner does not work in simulator)
