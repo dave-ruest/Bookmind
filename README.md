@@ -11,7 +11,7 @@ Bookmind does infrequently show ads. If these ads generate enough revenue, we'll
 
 # Availability
 
-Bookmind 1.0 will be availabe on the app store soon! You will need an iPhone with iOS 17.0 or higher. I hope to add iPad and macOS support soon.
+Now available on the app store! https://apps.apple.com/app/bookmind/id6593662584 You will need an iPhone with iOS 17.0 or higher. I hope to add iPad and macOS support soon.
 
 # For Employers
 
